@@ -1,0 +1,21 @@
+Title : Library Management System
+
+Requirements :
+
+Admin : 
+*Register, Login
+*Add new Books to db
+*Update existing book details
+*Provide Subscription for Users(Add User)
+*Update User Details
+*Add books for renting for an user
+*Add books for buying for an user
+
+User:
+*Login ['Guest', 'Subscription']
+*View Books for rent [Authorize subscription]
+*View Books for sale 
+*Add to cart for Buying
+
+
+
