@@ -1,0 +1,44 @@
+Users
+Id Name Phone Status 
+
+UserCredentials
+userId Password HashKey Role
+
+Books
+Id Title Author category 
+
+Purchase 
+PurchaseId DateOfPurchase Amount
+
+PurchaseDetail
+PurchaseId BookId Type Quantity Price Vendor
+
+StorePurchase
+BookId Type(Rent/Sale) Quantity PricePerBook
+
+HoldSuperCart
+UserId BookId
+
+HoldNormalCart
+UserId BookId  
+
+--CartItem
+--userId BookId RentDate ExpirDate Fine
+
+Rent
+RentId userId Type DateOfRent ExpiryDate Process Fine
+
+RentDetails
+RentId BookId
+
+Sales
+SaleId userId DateOfPurchase TotalPrice
+
+SaleDetails
+SaleId BookId Price
+SaleId BookId Price
+
+
+
+
+
