@@ -13,5 +13,9 @@ namespace MiniProjectApp.Models
 
         public string Status { get; set; }
 
+        public ICollection<SuperCart>? SuperCartItems { get; set; }
+
+
+
     }
 }

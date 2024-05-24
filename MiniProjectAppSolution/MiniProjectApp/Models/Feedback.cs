@@ -11,7 +11,7 @@
 
         public string Message { get; set; }
 
-        public double rating { get; set; }
+        public double Rating { get; set; }
 
 
     }
