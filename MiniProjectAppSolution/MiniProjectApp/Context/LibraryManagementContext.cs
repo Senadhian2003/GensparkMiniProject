@@ -5,13 +5,14 @@ namespace MiniProjectApp.Context
 {
     public class LibraryManagementContext : DbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public LibraryManagementContext(DbContextOptions options) : base(options)
         {
-            optionsBuilder.UseSqlServer(@"Data Source=4N8CBX3\SQLEXPRESS;Integrated Security=true;Initial Catalog=libraryManagement;");
+
         }
 
         public DbSet <User> Users { get; set; }
         public DbSet <UserCredential> UserCredentials { get; set; }
+        public DbSet<Book> Books { get; set; }
         public DbSet <SuperCart> SuperCarts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
