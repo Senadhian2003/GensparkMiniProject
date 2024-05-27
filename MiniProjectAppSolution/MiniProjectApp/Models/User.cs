@@ -15,7 +15,7 @@ namespace MiniProjectApp.Models
 
     
 
-        public ICollection<SuperCart>? SuperCartItems { get; set; }
+        public ICollection<Cart>? CartItems { get; set; }
 
 
 

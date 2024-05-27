@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MiniProjectApp.Context;
 
@@ -11,9 +12,10 @@ using MiniProjectApp.Context;
 namespace MiniProjectApp.Migrations
 {
     [DbContext(typeof(LibraryManagementContext))]
-    partial class LibraryManagementContextModelSnapshot : ModelSnapshot
+    [Migration("20240527112213_sixth")]
+    partial class sixth
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -100,52 +102,7 @@ namespace MiniProjectApp.Migrations
                     b.ToTable("Cart");
                 });
 
-            modelBuilder.Entity("MiniProjectApp.Models.Sale", b =>
-                {
-                    b.Property<int>("SaleId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SaleId"), 1L, 1);
-
-                    b.Property<double>("Amount")
-                        .HasColumnType("float");
-
-                    b.Property<DateTime>("DateOfSale")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("SaleId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Sales");
-                });
-
-            modelBuilder.Entity("MiniProjectApp.Models.SaleDetail", b =>
-                {
-                    b.Property<int>("SaleId")
-                        .HasColumnType("int")
-                        .HasColumnOrder(0);
-
-                    b.Property<int>("BookId")
-                        .HasColumnType("int")
-                        .HasColumnOrder(1);
-
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Quantity")
-                        .HasColumnType("float");
-
-                    b.HasKey("SaleId", "BookId");
-
-                    b.ToTable("SaleDetails");
-                });
-
-            modelBuilder.Entity("MiniProjectApp.Models.SalesStock", b =>
+            modelBuilder.Entity("MiniProjectApp.Models.CurrentSale", b =>
                 {
                     b.Property<int>("BookId")
                         .HasColumnType("int");
@@ -158,7 +115,7 @@ namespace MiniProjectApp.Migrations
 
                     b.HasKey("BookId");
 
-                    b.ToTable("SalesStocks");
+                    b.ToTable("CurrentSales");
 
                     b.HasData(
                         new
@@ -247,18 +204,7 @@ namespace MiniProjectApp.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("MiniProjectApp.Models.Sale", b =>
-                {
-                    b.HasOne("MiniProjectApp.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("MiniProjectApp.Models.SalesStock", b =>
+            modelBuilder.Entity("MiniProjectApp.Models.CurrentSale", b =>
                 {
                     b.HasOne("MiniProjectApp.Models.Book", "Book")
                         .WithMany()

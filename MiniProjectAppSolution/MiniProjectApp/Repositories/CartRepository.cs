@@ -6,22 +6,22 @@ using MiniProjectApp.Repositories.Interface;
 
 namespace MiniProjectApp.Repositories
 {
-    public class SuperCartRepository : ICompositeKeyRepository<int,SuperCart>
+    public class CartRepository : ICompositeKeyRepository<int,Cart>
     {
 
         private readonly LibraryManagementContext _context;
-        public SuperCartRepository(LibraryManagementContext context)
+        public CartRepository(LibraryManagementContext context)
         {
             _context = context;
         }
-        public async Task<SuperCart> Add(SuperCart item)
+        public async Task<Cart> Add(Cart item)
         {
             _context.Add(item);
             await _context.SaveChangesAsync();
             return item;
         }
 
-        public async Task<SuperCart> DeleteByKey(int key1, int key2)
+        public async Task<Cart> DeleteByKey(int key1, int key2)
         {
             var superCart = await GetByKey(key1, key2);
             if (superCart != null)
@@ -30,35 +30,35 @@ namespace MiniProjectApp.Repositories
                 await _context.SaveChangesAsync(true);
                 return superCart;
             }
-            throw new ElementNotFoundException("SpuerCart");
+            throw new ElementNotFoundException("Cart Item");
         }
 
-        public async Task<SuperCart> GetByKey(int key1, int key2)
+        public async Task<Cart> GetByKey(int key1, int key2)
         {
-            var superCart = await _context.SuperCarts.FirstOrDefaultAsync(sc => sc.UserId == key1 && sc.BookId == key2);
+            var superCart = await _context.Cart.FirstOrDefaultAsync(sc => sc.UserId == key1 && sc.BookId == key2);
 
             if (superCart != null)
             {
                 return superCart;
             }
 
-            throw new ElementNotFoundException("SupertCart");
+            return null;
         }
 
-        public async Task<IEnumerable<SuperCart>> GetAll()
+        public async Task<IEnumerable<Cart>> GetAll()
         {
-            var superCartItems = await _context.SuperCarts.ToListAsync();
+            var superCartItems = await _context.Cart.ToListAsync();
 
             if (superCartItems.Any())
             {
                 return superCartItems;
             }
 
-            throw new EmptyListException("User");
+            throw new EmptyListException("Cart");
 
         }
 
-        public async Task<SuperCart> Update(SuperCart item)
+        public async Task<Cart> Update(Cart item)
         {
             var user = await GetByKey(item.UserId, item.BookId);
             if (user != null)

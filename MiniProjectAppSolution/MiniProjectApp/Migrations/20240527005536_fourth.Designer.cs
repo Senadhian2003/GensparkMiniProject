@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MiniProjectApp.Context;
 
@@ -11,9 +12,10 @@ using MiniProjectApp.Context;
 namespace MiniProjectApp.Migrations
 {
     [DbContext(typeof(LibraryManagementContext))]
-    partial class LibraryManagementContextModelSnapshot : ModelSnapshot
+    [Migration("20240527005536_fourth")]
+    partial class fourth
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -87,65 +89,12 @@ namespace MiniProjectApp.Migrations
                         .HasColumnType("int")
                         .HasColumnOrder(1);
 
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
                     b.HasKey("UserId", "BookId");
-
-                    b.HasIndex("BookId");
 
                     b.ToTable("Cart");
                 });
 
-            modelBuilder.Entity("MiniProjectApp.Models.Sale", b =>
-                {
-                    b.Property<int>("SaleId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SaleId"), 1L, 1);
-
-                    b.Property<double>("Amount")
-                        .HasColumnType("float");
-
-                    b.Property<DateTime>("DateOfSale")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("SaleId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Sales");
-                });
-
-            modelBuilder.Entity("MiniProjectApp.Models.SaleDetail", b =>
-                {
-                    b.Property<int>("SaleId")
-                        .HasColumnType("int")
-                        .HasColumnOrder(0);
-
-                    b.Property<int>("BookId")
-                        .HasColumnType("int")
-                        .HasColumnOrder(1);
-
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Quantity")
-                        .HasColumnType("float");
-
-                    b.HasKey("SaleId", "BookId");
-
-                    b.ToTable("SaleDetails");
-                });
-
-            modelBuilder.Entity("MiniProjectApp.Models.SalesStock", b =>
+            modelBuilder.Entity("MiniProjectApp.Models.CurrentSale", b =>
                 {
                     b.Property<int>("BookId")
                         .HasColumnType("int");
@@ -158,7 +107,7 @@ namespace MiniProjectApp.Migrations
 
                     b.HasKey("BookId");
 
-                    b.ToTable("SalesStocks");
+                    b.ToTable("CurrentSale");
 
                     b.HasData(
                         new
@@ -230,27 +179,8 @@ namespace MiniProjectApp.Migrations
 
             modelBuilder.Entity("MiniProjectApp.Models.Cart", b =>
                 {
-                    b.HasOne("MiniProjectApp.Models.Book", "Book")
-                        .WithMany()
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("MiniProjectApp.Models.User", "User")
-                        .WithMany("CartItems")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Book");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("MiniProjectApp.Models.Sale", b =>
-                {
-                    b.HasOne("MiniProjectApp.Models.User", "User")
-                        .WithMany()
+                        .WithMany("SuperCartItems")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -258,7 +188,7 @@ namespace MiniProjectApp.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("MiniProjectApp.Models.SalesStock", b =>
+            modelBuilder.Entity("MiniProjectApp.Models.CurrentSale", b =>
                 {
                     b.HasOne("MiniProjectApp.Models.Book", "Book")
                         .WithMany()
@@ -282,7 +212,7 @@ namespace MiniProjectApp.Migrations
 
             modelBuilder.Entity("MiniProjectApp.Models.User", b =>
                 {
-                    b.Navigation("CartItems");
+                    b.Navigation("SuperCartItems");
                 });
 #pragma warning restore 612, 618
         }

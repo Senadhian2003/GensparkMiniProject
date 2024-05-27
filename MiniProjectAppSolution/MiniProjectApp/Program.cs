@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using MiniProjectApp.BussinessLogics;
+using MiniProjectApp.BussinessLogics.Interfaces;
 using MiniProjectApp.BussinessLogics.Services;
 using MiniProjectApp.Context;
 using MiniProjectApp.Models;
@@ -26,10 +27,15 @@ namespace MiniProjectApp
 
 
             builder.Services.AddScoped<IRepository<int, User>, UserRepository>();
-            builder.Services.AddScoped<ICompositeKeyRepository<int,SuperCart>, SuperCartRepository>();
+            builder.Services.AddScoped<ICompositeKeyRepository<int,Cart>, CartRepository>();
             builder.Services.AddScoped<IRepository<int, UserCredential>, UserCredentialRepository>();
             builder.Services.AddScoped<ITokenService, TokenBL>();
             builder.Services.AddScoped<IAuthService, AuthBL>();
+            builder.Services.AddScoped<IUserServices, UserServices>();
+            builder.Services.AddScoped< IRepository<int, SalesStock>, SaleStockRepository >();
+            builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
+            builder.Services.AddScoped<IRepository<int,Sale>, SaleRepository>();
+            builder.Services.AddScoped<ICompositeKeyRepository<int,SaleDetail>, SaleDetailRepository>();
 
             var app = builder.Build();
 

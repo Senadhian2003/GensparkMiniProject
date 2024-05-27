@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MiniProjectApp.Context;
 
@@ -11,9 +12,10 @@ using MiniProjectApp.Context;
 namespace MiniProjectApp.Migrations
 {
     [DbContext(typeof(LibraryManagementContext))]
-    partial class LibraryManagementContextModelSnapshot : ModelSnapshot
+    [Migration("20240527165606_eighth")]
+    partial class eighth
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -100,6 +102,42 @@ namespace MiniProjectApp.Migrations
                     b.ToTable("Cart");
                 });
 
+            modelBuilder.Entity("MiniProjectApp.Models.CurrentSale", b =>
+                {
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("PricePerBook")
+                        .HasColumnType("float");
+
+                    b.Property<int>("QuantityInStock")
+                        .HasColumnType("int");
+
+                    b.HasKey("BookId");
+
+                    b.ToTable("CurrentSales");
+
+                    b.HasData(
+                        new
+                        {
+                            BookId = 1,
+                            PricePerBook = 30.0,
+                            QuantityInStock = 10
+                        },
+                        new
+                        {
+                            BookId = 2,
+                            PricePerBook = 50.0,
+                            QuantityInStock = 5
+                        },
+                        new
+                        {
+                            BookId = 3,
+                            PricePerBook = 10.0,
+                            QuantityInStock = 10
+                        });
+                });
+
             modelBuilder.Entity("MiniProjectApp.Models.Sale", b =>
                 {
                     b.Property<int>("SaleId")
@@ -143,42 +181,6 @@ namespace MiniProjectApp.Migrations
                     b.HasKey("SaleId", "BookId");
 
                     b.ToTable("SaleDetails");
-                });
-
-            modelBuilder.Entity("MiniProjectApp.Models.SalesStock", b =>
-                {
-                    b.Property<int>("BookId")
-                        .HasColumnType("int");
-
-                    b.Property<double>("PricePerBook")
-                        .HasColumnType("float");
-
-                    b.Property<int>("QuantityInStock")
-                        .HasColumnType("int");
-
-                    b.HasKey("BookId");
-
-                    b.ToTable("SalesStocks");
-
-                    b.HasData(
-                        new
-                        {
-                            BookId = 1,
-                            PricePerBook = 30.0,
-                            QuantityInStock = 10
-                        },
-                        new
-                        {
-                            BookId = 2,
-                            PricePerBook = 50.0,
-                            QuantityInStock = 5
-                        },
-                        new
-                        {
-                            BookId = 3,
-                            PricePerBook = 10.0,
-                            QuantityInStock = 10
-                        });
                 });
 
             modelBuilder.Entity("MiniProjectApp.Models.User", b =>
@@ -247,6 +249,17 @@ namespace MiniProjectApp.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("MiniProjectApp.Models.CurrentSale", b =>
+                {
+                    b.HasOne("MiniProjectApp.Models.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+                });
+
             modelBuilder.Entity("MiniProjectApp.Models.Sale", b =>
                 {
                     b.HasOne("MiniProjectApp.Models.User", "User")
@@ -256,17 +269,6 @@ namespace MiniProjectApp.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("MiniProjectApp.Models.SalesStock", b =>
-                {
-                    b.HasOne("MiniProjectApp.Models.Book", "Book")
-                        .WithMany()
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Book");
                 });
 
             modelBuilder.Entity("MiniProjectApp.Models.UserCredential", b =>
