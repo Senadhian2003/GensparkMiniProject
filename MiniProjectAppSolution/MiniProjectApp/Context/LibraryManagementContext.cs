@@ -18,6 +18,9 @@ namespace MiniProjectApp.Context
 
         public DbSet<Sale> Sales { get; set; }
         public DbSet<SaleDetail> SaleDetails { get; set; }
+        public DbSet<Feedback> Feedbacks { get; set; }
+
+        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

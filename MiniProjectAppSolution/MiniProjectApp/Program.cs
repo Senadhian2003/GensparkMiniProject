@@ -36,7 +36,8 @@ namespace MiniProjectApp
             builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
             builder.Services.AddScoped<IRepository<int,Sale>, SaleRepository>();
             builder.Services.AddScoped<ICompositeKeyRepository<int,SaleDetail>, SaleDetailRepository>();
-
+            builder.Services.AddScoped<IRepository<int, Feedback>, FeedbackRepository>();
+            builder.Services.AddScoped<IRepository<int, Book>, BookRepository>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

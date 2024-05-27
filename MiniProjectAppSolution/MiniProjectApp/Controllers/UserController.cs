@@ -160,6 +160,44 @@ namespace MiniProjectApp.Controllers
 
         }
 
+        [HttpPost("GiveFeedBack")]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<int>> AddItemToCart(GiveFeedback dto)
+        {
+            try
+            {
+                Feedback feedback = await _userServices.GiveFeedback(dto);
+                return Ok(feedback.FeedbackId);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new ErrorModel(404, ex.Message));
+            }
+
+
+        }
+
+
+        [HttpPost("ViewFeedback")]
+        [ProducesResponseType(typeof(ViewFeedbackDTO), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<int>> ViewFeedback(int BookId)
+        {
+            try
+            {
+                ViewFeedbackDTO dto = await _userServices.GetFeedbackItems(BookId);
+                return Ok(dto);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new ErrorModel(404, ex.Message));
+            }
+
+
+        }
+
+
 
 
     }

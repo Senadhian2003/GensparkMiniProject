@@ -18,8 +18,9 @@ namespace MiniProjectApp.BussinessLogics
         private readonly ITransactionRepository _transactionRepository;
         private readonly IRepository<int,Sale> _saleRepository;
         private readonly ICompositeKeyRepository<int,SaleDetail> _saleDetailRepository;
-
-        public UserServices(IRepository<int, User> userRepository, ICompositeKeyRepository<int, Cart> CartRepository, IRepository<int, SalesStock> saleStockRepository,ITransactionRepository transactionRepository, IRepository<int, Sale> saleRepository, ICompositeKeyRepository<int, SaleDetail> saleDetailRepository)
+        private readonly IRepository<int, Feedback> _feedbackRepository;
+        private readonly IRepository<int, Book> _bookRepository;
+        public UserServices(IRepository<int, User> userRepository, ICompositeKeyRepository<int, Cart> CartRepository, IRepository<int, SalesStock> saleStockRepository,ITransactionRepository transactionRepository, IRepository<int, Sale> saleRepository, ICompositeKeyRepository<int, SaleDetail> saleDetailRepository, IRepository<int, Feedback> feedbackRepository, IRepository<int,Book> bookRepository)
         {
 
             _userRepository = userRepository;
@@ -28,6 +29,8 @@ namespace MiniProjectApp.BussinessLogics
             _transactionRepository = transactionRepository;
             _saleRepository = saleRepository;
             _saleDetailRepository = saleDetailRepository;
+            _feedbackRepository = feedbackRepository;
+            _bookRepository = bookRepository;
         }
 
         public async Task<Cart> AddItemToCart(int userId, int bookId, int quantity)
@@ -200,6 +203,60 @@ namespace MiniProjectApp.BussinessLogics
             
         }
 
-       
+        public async Task<Feedback> GiveFeedback(GiveFeedback dto)
+        {
+            User user = await _userRepository.GetByKey(dto.UserId);
+            Book book = await _bookRepository.GetByKey(dto.BookId);
+
+            Feedback feedback = new Feedback
+            {
+                UserId = dto.UserId,
+                BookId = dto.BookId,
+                Message = dto.Message,
+                Rating = dto.Rating,
+            };
+
+            await _feedbackRepository.Add(feedback);
+
+            return feedback;
+
+            
+        }
+
+        public async Task<ViewFeedbackDTO> GetFeedbackItems(int BookId)
+        {
+            var feedbacks = await _feedbackRepository.GetAll();
+
+            var bookFeedback = feedbacks.Where(f=> f.BookId == BookId);
+
+            if(bookFeedback.Count()==0)
+            {
+                throw new NoFeedbackException(BookId);
+            }
+
+            ViewFeedbackDTO viewFeedbackDTO = new ViewFeedbackDTO();
+            List<FeedbackDTO> feedbackDTOs = new List<FeedbackDTO>(); 
+            int cnt = 0;
+            double totalRating = 0;
+            foreach(var feedback in bookFeedback)
+            {
+                FeedbackDTO dto = new FeedbackDTO();
+
+                dto.UserId = feedback.UserId;
+                dto.Message = feedback.Message;
+                dto.Rating = feedback.Rating;
+                totalRating+= feedback.Rating;
+                cnt++;
+                feedbackDTOs.Add(dto);
+
+            }
+
+
+            viewFeedbackDTO.AverageRating = totalRating/cnt;
+            viewFeedbackDTO.feedbacks = feedbackDTOs;
+
+            return viewFeedbackDTO;
+            throw new NotImplementedException();
+        }
     }
 }

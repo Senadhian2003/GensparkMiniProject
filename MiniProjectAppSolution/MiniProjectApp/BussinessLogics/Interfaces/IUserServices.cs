@@ -16,5 +16,9 @@ namespace MiniProjectApp.BussinessLogics.Interfaces
 
         public Task<ViewCartDTO> GetCartItems(int userId);
 
+        public Task<Feedback> GiveFeedback(GiveFeedback dto);
+
+        public Task<ViewFeedbackDTO> GetFeedbackItems(int BookId);
+
     }
 }
