@@ -198,6 +198,42 @@ namespace MiniProjectApp.Controllers
         }
 
 
+        [HttpGet("ViewOrders")]
+        [ProducesResponseType(typeof(Sale), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<ReturnCartDTO>> ViewOrders(int userId)
+        {
+            try
+            {
+               var orders = await _userServices.ViewOrders(userId);
+                return Ok(orders);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new ErrorModel(404, ex.Message));
+            }
+
+
+        }
+
+
+        [HttpGet("ViewOrderDetails")]
+        [ProducesResponseType(typeof(List<SaleDetail>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<List<SaleDetail>>> ViewOrderDetails(int saleId)
+        {
+            try
+            {
+                var saleDetails = await _userServices.ViewOrderDetail(saleId);
+                return Ok(saleDetails);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new ErrorModel(404, ex.Message));
+            }
+
+
+        }
 
 
     }

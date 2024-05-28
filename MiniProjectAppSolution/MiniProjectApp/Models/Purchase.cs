@@ -8,8 +8,9 @@ namespace MiniProjectApp.Models
         [Key]
         public int PurchaseId { get; set; }
         public DateTime DateOfPurchase { get; set; }
+        public string Type { get; set; }
         public double Amount { get; set; }
 
-
+        public List<PurchaseDetail>? PurchaseDetailsList { get; set; }
     }
 }

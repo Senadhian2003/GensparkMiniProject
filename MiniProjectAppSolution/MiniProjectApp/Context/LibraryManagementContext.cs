@@ -20,7 +20,17 @@ namespace MiniProjectApp.Context
         public DbSet<SaleDetail> SaleDetails { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
 
-        
+        public DbSet<Purchase> Purchases { get; set; }
+
+        public DbSet<PurchaseDetail> PurchaseDetails { get; set; }
+
+        public DbSet<RentStock> RentStocks { get; set; }
+
+        public DbSet<Rent> Rents { get; set; }
+
+        public DbSet<RentDetail> RentDetails { get; set; }
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -30,12 +40,20 @@ namespace MiniProjectApp.Context
                new Book() { Id = 3, Title = "Spiderman", Author = "Stan Lee", Category = "Comic", Description = "xyz" }
               );
 
-
             modelBuilder.Entity<SalesStock>().HasData(
                new SalesStock() { BookId = 1, PricePerBook=30, QuantityInStock=10 },
                new SalesStock() { BookId = 2, PricePerBook = 50, QuantityInStock = 5 },
                 new SalesStock() { BookId = 3, PricePerBook = 10, QuantityInStock = 10 }
                );
+
+
+            modelBuilder.Entity<RentStock>().HasData(
+              new RentStock() { BookId = 1,  RentPerBook = 5, QuantityInStock = 10 },
+              new RentStock() { BookId = 2, RentPerBook = 10, QuantityInStock = 10 },
+              new RentStock() { BookId = 3, RentPerBook = 15, QuantityInStock = 10 }
+              );
+
+
 
             // Configure composite key
             modelBuilder.Entity<Cart>()
@@ -44,13 +62,20 @@ namespace MiniProjectApp.Context
             modelBuilder.Entity<SaleDetail>()
                 .HasKey(sd => new { sd.SaleId, sd.BookId });
 
+            modelBuilder.Entity<PurchaseDetail>()
+               .HasKey(pd => new { pd.PurchaseId, pd.BookId });
+            modelBuilder.Entity<RentDetail>()
+              .HasKey(rd => new { rd.RentId, rd.BookId });
+
             // Configure the relationship
             modelBuilder.Entity<Cart>()
                 .HasOne(sc => sc.User)
                 .WithMany(u => u.CartItems)
                 .HasForeignKey(sc => sc.UserId);
 
-            
+           
+
+
         }
 
     }

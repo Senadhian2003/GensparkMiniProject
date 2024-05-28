@@ -18,4 +18,15 @@ User:
 *Add to cart for Buying
 
 
+TODO:
+Add new Books to library
+update books details
+Exceptions
+
+
+Postman
+Unit Testing
+
+
+
 

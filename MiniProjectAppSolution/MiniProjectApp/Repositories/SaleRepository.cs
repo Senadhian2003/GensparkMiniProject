@@ -23,23 +23,23 @@ namespace MiniProjectApp.Repositories
 
         public async Task<Sale> DeleteByKey(int key)
         {
-            var sales = await GetByKey(key);
-            if (sales != null)
+            var sale = await GetByKey(key);
+            if (sale != null)
             {
-                _context.Remove(sales);
+                _context.Remove(sale);
                 await _context.SaveChangesAsync(true);
-                return sales;
+                return sale;
             }
             throw new ElementNotFoundException("Sale");
         }
 
         public async Task<Sale> GetByKey(int key)
         {
-            var sales = await _context.Sales.FirstOrDefaultAsync(u => u.UserId == key);
+            var sale = await _context.Sales.Include(s=>s.SaleDetailList).ThenInclude(sd=>sd.Book).FirstOrDefaultAsync(s => s.SaleId == key);
 
-            if (sales != null)
+            if (sale != null)
             {
-                return sales;
+                return sale;
             }
 
             throw new ElementNotFoundException("Sale");
@@ -47,11 +47,11 @@ namespace MiniProjectApp.Repositories
 
         public async Task<IEnumerable<Sale>> GetAll()
         {
-            var users = await _context.Sales.ToListAsync();
+            var sales = await _context.Sales.ToListAsync();
 
-            if (users.Any())
+            if (sales.Any())
             {
-                return users;
+                return sales;
             }
 
             throw new EmptyListException("Sale");
@@ -60,12 +60,12 @@ namespace MiniProjectApp.Repositories
 
         public async Task<Sale> Update(Sale item)
         {
-            var sales = await GetByKey(item.UserId);
-            if (sales != null)
+            var sale = await GetByKey(item.UserId);
+            if (sale != null)
             {
                 _context.Update(item);
                 await _context.SaveChangesAsync(true);
-                return sales;
+                return sale;
             }
             throw new ElementNotFoundException("Sale");
         }

@@ -12,8 +12,8 @@ using MiniProjectApp.Context;
 namespace MiniProjectApp.Migrations
 {
     [DbContext(typeof(LibraryManagementContext))]
-    [Migration("20240527190940_tenth")]
-    partial class tenth
+    [Migration("20240528201713_three")]
+    partial class three
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -132,6 +132,153 @@ namespace MiniProjectApp.Migrations
                     b.ToTable("Feedbacks");
                 });
 
+            modelBuilder.Entity("MiniProjectApp.Models.Purchase", b =>
+                {
+                    b.Property<int>("PurchaseId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PurchaseId"), 1L, 1);
+
+                    b.Property<double>("Amount")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("DateOfPurchase")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("PurchaseId");
+
+                    b.ToTable("Purchases");
+                });
+
+            modelBuilder.Entity("MiniProjectApp.Models.PurchaseDetail", b =>
+                {
+                    b.Property<int>("PurchaseId")
+                        .HasColumnType("int")
+                        .HasColumnOrder(0);
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("int")
+                        .HasColumnOrder(1);
+
+                    b.Property<double>("PricePerBook")
+                        .HasColumnType("float");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("PurchaseId", "BookId");
+
+                    b.HasIndex("BookId");
+
+                    b.ToTable("PurchaseDetails");
+                });
+
+            modelBuilder.Entity("MiniProjectApp.Models.Rent", b =>
+                {
+                    b.Property<int>("RentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RentId"), 1L, 1);
+
+                    b.Property<double>("Amount")
+                        .HasColumnType("float");
+
+                    b.Property<int>("BooksToBeReturned")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CartType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateOfRent")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DueDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Progress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("RentId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Rents");
+                });
+
+            modelBuilder.Entity("MiniProjectApp.Models.RentDetail", b =>
+                {
+                    b.Property<int>("RentId")
+                        .HasColumnType("int")
+                        .HasColumnOrder(0);
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("int")
+                        .HasColumnOrder(1);
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("ReturnDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("RentId", "BookId");
+
+                    b.HasIndex("BookId");
+
+                    b.ToTable("RentDetails");
+                });
+
+            modelBuilder.Entity("MiniProjectApp.Models.RentStock", b =>
+                {
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("QuantityInStock")
+                        .HasColumnType("int");
+
+                    b.Property<double>("RentPerBook")
+                        .HasColumnType("float");
+
+                    b.HasKey("BookId");
+
+                    b.ToTable("RentStocks");
+
+                    b.HasData(
+                        new
+                        {
+                            BookId = 1,
+                            QuantityInStock = 10,
+                            RentPerBook = 5.0
+                        },
+                        new
+                        {
+                            BookId = 2,
+                            QuantityInStock = 10,
+                            RentPerBook = 10.0
+                        },
+                        new
+                        {
+                            BookId = 3,
+                            QuantityInStock = 10,
+                            RentPerBook = 15.0
+                        });
+                });
+
             modelBuilder.Entity("MiniProjectApp.Models.Sale", b =>
                 {
                     b.Property<int>("SaleId")
@@ -173,6 +320,8 @@ namespace MiniProjectApp.Migrations
                         .HasColumnType("float");
 
                     b.HasKey("SaleId", "BookId");
+
+                    b.HasIndex("BookId");
 
                     b.ToTable("SaleDetails");
                 });
@@ -298,6 +447,66 @@ namespace MiniProjectApp.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("MiniProjectApp.Models.PurchaseDetail", b =>
+                {
+                    b.HasOne("MiniProjectApp.Models.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MiniProjectApp.Models.Purchase", "Purchase")
+                        .WithMany("PurchaseDetailsList")
+                        .HasForeignKey("PurchaseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+
+                    b.Navigation("Purchase");
+                });
+
+            modelBuilder.Entity("MiniProjectApp.Models.Rent", b =>
+                {
+                    b.HasOne("MiniProjectApp.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("MiniProjectApp.Models.RentDetail", b =>
+                {
+                    b.HasOne("MiniProjectApp.Models.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MiniProjectApp.Models.Rent", "Rent")
+                        .WithMany("RentDetailsList")
+                        .HasForeignKey("RentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+
+                    b.Navigation("Rent");
+                });
+
+            modelBuilder.Entity("MiniProjectApp.Models.RentStock", b =>
+                {
+                    b.HasOne("MiniProjectApp.Models.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+                });
+
             modelBuilder.Entity("MiniProjectApp.Models.Sale", b =>
                 {
                     b.HasOne("MiniProjectApp.Models.User", "User")
@@ -307,6 +516,25 @@ namespace MiniProjectApp.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("MiniProjectApp.Models.SaleDetail", b =>
+                {
+                    b.HasOne("MiniProjectApp.Models.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MiniProjectApp.Models.Sale", "Sale")
+                        .WithMany("SaleDetailList")
+                        .HasForeignKey("SaleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+
+                    b.Navigation("Sale");
                 });
 
             modelBuilder.Entity("MiniProjectApp.Models.SalesStock", b =>
@@ -329,6 +557,21 @@ namespace MiniProjectApp.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("MiniProjectApp.Models.Purchase", b =>
+                {
+                    b.Navigation("PurchaseDetailsList");
+                });
+
+            modelBuilder.Entity("MiniProjectApp.Models.Rent", b =>
+                {
+                    b.Navigation("RentDetailsList");
+                });
+
+            modelBuilder.Entity("MiniProjectApp.Models.Sale", b =>
+                {
+                    b.Navigation("SaleDetailList");
                 });
 
             modelBuilder.Entity("MiniProjectApp.Models.User", b =>

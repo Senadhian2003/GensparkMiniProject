@@ -256,7 +256,39 @@ namespace MiniProjectApp.BussinessLogics
             viewFeedbackDTO.feedbacks = feedbackDTOs;
 
             return viewFeedbackDTO;
-            throw new NotImplementedException();
+           
         }
+
+
+
+        public async Task<List<Sale>> ViewOrders(int UserId)
+        {
+            User user = await _userRepository.GetByKey(UserId);
+           var sales = await _saleRepository.GetAll();
+
+            var userSales = sales.Where(sales=> sales.UserId == UserId);
+
+            if(userSales.Count()==0)
+            {
+                throw new EmptyListException("Sales");
+            }
+
+            return userSales.ToList();
+
+        }
+
+        public async Task<List<SaleDetail>> ViewOrderDetail(int saleId)
+        {
+
+            var sale = await _saleRepository.GetByKey(saleId);
+
+            var saleDetails = sale.SaleDetailList;
+
+            return saleDetails.ToList();
+
+        }
+
+
+
     }
 }

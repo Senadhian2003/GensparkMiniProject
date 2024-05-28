@@ -10,6 +10,6 @@
 
         public double PricePerBook { get; set;}
 
-
+       
     }
 }

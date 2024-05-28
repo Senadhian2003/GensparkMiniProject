@@ -42,7 +42,7 @@ namespace MiniProjectApp.Repositories
                 return saleItem;
             }
 
-            throw new ElementNotFoundException("Sale Item");
+           return null;
         }
 
         public async Task<IEnumerable<SalesStock>> GetAll()

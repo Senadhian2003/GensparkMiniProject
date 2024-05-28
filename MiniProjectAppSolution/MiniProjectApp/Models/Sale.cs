@@ -15,5 +15,7 @@ namespace MiniProjectApp.Models
 
         public double Amount { get; set; }
 
+        public List<SaleDetail>? SaleDetailList { get; set; }
+
     }
 }

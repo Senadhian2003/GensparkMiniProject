@@ -20,5 +20,9 @@ namespace MiniProjectApp.BussinessLogics.Interfaces
 
         public Task<ViewFeedbackDTO> GetFeedbackItems(int BookId);
 
+        public Task<List<Sale>> ViewOrders(int UserId);
+
+        public Task<List<SaleDetail>> ViewOrderDetail(int saleId);
+
     }
 }

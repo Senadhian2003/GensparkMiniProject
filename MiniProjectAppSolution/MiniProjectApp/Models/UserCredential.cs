@@ -20,8 +20,5 @@ namespace MiniProjectApp.Models
 
         public string Status { get; set; }
 
-
-
-
     }
 }
