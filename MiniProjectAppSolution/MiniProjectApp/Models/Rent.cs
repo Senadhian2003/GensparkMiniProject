@@ -28,7 +28,9 @@ namespace MiniProjectApp.Models
 
         public List<RentDetail>? RentDetailsList { get; set; }
 
-        //public double Fine { get; set; }
+        public double FineAmount { get; set; }
+
+        public Fine Fine { get; set; }
 
     }
 }

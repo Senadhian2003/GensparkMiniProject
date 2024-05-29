@@ -12,8 +12,8 @@ using MiniProjectApp.Context;
 namespace MiniProjectApp.Migrations
 {
     [DbContext(typeof(LibraryManagementContext))]
-    [Migration("20240528152550_two")]
-    partial class two
+    [Migration("20240529050745_one")]
+    partial class one
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -132,6 +132,29 @@ namespace MiniProjectApp.Migrations
                     b.ToTable("Feedbacks");
                 });
 
+            modelBuilder.Entity("MiniProjectApp.Models.Fine", b =>
+                {
+                    b.Property<int>("RentId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("FineAmount")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime?>("FinePaidDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("NumberOfBooksFined")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("RentId");
+
+                    b.ToTable("Fines");
+                });
+
             modelBuilder.Entity("MiniProjectApp.Models.Purchase", b =>
                 {
                     b.Property<int>("PurchaseId")
@@ -202,6 +225,9 @@ namespace MiniProjectApp.Migrations
                     b.Property<DateTime>("DueDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<double>("FineAmount")
+                        .HasColumnType("float");
+
                     b.Property<string>("Progress")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -228,6 +254,9 @@ namespace MiniProjectApp.Migrations
 
                     b.Property<double>("Price")
                         .HasColumnType("float");
+
+                    b.Property<DateTime>("ReturnDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("status")
                         .IsRequired()
@@ -444,6 +473,17 @@ namespace MiniProjectApp.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("MiniProjectApp.Models.Fine", b =>
+                {
+                    b.HasOne("MiniProjectApp.Models.Rent", "Rent")
+                        .WithMany()
+                        .HasForeignKey("RentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Rent");
+                });
+
             modelBuilder.Entity("MiniProjectApp.Models.PurchaseDetail", b =>
                 {
                     b.HasOne("MiniProjectApp.Models.Book", "Book")
@@ -483,7 +523,7 @@ namespace MiniProjectApp.Migrations
                         .IsRequired();
 
                     b.HasOne("MiniProjectApp.Models.Rent", "Rent")
-                        .WithMany()
+                        .WithMany("RentDetailsList")
                         .HasForeignKey("RentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -559,6 +599,11 @@ namespace MiniProjectApp.Migrations
             modelBuilder.Entity("MiniProjectApp.Models.Purchase", b =>
                 {
                     b.Navigation("PurchaseDetailsList");
+                });
+
+            modelBuilder.Entity("MiniProjectApp.Models.Rent", b =>
+                {
+                    b.Navigation("RentDetailsList");
                 });
 
             modelBuilder.Entity("MiniProjectApp.Models.Sale", b =>

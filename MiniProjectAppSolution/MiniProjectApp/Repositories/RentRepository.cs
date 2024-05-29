@@ -35,7 +35,7 @@ namespace MiniProjectApp.Repositories
 
         public async Task<Rent> GetByKey(int key)
         {
-            var rent = await _context.Rents.FirstOrDefaultAsync(r => r.RentId == key);
+            var rent = await _context.Rents.Include(r=>r.RentDetailsList).FirstOrDefaultAsync(r => r.RentId == key);
 
             if (rent != null)
             {

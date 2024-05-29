@@ -25,7 +25,9 @@ namespace MiniProjectApp.BussinessLogics
         private readonly IRepository<int, RentStock> _rentStockRepository;
 
         private readonly IRepository<int, UserCredential> _userCredentialRepository;
-        public AdminServices(IRepository<int, User> userRepository, ICompositeKeyRepository<int, Cart> CartRepository, IRepository<int, SalesStock> saleStockRepository, ITransactionRepository transactionRepository, IRepository<int, Sale> saleRepository, ICompositeKeyRepository<int, SaleDetail> saleDetailRepository, IRepository<int, Feedback> feedbackRepository, IRepository<int, Book> bookRepository, IRepository<int,Purchase> purchaseRepository, ICompositeKeyRepository<int, PurchaseDetail> purchaseDetailRepository, IRepository<int,UserCredential> userCredentialRepository, IRepository<int,Rent> rentRepository, ICompositeKeyRepository<int,RentDetail> rentDetailRepository, IRepository<int,RentStock> rentStockRepository )
+        private readonly IRepository<int, Fine> _fineRepository;
+
+        public AdminServices(IRepository<int, User> userRepository, ICompositeKeyRepository<int, Cart> CartRepository, IRepository<int, SalesStock> saleStockRepository, ITransactionRepository transactionRepository, IRepository<int, Sale> saleRepository, ICompositeKeyRepository<int, SaleDetail> saleDetailRepository, IRepository<int, Feedback> feedbackRepository, IRepository<int, Book> bookRepository, IRepository<int,Purchase> purchaseRepository, ICompositeKeyRepository<int, PurchaseDetail> purchaseDetailRepository, IRepository<int,UserCredential> userCredentialRepository, IRepository<int,Rent> rentRepository, ICompositeKeyRepository<int,RentDetail> rentDetailRepository, IRepository<int,RentStock> rentStockRepository, IRepository<int,Fine> fineRepository )
         {
 
             _userRepository = userRepository;
@@ -42,6 +44,8 @@ namespace MiniProjectApp.BussinessLogics
             _rentRepository = rentRepository;
             _rentDetailRepository = rentDetailRepository;
             _rentStockRepository = rentStockRepository; 
+            _fineRepository = fineRepository;
+
         }
 
         public async Task<int> PurchaseBooksForLibrary(PurchaseBooksForLibraryDTO dto)
@@ -178,9 +182,21 @@ namespace MiniProjectApp.BussinessLogics
                 flag = true;
                 foreach (var rent in userRents)
                 {
-                    
+                    bool fineCreate = false;
                     rent.Progress = "Fine to be paid";
+                    rent.FineAmount = rent.BooksToBeReturned * 5;
                     await _rentRepository.Update(rent);
+
+                    Fine fine = new Fine();
+
+                    fine.RentId = rent.RentId;
+                    fine.UserId = rent.UserId;
+                    fine.FineAmount = rent.FineAmount;
+                    fine.NumberOfBooksFined = rent.BooksToBeReturned;
+                    fine.Status = "Fine to be paid";
+                    
+                    await _fineRepository.Add(fine);
+
                     var rentDetails = rent.RentDetailsList;
 
                     foreach (var rentDetail in rentDetails)
@@ -188,12 +204,14 @@ namespace MiniProjectApp.BussinessLogics
 
                         if (rentDetail.status != "Returned")
                         {
+                           
                             rentDetail.status = "Fine to be paid";
                             await _rentDetailRepository.Update(rentDetail);
                         }
 
-
                     }
+
+                   
 
                 }
 
@@ -218,7 +236,7 @@ namespace MiniProjectApp.BussinessLogics
 
             rent.UserId = dto.UserId;
             rent.DateOfRent = DateTime.Now;
-            rent.DueDate = DateTime.Now.AddDays(7);
+            rent.DueDate = DateTime.Now;
             rent.Progress = "Return pending";
             rent.BooksToBeReturned = dto.BookIds.Count;
             rent.CartType = "Normal Cart";
@@ -270,14 +288,14 @@ namespace MiniProjectApp.BussinessLogics
 
         public async Task<ReturnRentedBooksCountDTO> ReturnRentedBooks(RentBooksDTO dto)
         {
-
+            bool fined = await VerifyDue(dto.UserId);
             User user = await _userRepository.GetByKey(dto.UserId);
 
             var bookIds = dto.BookIds;
 
             var rents = await _rentRepository.GetAll();
 
-            var userRents = rents.Where(r=>r.UserId==dto.UserId && r.Progress== "Return pending").OrderBy(r=>r.DateOfRent);
+            var userRents = rents.Where(r=>r.UserId==dto.UserId && (r.Progress== "Return pending" || r.Progress== "Fine to be paid")).OrderBy(r=>r.DateOfRent);
             int returnedBooksCount = 0;
 
             foreach (int bookId in bookIds)
@@ -291,7 +309,7 @@ namespace MiniProjectApp.BussinessLogics
                     bool flag = false;
                     foreach(var rentDetail in rentDetails) 
                     {
-                        if(rentDetail.BookId==bookId && rentDetail.status=="Return pending")
+                        if(rentDetail.BookId==bookId && (rentDetail.status=="Return pending" || rentDetail.status == "Fine to be paid"))
                         {
                             rentDetail.status = "Returned";
                             cnt++;
@@ -310,7 +328,7 @@ namespace MiniProjectApp.BussinessLogics
                     {
                         userRent.BooksToBeReturned-=cnt;
 
-                        if(userRent.BooksToBeReturned==0)
+                        if(userRent.BooksToBeReturned==0 && userRent.Progress!= "Fine to be paid")
                         {
                             userRent.Progress = "Returned";
                         }
@@ -343,7 +361,81 @@ namespace MiniProjectApp.BussinessLogics
         }
 
 
+        public async Task<List<Fine>> ViewFines(int UserId)
+        {
 
+            var Fines = await _fineRepository.GetAll();
+
+            var userFines = Fines.Where(f=>f.UserId== UserId);
+
+            if (userFines.Any())
+            {
+                return userFines.ToList();
+            }
+
+            throw new EmptyListException("Fine");
+
+           
+        }
+
+        public async Task<List<Fine>> ViewUnPaidFines(int UserId)
+        {
+
+            var Fines = await _fineRepository.GetAll();
+
+            var userFines = Fines.Where(f => f.UserId == UserId && f.Status== "Fine to be paid");
+
+            if (userFines.Any())
+            {
+                return userFines.ToList();
+            }
+
+            throw new EmptyListException("Fine");
+
+
+        }
+
+        public async Task<Fine> PayFine(int RentId)
+        {
+
+            Fine fine = await _fineRepository.GetByKey(RentId);
+            if(fine.Status== "Fine paid")
+            {
+                throw new FineAlreadyPaidException();
+            }
+            fine.Status = "Fine paid";
+
+            fine.FinePaidDate = DateTime.Now;
+
+            await _fineRepository.Update(fine);
+
+
+            var rent = await _rentRepository.GetByKey(RentId);
+
+            rent.Progress = "Fine paid";
+            rent.BooksToBeReturned = 0;
+
+            await _rentRepository.Update(rent);
+
+            var rentDetails = rent.RentDetailsList.ToList();
+
+            foreach(RentDetail rentDetail in rentDetails)
+            {
+                if(rentDetail.status=="Fine to be paid")
+                {
+                    rentDetail.status = "Returned";
+
+                    RentStock bookStock = await _rentStockRepository.GetByKey(rentDetail.BookId);
+                    bookStock.QuantityInStock += 1;
+                    await _rentStockRepository.Update(bookStock);
+
+                    await _rentDetailRepository.Update(rentDetail);
+                }
+            }
+
+            return fine;
+
+        }
 
 
     }

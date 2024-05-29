@@ -115,6 +115,61 @@ namespace MiniProjectApp.Controllers
 
         }
 
+        [HttpGet("ViewFines")]
+        [ProducesResponseType(typeof(List<Fine>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<List<Fine>>> ViewFines(int userId)
+        {
+            try
+            {
+                List<Fine> res = await _adminServices.ViewFines(userId);
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new ErrorModel(404, ex.Message));
+            }
+
+
+        }
+
+        [HttpGet("ViewUnpaidFines")]
+        [ProducesResponseType(typeof(List<Fine>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<List<Fine>>> ViewUnpaidFines(int userId)
+        {
+            try
+            {
+                List<Fine> res = await _adminServices.ViewUnPaidFines(userId);
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new ErrorModel(404, ex.Message));
+            }
+
+
+        }
+
+        [HttpPost("PayFine")]
+        [ProducesResponseType(typeof(List<Fine>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<List<Fine>>> PayFine(int RentId)
+        {
+            try
+            {
+               Fine result = await _adminServices.PayFine(RentId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new ErrorModel(404, ex.Message));
+            }
+
+
+        }
+
+
 
 
     }

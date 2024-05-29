@@ -30,6 +30,8 @@ namespace MiniProjectApp.Context
 
         public DbSet<RentDetail> RentDetails { get; set; }
 
+        public DbSet<Fine> Fines { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -73,8 +75,8 @@ namespace MiniProjectApp.Context
                 .WithMany(u => u.CartItems)
                 .HasForeignKey(sc => sc.UserId);
 
-           
 
+            
 
         }
 

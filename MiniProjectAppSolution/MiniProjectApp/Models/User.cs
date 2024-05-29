@@ -17,6 +17,8 @@ namespace MiniProjectApp.Models
 
         public ICollection<Cart>? CartItems { get; set; }
 
+        
+
 
 
     }

@@ -130,6 +130,32 @@ namespace MiniProjectApp.Migrations
                     b.ToTable("Feedbacks");
                 });
 
+            modelBuilder.Entity("MiniProjectApp.Models.Fine", b =>
+                {
+                    b.Property<int>("RentId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("FineAmount")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime?>("FinePaidDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("NumberOfBooksFined")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("RentId");
+
+                    b.ToTable("Fines");
+                });
+
             modelBuilder.Entity("MiniProjectApp.Models.Purchase", b =>
                 {
                     b.Property<int>("PurchaseId")
@@ -199,6 +225,9 @@ namespace MiniProjectApp.Migrations
 
                     b.Property<DateTime>("DueDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<double>("FineAmount")
+                        .HasColumnType("float");
 
                     b.Property<string>("Progress")
                         .IsRequired()
@@ -445,6 +474,17 @@ namespace MiniProjectApp.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("MiniProjectApp.Models.Fine", b =>
+                {
+                    b.HasOne("MiniProjectApp.Models.Rent", "Rent")
+                        .WithOne("Fine")
+                        .HasForeignKey("MiniProjectApp.Models.Fine", "RentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Rent");
+                });
+
             modelBuilder.Entity("MiniProjectApp.Models.PurchaseDetail", b =>
                 {
                     b.HasOne("MiniProjectApp.Models.Book", "Book")
@@ -564,6 +604,9 @@ namespace MiniProjectApp.Migrations
 
             modelBuilder.Entity("MiniProjectApp.Models.Rent", b =>
                 {
+                    b.Navigation("Fine")
+                        .IsRequired();
+
                     b.Navigation("RentDetailsList");
                 });
 

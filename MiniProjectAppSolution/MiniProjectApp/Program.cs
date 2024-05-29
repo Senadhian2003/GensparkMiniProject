@@ -44,6 +44,7 @@ namespace MiniProjectApp
             builder.Services.AddScoped<IRepository<int, RentStock>, RentStockRepository>();
             builder.Services.AddScoped<IRepository<int, Rent>, RentRepository>();
             builder.Services.AddScoped<ICompositeKeyRepository<int, RentDetail>, RentDetailRepository>();
+            builder.Services.AddScoped<IRepository<int, Fine>, FineRepository>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
