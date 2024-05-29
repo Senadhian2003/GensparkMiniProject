@@ -4,6 +4,7 @@ using MiniProjectApp.BussinessLogics;
 using MiniProjectApp.BussinessLogics.Interfaces;
 using MiniProjectApp.Models.DTO;
 using MiniProjectApp.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MiniProjectApp.Controllers
 {
@@ -40,6 +41,7 @@ namespace MiniProjectApp.Controllers
 
         }
 
+        
         [HttpPost("ViewPurchases")]
         [ProducesResponseType(typeof(List<Purchase>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]

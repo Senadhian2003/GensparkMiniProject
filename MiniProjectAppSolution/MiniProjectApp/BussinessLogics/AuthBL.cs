@@ -122,7 +122,7 @@ namespace MiniProjectApp.BussinessLogics
         {
             UserCredential userCredential = new UserCredential();
            
-            userCredential.Status = "Disabled";
+            userCredential.Status = "Active";
             HMACSHA512 hMACSHA = new HMACSHA512();
             userCredential.HashKey = hMACSHA.Key;
             userCredential.Password = hMACSHA.ComputeHash(Encoding.UTF8.GetBytes(registerDTO.Password));

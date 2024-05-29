@@ -1,4 +1,7 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using MiniProjectApp.BussinessLogics;
 using MiniProjectApp.BussinessLogics.Interfaces;
 using MiniProjectApp.BussinessLogics.Services;
@@ -6,6 +9,7 @@ using MiniProjectApp.Context;
 using MiniProjectApp.Models;
 using MiniProjectApp.Repositories;
 using MiniProjectApp.Repositories.Interface;
+using System.Text;
 
 namespace MiniProjectApp
 {
@@ -24,6 +28,52 @@ namespace MiniProjectApp
             builder.Services.AddDbContext<LibraryManagementContext>(
              options => options.UseSqlServer(builder.Configuration.GetConnectionString("defaultConnection"))
              );
+
+
+            builder.Services.AddSwaggerGen(option =>
+            {
+                option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\nExample: \"Bearer 1safsfsdfdfd\"",
+                });
+                option.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    new string[] { }
+                }
+            });
+            });
+
+
+
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
+                    {
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["TokenKey:JWT"])),
+                        
+                    };
+
+                });
+
+
 
 
             builder.Services.AddScoped<IRepository<int, User>, UserRepository>();
@@ -45,6 +95,12 @@ namespace MiniProjectApp
             builder.Services.AddScoped<IRepository<int, Rent>, RentRepository>();
             builder.Services.AddScoped<ICompositeKeyRepository<int, RentDetail>, RentDetailRepository>();
             builder.Services.AddScoped<IRepository<int, Fine>, FineRepository>();
+            builder.Services.AddScoped<ICompositeKeyRepository<int, RentCart>, RentCartRepository>();
+            builder.Services.AddScoped<ICompositeKeyRepository<int, SuperRentCart>, SuperRentCartRepository>();
+
+
+
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

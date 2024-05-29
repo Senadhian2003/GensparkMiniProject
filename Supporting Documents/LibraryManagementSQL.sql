@@ -6,6 +6,8 @@ select * from UserCredentials
 select * from Books;
 Select * from SalesStocks;
 Select * from Cart;
+select * from RentCart;
+select * from superRentCart;
 select * from Sales;
 Select * from SaleDetails;
 select * from Feedbacks
@@ -24,7 +26,7 @@ update Fines set Status = 'Fine to be paid' ;
 
 
 
-delete from RentStocks
+delete from RentCart
 
 
 
@@ -38,5 +40,7 @@ delete from RentStocks
 
 
 
-use dbEmployeeTracker
+use dbRequestTracker14May24
+select * from Employees
+
 drop database LibraryManagement

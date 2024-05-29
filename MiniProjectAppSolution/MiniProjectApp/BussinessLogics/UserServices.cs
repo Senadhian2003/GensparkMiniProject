@@ -154,6 +154,36 @@ namespace MiniProjectApp.BussinessLogics
             throw new EmptyListException("Cart");
         }
 
+        public async Task<List<RentCart>> GetRentCartItems(int userId)
+        {
+            User user = await _userRepository.GetByKey(userId);
+
+            var rentCartItems = user.RentCartItems.ToList();
+
+            if (rentCartItems.Count > 0)
+            {
+
+                return rentCartItems.ToList();
+            }
+
+            throw new EmptyListException("Rent Cart");
+        }
+
+        public async Task<List<SuperRentCart>> GetSuperRentCartItems(int userId)
+        {
+            User user = await _userRepository.GetByKey(userId);
+
+            var superRentCartItems = user.SuperRentCartItems.ToList();
+
+            if (superRentCartItems.Count > 0)
+            {
+
+                return superRentCartItems.ToList();
+            }
+
+            throw new EmptyListException("Super Rent Cart");
+        }
+
         public ViewCartDTO MapCartItemsToViewCartDTO(List<Cart> cartItems)
         {
             double amount =0;

@@ -35,7 +35,7 @@ namespace MiniProjectApp.Repositories
 
         public async Task<User> GetByKey(int key)
         {
-            var user = await _context.Users.Include(u=> u.CartItems).FirstOrDefaultAsync(u => u.Id == key);
+            var user = await _context.Users.Include(u => u.CartItems).Include(u => u.SuperRentCartItems).ThenInclude(src=>src.Book).Include(u => u.RentCartItems).ThenInclude(rc=>rc.Book).FirstOrDefaultAsync(u => u.Id == key);
 
             if (user != null)
             {

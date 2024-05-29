@@ -98,6 +98,49 @@ namespace MiniProjectApp.Controllers
 
         }
 
+
+        [HttpGet("ViewRentCartItems")]
+        [ProducesResponseType(typeof(List<RentCart>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<List<RentCart>>> ViewRentCartItems(int userId)
+        {
+            try
+            {
+                var rentCartItems = await _userServices.GetRentCartItems(userId);
+                return Ok(rentCartItems);
+
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new ErrorModel(404, ex.Message));
+            }
+
+
+        }
+
+        [HttpGet("ViewSuperRentCartItems")]
+        [ProducesResponseType(typeof(List<SuperRentCart>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<List<SuperRentCart>>> ViewSuperRentCartItems(int userId)
+        {
+            try
+            {
+                var superRentCartItems = await _userServices.GetSuperRentCartItems(userId);
+                return Ok(superRentCartItems);
+
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new ErrorModel(404, ex.Message));
+            }
+
+
+        }
+
+
+
+
+
         [HttpPost("CheckoutCart")]
         [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]

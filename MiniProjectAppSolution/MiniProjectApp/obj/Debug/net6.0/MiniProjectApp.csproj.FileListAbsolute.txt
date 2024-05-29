@@ -67,3 +67,5 @@ C:\MyPersonalFiles\GensparkTraining\MiniProject\MiniProjectAppSolution\MiniProje
 C:\MyPersonalFiles\GensparkTraining\MiniProject\MiniProjectAppSolution\MiniProjectApp\obj\Debug\net6.0\MiniProjectApp.pdb
 C:\MyPersonalFiles\GensparkTraining\MiniProject\MiniProjectAppSolution\MiniProjectApp\obj\Debug\net6.0\MiniProjectApp.genruntimeconfig.cache
 C:\MyPersonalFiles\GensparkTraining\MiniProject\MiniProjectAppSolution\MiniProjectApp\obj\Debug\net6.0\ref\MiniProjectApp.dll
+C:\MyPersonalFiles\GensparkTraining\MiniProject\MiniProjectAppSolution\MiniProjectApp\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\MyPersonalFiles\GensparkTraining\MiniProject\MiniProjectAppSolution\MiniProjectApp\bin\Debug\net6.0\Microsoft.IdentityModel.Abstractions.dll

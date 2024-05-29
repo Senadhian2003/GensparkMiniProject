@@ -16,6 +16,9 @@ namespace MiniProjectApp.BussinessLogics.Interfaces
 
         public Task<ViewCartDTO> GetCartItems(int userId);
 
+        public Task<List<RentCart>> GetRentCartItems(int userId);
+        public Task<List<SuperRentCart>> GetSuperRentCartItems(int userId);
+
         public Task<Feedback> GiveFeedback(GiveFeedback dto);
 
         public Task<ViewFeedbackDTO> GetFeedbackItems(int BookId);
@@ -23,6 +26,8 @@ namespace MiniProjectApp.BussinessLogics.Interfaces
         public Task<List<Sale>> ViewOrders(int UserId);
 
         public Task<List<SaleDetail>> ViewOrderDetail(int saleId);
+
+        
 
     }
 }

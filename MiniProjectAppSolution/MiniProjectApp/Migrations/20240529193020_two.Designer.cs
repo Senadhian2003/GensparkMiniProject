@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MiniProjectApp.Context;
 
@@ -11,9 +12,10 @@ using MiniProjectApp.Context;
 namespace MiniProjectApp.Migrations
 {
     [DbContext(typeof(LibraryManagementContext))]
-    partial class LibraryManagementContextModelSnapshot : ModelSnapshot
+    [Migration("20240529193020_two")]
+    partial class two
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -269,6 +271,9 @@ namespace MiniProjectApp.Migrations
                     b.Property<double>("Amount")
                         .HasColumnType("float");
 
+                    b.Property<int>("BooksFined")
+                        .HasColumnType("int");
+
                     b.Property<int>("BooksToBeReturned")
                         .HasColumnType("int");
 
@@ -513,26 +518,6 @@ namespace MiniProjectApp.Migrations
                         });
                 });
 
-            modelBuilder.Entity("MiniProjectApp.Models.SuperRentCart", b =>
-                {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int")
-                        .HasColumnOrder(0);
-
-                    b.Property<int>("BookId")
-                        .HasColumnType("int")
-                        .HasColumnOrder(1);
-
-                    b.Property<int>("RentId")
-                        .HasColumnType("int");
-
-                    b.HasKey("UserId", "BookId");
-
-                    b.HasIndex("BookId");
-
-                    b.ToTable("SuperRentCart");
-                });
-
             modelBuilder.Entity("MiniProjectApp.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -668,7 +653,7 @@ namespace MiniProjectApp.Migrations
                         .IsRequired();
 
                     b.HasOne("MiniProjectApp.Models.User", "User")
-                        .WithMany("RentCartItems")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -749,25 +734,6 @@ namespace MiniProjectApp.Migrations
                     b.Navigation("Book");
                 });
 
-            modelBuilder.Entity("MiniProjectApp.Models.SuperRentCart", b =>
-                {
-                    b.HasOne("MiniProjectApp.Models.Book", "Book")
-                        .WithMany()
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MiniProjectApp.Models.User", "User")
-                        .WithMany("SuperRentCartItems")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Book");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("MiniProjectApp.Models.UserCredential", b =>
                 {
                     b.HasOne("MiniProjectApp.Models.User", "User")
@@ -800,10 +766,6 @@ namespace MiniProjectApp.Migrations
             modelBuilder.Entity("MiniProjectApp.Models.User", b =>
                 {
                     b.Navigation("CartItems");
-
-                    b.Navigation("RentCartItems");
-
-                    b.Navigation("SuperRentCartItems");
                 });
 #pragma warning restore 612, 618
         }

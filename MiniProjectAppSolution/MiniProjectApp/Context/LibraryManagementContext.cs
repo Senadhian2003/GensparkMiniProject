@@ -14,6 +14,8 @@ namespace MiniProjectApp.Context
         public DbSet <UserCredential> UserCredentials { get; set; }
         public DbSet<Book> Books { get; set; }
         public DbSet <Cart> Cart { get; set; }
+        public DbSet<RentCart> RentCart { get; set; }
+        public DbSet<SuperRentCart> SuperRentCart { get; set; }
         public DbSet<SalesStock> SalesStocks { get; set; }
 
         public DbSet<Sale> Sales { get; set; }
@@ -74,6 +76,12 @@ namespace MiniProjectApp.Context
             // Configure composite key
             modelBuilder.Entity<Cart>()
                 .HasKey(sc => new { sc.UserId, sc.BookId });
+
+            modelBuilder.Entity<RentCart>()
+               .HasKey(rc => new { rc.UserId, rc.BookId });
+
+            modelBuilder.Entity<SuperRentCart>()
+              .HasKey(src => new { src.UserId, src.BookId });
 
             modelBuilder.Entity<SaleDetail>()
                 .HasKey(sd => new { sd.SaleId, sd.BookId });
