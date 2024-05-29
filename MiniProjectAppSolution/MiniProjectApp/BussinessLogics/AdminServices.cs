@@ -4,6 +4,7 @@ using MiniProjectApp.Models;
 using MiniProjectApp.Models.DTO;
 using MiniProjectApp.Repositories;
 using MiniProjectApp.Repositories.Interface;
+using System.Collections.Generic;
 
 namespace MiniProjectApp.BussinessLogics
 {
@@ -71,7 +72,7 @@ namespace MiniProjectApp.BussinessLogics
                     foreach (var item in items)
                     {
                         var bookstock = await _saleStockRepository.GetByKey(item.BookId);
-
+                        var book = await _bookRepository.GetByKey(item.BookId);
                         PurchaseDetail detail = new PurchaseDetail();
 
 
@@ -117,7 +118,64 @@ namespace MiniProjectApp.BussinessLogics
                 }
                 else
                 {
-                    throw new NotImplementedException();
+                    var items = dto.Items;
+                    if (items.Count == 0)
+                    {
+                        throw new EmptyListException("Input Books");
+                    }
+                    purchase.Type = "Rent";
+
+                    double total = 0;
+                    await _purchaseRepository.Add(purchase);
+
+                    foreach (var item in items)
+                    {
+                        var bookstock = await _rentStockRepository.GetByKey(item.BookId);
+                        var book = await _bookRepository.GetByKey(item.BookId);
+                        PurchaseDetail detail = new PurchaseDetail();
+
+
+                        detail.PurchaseId = purchase.PurchaseId;
+                        detail.BookId = item.BookId;
+                        detail.Quantity = item.Quantity;
+                        detail.PricePerBook = item.PricePerBook;
+
+                        await _purchaseDetailRepository.Add(detail);
+
+                        if (bookstock == null)
+                        {
+                            RentStock rentStock = new RentStock();
+
+                            rentStock.BookId = item.BookId;
+                            rentStock.QuantityInStock = item.Quantity;
+                            rentStock.RentPerBook = item.PricePerBook;
+
+                            await _rentStockRepository.Add(rentStock);
+
+                        }
+                        else
+                        {
+                            bookstock.QuantityInStock += item.Quantity;
+                            bookstock.RentPerBook = item.PricePerBook;
+
+                            await _rentStockRepository.Update(bookstock);
+
+                        }
+
+
+                        total += item.PricePerBook * item.Quantity;
+                    }
+
+                    purchase.Amount = total;
+
+                    await _purchaseRepository.Update(purchase);
+
+                    await _transactionRepository.CommitTransactionAsync();
+                    return purchase.PurchaseId;
+
+
+
+                  
                 }
 
             }catch(Exception ex)
@@ -222,73 +280,198 @@ namespace MiniProjectApp.BussinessLogics
 
         }
 
+        public async Task<int> GetBooksCountInSuperCart(int UserId)
+        {
+            var rents = await _rentRepository.GetAll();
+
+            var TotalCount = rents.Where(r => r.UserId == UserId && r.CartType == "SuperCart" && r.Progress == "Return pending").GroupBy(r => r.CartType)
+                .Select(g =>  g.Sum(r => r.BooksToBeReturned)
+                ).FirstOrDefault();
+
+            return TotalCount;
+            
+
+        }
+
 
         public async Task<ReturnRentBooksDTO> AddBooksToRent(RentBooksDTO dto)
         {
-            bool fined = await VerifyDue(dto.UserId);
+            if(dto.BookIds.Count() == 0)
+            {
+                throw new NoBooksProvidedException();
+            }
 
-            if (fined || await CheckUserStatus(dto.UserId))
+            List<int> uniqueBooks = dto.BookIds.Distinct().ToList();
+
+            if(uniqueBooks.Count() != dto.BookIds.Count()) 
+            {
+                throw new DuplicateBooksException();
+            }
+
+
+            if (await CheckUserStatus(dto.UserId))
             {
                 throw new FineNotPaidException();
             }
 
-            Rent rent = new Rent();
-
-            rent.UserId = dto.UserId;
-            rent.DateOfRent = DateTime.Now;
-            rent.DueDate = DateTime.Now;
-            rent.Progress = "Return pending";
-            rent.BooksToBeReturned = dto.BookIds.Count;
-            rent.CartType = "Normal Cart";
-            await _rentRepository.Add(rent);
-            double total = 0;
-            var bookIds = dto.BookIds;
-
-            foreach(var bookId in bookIds)
+            if(dto.CartType=="Normal Cart")
             {
-                var bookStock = await _rentStockRepository.GetByKey(bookId) ;
 
-                if (bookStock.QuantityInStock==0)
+                Rent rent = new Rent();
+
+                rent.UserId = dto.UserId;
+                rent.DateOfRent = DateTime.Now;
+                rent.DueDate = DateTime.Now.AddMinutes(10);
+                rent.Progress = "Return pending";
+                rent.BooksToBeReturned = dto.BookIds.Count;
+                rent.CartType = "Normal Cart";
+                await _rentRepository.Add(rent);
+                double total = 0;
+                var bookIds = dto.BookIds;
+
+                foreach (var bookId in bookIds)
                 {
-                    throw new OutOfStockException();
+                    var bookStock = await _rentStockRepository.GetByKey(bookId);
+                    if (bookStock == null)
+                    {
+                        throw new BookNotAvailabeForThisOperation("Sale", bookId);
+                    }
+                    if (bookStock.QuantityInStock == 0)
+                    {
+                        throw new OutOfStockException();
+                    }
+
+                    bookStock.QuantityInStock -= 1;
+
+                    await _rentStockRepository.Update(bookStock);
+
+                    RentDetail rentDetail = new RentDetail();
+
+                    rentDetail.RentId = rent.RentId;
+                    rentDetail.BookId = bookId;
+                    rentDetail.ReturnDate = DateTime.Now.AddDays(7);
+                    rentDetail.Price = bookStock.RentPerBook;
+                    rentDetail.status = "Return pending";
+                    total += rentDetail.Price;
+                    await _rentDetailRepository.Add(rentDetail);
+
+
                 }
 
-                bookStock.QuantityInStock -= 1;
+                rent.Amount = total;
+                await _rentRepository.Update(rent);
 
-                await _rentStockRepository.Update(bookStock);
+                ReturnRentBooksDTO result = new ReturnRentBooksDTO();
 
-                RentDetail rentDetail = new RentDetail();
+                result.TotalAmount = total;
+                result.BooksCount = dto.BookIds.Count;
 
-                rentDetail.RentId = rent.RentId;
-                rentDetail.BookId = bookId;
-                rentDetail.ReturnDate = DateTime.Now.AddDays(7);
-                rentDetail.Price = bookStock.RentPerBook;
-                rentDetail.status = "Return pending";
-                total+= rentDetail.Price;
-                await _rentDetailRepository.Add(rentDetail);
-
+                return result;
 
             }
-            
-            rent.Amount = total;
-            await _rentRepository.Update(rent);
+            else
+            {
+                int ItemsInSuperCart = await GetBooksCountInSuperCart(dto.UserId);
 
-            ReturnRentBooksDTO result = new ReturnRentBooksDTO();
+                if (ItemsInSuperCart + dto.BookIds.Count>3)
+                {
+                    throw new BooksInSuperCartNotReturnedException();
+                }
 
-            result.TotalAmount = total;
-            result.BooksCount = dto.BookIds.Count;
+                Rent rent = new Rent();
 
-            return result;
+                rent.UserId = dto.UserId;
+                rent.DateOfRent = DateTime.Now;
+                rent.DueDate = DateTime.Now.AddMinutes(10);
+                rent.Progress = "Return pending";
+                rent.BooksToBeReturned = dto.BookIds.Count;
+                rent.CartType = "Super Cart";
+                await _rentRepository.Add(rent);
+                double total = 0;
+                var bookIds = dto.BookIds;
+
+                foreach (var bookId in bookIds)
+                {
+                    var bookStock = await _rentStockRepository.GetByKey(bookId);
+                    if (bookStock == null)
+                    {
+                        throw new BookNotAvailabeForThisOperation("Rent", bookId);
+                    }
+                    if (bookStock.QuantityInStock == 0)
+                    {
+                        throw new OutOfStockException();
+                    }
+
+                    bookStock.QuantityInStock -= 1;
+
+                    await _rentStockRepository.Update(bookStock);
+
+                    RentDetail rentDetail = new RentDetail();
+
+                    rentDetail.RentId = rent.RentId;
+                    rentDetail.BookId = bookId;
+                    rentDetail.ReturnDate = DateTime.Now.AddDays(7);
+                    rentDetail.Price = bookStock.RentPerBook;
+                    rentDetail.status = "Return pending";
+                    total += rentDetail.Price;
+                    await _rentDetailRepository.Add(rentDetail);
+
+                }
+
+                
+
+                ReturnRentBooksDTO result = new ReturnRentBooksDTO();
+
+                result.TotalAmount = 0;
+                result.BooksCount = dto.BookIds.Count;
+
+                return result;
+
+
+                
+
+            }
+
 
 
            
         }
 
 
+        public async Task<UserStatusDTO> VerifyUserPaidFine(int UserId)
+        {
+            UserCredential userCredential = await _userCredentialRepository.GetByKey(UserId);
+
+            var rents = await _rentRepository.GetAll();
+            var fineRents = rents.Where(r=>r.UserId == UserId && r.Progress== "Fine to be paid");
+
+            
+            if (fineRents.Any() )
+            {
+                userCredential.Status = "Disabled";
+                await _userCredentialRepository.Update(userCredential);
+                UserStatusDTO userStatusDTO = new UserStatusDTO();
+                userStatusDTO.UserId = UserId;
+                userStatusDTO.Status = "Disabled";
+               return userStatusDTO;
+
+            }
+            else
+            {
+                userCredential.Status = "Active";
+                await _userCredentialRepository.Update(userCredential);
+                UserStatusDTO userStatusDTO = new UserStatusDTO();
+                userStatusDTO.UserId = UserId;
+                userStatusDTO.Status = "Active";
+                return userStatusDTO;
+            }
+           
+        }
+
 
         public async Task<ReturnRentedBooksCountDTO> ReturnRentedBooks(RentBooksDTO dto)
         {
-            bool fined = await VerifyDue(dto.UserId);
+           
             User user = await _userRepository.GetByKey(dto.UserId);
 
             var bookIds = dto.BookIds;
@@ -320,8 +503,10 @@ namespace MiniProjectApp.BussinessLogics
                             rentBookStock.QuantityInStock += 1;
                             await _rentStockRepository.Update(rentBookStock);
                             bookFlag = true;
+                            break;
                         }
-                   
+                        
+
                     }
 
                     if (flag)
@@ -334,6 +519,7 @@ namespace MiniProjectApp.BussinessLogics
                         }
 
                         await _rentRepository.Update(userRent);
+                        break;
                     }
 
 
@@ -344,13 +530,13 @@ namespace MiniProjectApp.BussinessLogics
                 {
                     throw new InvalidUserIdOrBookIdException(bookId);
                 }
-
+                
 
             }
 
-            
-                
-            
+
+            await VerifyUserPaidFine(dto.UserId);
+
 
             ReturnRentedBooksCountDTO result = new ReturnRentedBooksCountDTO();
             result.NoOfBooksReturned = returnedBooksCount;
@@ -395,7 +581,7 @@ namespace MiniProjectApp.BussinessLogics
 
         }
 
-        public async Task<Fine> PayFine(int RentId)
+        public async Task<Fine> PayFine(int RentId,int UserId)
         {
 
             Fine fine = await _fineRepository.GetByKey(RentId);
@@ -432,7 +618,7 @@ namespace MiniProjectApp.BussinessLogics
                     await _rentDetailRepository.Update(rentDetail);
                 }
             }
-
+            await VerifyUserPaidFine(UserId);
             return fine;
 
         }

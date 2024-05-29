@@ -245,6 +245,7 @@ namespace MiniProjectApp.Migrations
                 columns: table => new
                 {
                     RentId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
                     NumberOfBooksFined = table.Column<int>(type: "int", nullable: false),
                     FineAmount = table.Column<double>(type: "float", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -317,17 +318,19 @@ namespace MiniProjectApp.Migrations
             migrationBuilder.InsertData(
                 table: "Books",
                 columns: new[] { "Id", "Author", "Category", "Description", "Title" },
-                values: new object[] { 1, "Leo", "Thriller", "xyz", "Ben 10" });
-
-            migrationBuilder.InsertData(
-                table: "Books",
-                columns: new[] { "Id", "Author", "Category", "Description", "Title" },
-                values: new object[] { 2, "Ralph", "Education", "xyz", "Aerodynamics" });
-
-            migrationBuilder.InsertData(
-                table: "Books",
-                columns: new[] { "Id", "Author", "Category", "Description", "Title" },
-                values: new object[] { 3, "Stan Lee", "Comic", "xyz", "Spiderman" });
+                values: new object[,]
+                {
+                    { 1, "Harper Lee", "Fiction", "A novel about the serious issues of rape and racial inequality.", "To Kill a Mockingbird" },
+                    { 2, "George Orwell", "Dystopian", "A story set in a totalitarian society ruled by Big Brother.", "1984" },
+                    { 3, "F. Scott Fitzgerald", "Classic", "A novel about the American dream and the roaring twenties.", "The Great Gatsby" },
+                    { 4, "Herman Melville", "Adventure", "A sea captain's journey to hunt the white whale, Moby Dick.", "Moby Dick" },
+                    { 5, "Jane Austen", "Romance", "A romantic novel that critiques the British landed gentry at the end of the 18th century.", "Pride and Prejudice" },
+                    { 6, "J.D. Salinger", "Fiction", "A novel about teenage rebellion and angst.", "The Catcher in the Rye" },
+                    { 7, "J.R.R. Tolkien", "Fantasy", "A fantasy novel about the adventures of Bilbo Baggins.", "The Hobbit" },
+                    { 8, "Aldous Huxley", "Science Fiction", "A dystopian novel set in a futuristic society.", "Brave New World" },
+                    { 9, "Leo Tolstoy", "Historical Fiction", "A novel that intertwines the lives of five families during the Napoleonic Wars.", "War and Peace" },
+                    { 10, "Paulo Coelho", "Philosophical Fiction", "A novel about a young shepherd's journey to find treasure.", "The Alchemist" }
+                });
 
             migrationBuilder.InsertData(
                 table: "RentStocks",
@@ -336,7 +339,11 @@ namespace MiniProjectApp.Migrations
                 {
                     { 1, 10, 5.0 },
                     { 2, 10, 10.0 },
-                    { 3, 10, 15.0 }
+                    { 3, 10, 15.0 },
+                    { 4, 10, 8.0 },
+                    { 5, 8, 12.0 },
+                    { 6, 10, 7.0 },
+                    { 7, 12, 6.0 }
                 });
 
             migrationBuilder.InsertData(
@@ -346,7 +353,11 @@ namespace MiniProjectApp.Migrations
                 {
                     { 1, 30.0, 10 },
                     { 2, 50.0, 5 },
-                    { 3, 10.0, 10 }
+                    { 3, 10.0, 10 },
+                    { 4, 40.0, 8 },
+                    { 5, 60.0, 6 },
+                    { 6, 25.0, 12 },
+                    { 7, 20.0, 15 }
                 });
 
             migrationBuilder.CreateIndex(

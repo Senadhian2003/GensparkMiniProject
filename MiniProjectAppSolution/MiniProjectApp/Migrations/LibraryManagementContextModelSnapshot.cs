@@ -54,26 +54,82 @@ namespace MiniProjectApp.Migrations
                         new
                         {
                             Id = 1,
-                            Author = "Leo",
-                            Category = "Thriller",
-                            Description = "xyz",
-                            Title = "Ben 10"
+                            Author = "Harper Lee",
+                            Category = "Fiction",
+                            Description = "A novel about the serious issues of rape and racial inequality.",
+                            Title = "To Kill a Mockingbird"
                         },
                         new
                         {
                             Id = 2,
-                            Author = "Ralph",
-                            Category = "Education",
-                            Description = "xyz",
-                            Title = "Aerodynamics"
+                            Author = "George Orwell",
+                            Category = "Dystopian",
+                            Description = "A story set in a totalitarian society ruled by Big Brother.",
+                            Title = "1984"
                         },
                         new
                         {
                             Id = 3,
-                            Author = "Stan Lee",
-                            Category = "Comic",
-                            Description = "xyz",
-                            Title = "Spiderman"
+                            Author = "F. Scott Fitzgerald",
+                            Category = "Classic",
+                            Description = "A novel about the American dream and the roaring twenties.",
+                            Title = "The Great Gatsby"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Author = "Herman Melville",
+                            Category = "Adventure",
+                            Description = "A sea captain's journey to hunt the white whale, Moby Dick.",
+                            Title = "Moby Dick"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Author = "Jane Austen",
+                            Category = "Romance",
+                            Description = "A romantic novel that critiques the British landed gentry at the end of the 18th century.",
+                            Title = "Pride and Prejudice"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Author = "J.D. Salinger",
+                            Category = "Fiction",
+                            Description = "A novel about teenage rebellion and angst.",
+                            Title = "The Catcher in the Rye"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Author = "J.R.R. Tolkien",
+                            Category = "Fantasy",
+                            Description = "A fantasy novel about the adventures of Bilbo Baggins.",
+                            Title = "The Hobbit"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Author = "Aldous Huxley",
+                            Category = "Science Fiction",
+                            Description = "A dystopian novel set in a futuristic society.",
+                            Title = "Brave New World"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Author = "Leo Tolstoy",
+                            Category = "Historical Fiction",
+                            Description = "A novel that intertwines the lives of five families during the Napoleonic Wars.",
+                            Title = "War and Peace"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Author = "Paulo Coelho",
+                            Category = "Philosophical Fiction",
+                            Description = "A novel about a young shepherd's journey to find treasure.",
+                            Title = "The Alchemist"
                         });
                 });
 
@@ -303,6 +359,30 @@ namespace MiniProjectApp.Migrations
                             BookId = 3,
                             QuantityInStock = 10,
                             RentPerBook = 15.0
+                        },
+                        new
+                        {
+                            BookId = 4,
+                            QuantityInStock = 10,
+                            RentPerBook = 8.0
+                        },
+                        new
+                        {
+                            BookId = 5,
+                            QuantityInStock = 8,
+                            RentPerBook = 12.0
+                        },
+                        new
+                        {
+                            BookId = 6,
+                            QuantityInStock = 10,
+                            RentPerBook = 7.0
+                        },
+                        new
+                        {
+                            BookId = 7,
+                            QuantityInStock = 12,
+                            RentPerBook = 6.0
                         });
                 });
 
@@ -386,6 +466,30 @@ namespace MiniProjectApp.Migrations
                             BookId = 3,
                             PricePerBook = 10.0,
                             QuantityInStock = 10
+                        },
+                        new
+                        {
+                            BookId = 4,
+                            PricePerBook = 40.0,
+                            QuantityInStock = 8
+                        },
+                        new
+                        {
+                            BookId = 5,
+                            PricePerBook = 60.0,
+                            QuantityInStock = 6
+                        },
+                        new
+                        {
+                            BookId = 6,
+                            PricePerBook = 25.0,
+                            QuantityInStock = 12
+                        },
+                        new
+                        {
+                            BookId = 7,
+                            PricePerBook = 20.0,
+                            QuantityInStock = 15
                         });
                 });
 

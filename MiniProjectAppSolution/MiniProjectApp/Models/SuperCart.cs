@@ -1,6 +1,6 @@
 ﻿namespace MiniProjectApp.Models
 {
-    public class NormalCart
+    public class SuperCart
     {
         public int UserId { get; set; }
 

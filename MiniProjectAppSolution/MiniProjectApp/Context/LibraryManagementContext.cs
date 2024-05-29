@@ -37,23 +37,37 @@ namespace MiniProjectApp.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Book>().HasData(
-              new Book() { Id=1, Title="Ben 10", Author="Leo", Category="Thriller", Description = "xyz" },
-              new Book() { Id = 2, Title = "Aerodynamics", Author = "Ralph", Category = "Education", Description = "xyz" },
-               new Book() { Id = 3, Title = "Spiderman", Author = "Stan Lee", Category = "Comic", Description = "xyz" }
-              );
+     new Book() { Id = 1, Title = "To Kill a Mockingbird", Author = "Harper Lee", Category = "Fiction", Description = "A novel about the serious issues of rape and racial inequality." },
+     new Book() { Id = 2, Title = "1984", Author = "George Orwell", Category = "Dystopian", Description = "A story set in a totalitarian society ruled by Big Brother." },
+     new Book() { Id = 3, Title = "The Great Gatsby", Author = "F. Scott Fitzgerald", Category = "Classic", Description = "A novel about the American dream and the roaring twenties." },
+     new Book() { Id = 4, Title = "Moby Dick", Author = "Herman Melville", Category = "Adventure", Description = "A sea captain's journey to hunt the white whale, Moby Dick." },
+     new Book() { Id = 5, Title = "Pride and Prejudice", Author = "Jane Austen", Category = "Romance", Description = "A romantic novel that critiques the British landed gentry at the end of the 18th century." },
+     new Book() { Id = 6, Title = "The Catcher in the Rye", Author = "J.D. Salinger", Category = "Fiction", Description = "A novel about teenage rebellion and angst." },
+     new Book() { Id = 7, Title = "The Hobbit", Author = "J.R.R. Tolkien", Category = "Fantasy", Description = "A fantasy novel about the adventures of Bilbo Baggins." },
+     new Book() { Id = 8, Title = "Brave New World", Author = "Aldous Huxley", Category = "Science Fiction", Description = "A dystopian novel set in a futuristic society." },
+     new Book() { Id = 9, Title = "War and Peace", Author = "Leo Tolstoy", Category = "Historical Fiction", Description = "A novel that intertwines the lives of five families during the Napoleonic Wars." },
+     new Book() { Id = 10, Title = "The Alchemist", Author = "Paulo Coelho", Category = "Philosophical Fiction", Description = "A novel about a young shepherd's journey to find treasure." }
+ );
 
             modelBuilder.Entity<SalesStock>().HasData(
-               new SalesStock() { BookId = 1, PricePerBook=30, QuantityInStock=10 },
-               new SalesStock() { BookId = 2, PricePerBook = 50, QuantityInStock = 5 },
-                new SalesStock() { BookId = 3, PricePerBook = 10, QuantityInStock = 10 }
-               );
-
+     new SalesStock() { BookId = 1, PricePerBook = 30, QuantityInStock = 10 },
+     new SalesStock() { BookId = 2, PricePerBook = 50, QuantityInStock = 5 },
+     new SalesStock() { BookId = 3, PricePerBook = 10, QuantityInStock = 10 },
+     new SalesStock() { BookId = 4, PricePerBook = 40, QuantityInStock = 8 },
+     new SalesStock() { BookId = 5, PricePerBook = 60, QuantityInStock = 6 },
+     new SalesStock() { BookId = 6, PricePerBook = 25, QuantityInStock = 12 },
+     new SalesStock() { BookId = 7, PricePerBook = 20, QuantityInStock = 15 }
+ );
 
             modelBuilder.Entity<RentStock>().HasData(
-              new RentStock() { BookId = 1,  RentPerBook = 5, QuantityInStock = 10 },
-              new RentStock() { BookId = 2, RentPerBook = 10, QuantityInStock = 10 },
-              new RentStock() { BookId = 3, RentPerBook = 15, QuantityInStock = 10 }
-              );
+                new RentStock() { BookId = 1, RentPerBook = 5, QuantityInStock = 10 },
+                new RentStock() { BookId = 2, RentPerBook = 10, QuantityInStock = 10 },
+                new RentStock() { BookId = 3, RentPerBook = 15, QuantityInStock = 10 },
+                new RentStock() { BookId = 4, RentPerBook = 8, QuantityInStock = 10 },
+                new RentStock() { BookId = 5, RentPerBook = 12, QuantityInStock = 8 },
+                new RentStock() { BookId = 6, RentPerBook = 7, QuantityInStock = 10 },
+                new RentStock() { BookId = 7, RentPerBook = 6, QuantityInStock = 12 }
+            );
 
 
 

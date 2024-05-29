@@ -16,8 +16,27 @@ select * from RentStocks
 select * from Rents
 select * from RentDetails
 
-update RentStocks set QuantityInStock = 9 where BookId=2;
+select * from fines
 
 
 
-delete from SalesStocks
+update Fines set Status = 'Fine to be paid' ;
+
+
+
+delete from RentStocks
+
+
+
+
+
+
+
+
+
+
+
+
+
+use dbEmployeeTracker
+drop database LibraryManagement
