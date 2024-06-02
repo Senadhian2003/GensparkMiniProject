@@ -13,7 +13,15 @@ namespace MiniProjectApp.Models
 
         public DateTime DateOfSale { get; set; }
 
-        public double Amount { get; set; }
+        public int NoOfBooks { get; set; }
+
+        public double Total { get; set; }
+
+        public double Discount { get; set; }
+
+        public double FinalAmount { get; set; }
+
+
 
         public List<SaleDetail>? SaleDetailList { get; set; }
 

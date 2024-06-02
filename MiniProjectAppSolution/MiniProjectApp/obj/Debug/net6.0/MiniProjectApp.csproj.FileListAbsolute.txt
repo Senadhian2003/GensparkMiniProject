@@ -69,3 +69,6 @@ C:\MyPersonalFiles\GensparkTraining\MiniProject\MiniProjectAppSolution\MiniProje
 C:\MyPersonalFiles\GensparkTraining\MiniProject\MiniProjectAppSolution\MiniProjectApp\obj\Debug\net6.0\ref\MiniProjectApp.dll
 C:\MyPersonalFiles\GensparkTraining\MiniProject\MiniProjectAppSolution\MiniProjectApp\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\MyPersonalFiles\GensparkTraining\MiniProject\MiniProjectAppSolution\MiniProjectApp\bin\Debug\net6.0\Microsoft.IdentityModel.Abstractions.dll
+C:\MyPersonalFiles\GensparkTraining\MiniProject\MiniProjectAppSolution\MiniProjectApp\bin\Debug\net6.0\Log4net.Config
+C:\MyPersonalFiles\GensparkTraining\MiniProject\MiniProjectAppSolution\MiniProjectApp\bin\Debug\net6.0\log4net.dll
+C:\MyPersonalFiles\GensparkTraining\MiniProject\MiniProjectAppSolution\MiniProjectApp\bin\Debug\net6.0\Microsoft.Extensions.Logging.Log4Net.AspNetCore.dll

@@ -9,5 +9,7 @@ namespace MiniProjectApp.BussinessLogics.Services
         public Task<LoginReturnDTO> Login(UserLoginDTO loginDTO);
         public Task<User> Register(UserRegisterDTO registerDTO);
 
+        public Task<PremiumUserDTO> UpgradeToPremium(int userId);
+
     }
 }

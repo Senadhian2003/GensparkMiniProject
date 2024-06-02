@@ -19,6 +19,9 @@ namespace MiniProjectApp.Models
         public Book Book { get; set; }
         public int RentId { get; set; }
 
+        public DateTime DueDate { get; set; }
+
+        public int IsFined { get; set; }
 
 
     }

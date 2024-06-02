@@ -18,11 +18,17 @@ namespace MiniProjectApp.Models
 
         public int NumberOfBooksFined { get; set; }
 
+        public int NumbeOfBooksPaidFine { get; set; }
+
         public double FineAmount { get; set; }
+
+        public double FinePending { get; set; }
 
         public string Status { get; set; }
 
         public DateTime? FinePaidDate { get; set; }
+
+        
 
 
     }

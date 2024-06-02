@@ -1,0 +1,32 @@
+Admin Services
+
+Purchase Books
+View Purchases
+View One Purchase Detail
+Rent Books to User
+Return Books from User
+View Fines
+View Unpaid Fines
+Pay Fine
+Validate User
+
+User Services
+
+View Books for sale
+View items in Sales cart
+View items in Rent cart
+View items in Super Rent Cart
+Add items to cart
+Remove items from cart
+Delete items from cart
+Checkout cart
+Give feedback for a book
+View feedbacks for a book
+view purchase orders
+View one purchase order details
+
+
+
+
+Fines user exception
+

@@ -1,43 +1,67 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using MiniProjectApp.BussinessLogics.Interfaces;
-using MiniProjectApp.Exceptions;
-using MiniProjectApp.Models;
+﻿using MiniProjectApp.Exceptions;
 using MiniProjectApp.Models.DTO;
+using MiniProjectApp.Models;
 using MiniProjectApp.Repositories;
+using MiniProjectApp.Services.Interfaces;
 using MiniProjectApp.Repositories.Interface;
 
-namespace MiniProjectApp.BussinessLogics
+namespace MiniProjectApp.Services
 {
-    public class UserServices : IUserServices
+    public class CartServices : ICartServices
     {
 
         private readonly IRepository<int, User> _userRepository;
         private readonly IRepository<int, SalesStock> _saleStockRepository;
         private readonly ICompositeKeyRepository<int, Cart> _CartRepository;
         private readonly ITransactionRepository _transactionRepository;
-        private readonly IRepository<int,Sale> _saleRepository;
-        private readonly ICompositeKeyRepository<int,SaleDetail> _saleDetailRepository;
-        private readonly IRepository<int, Feedback> _feedbackRepository;
-        private readonly IRepository<int, Book> _bookRepository;
-        public UserServices(IRepository<int, User> userRepository, ICompositeKeyRepository<int, Cart> CartRepository, IRepository<int, SalesStock> saleStockRepository,ITransactionRepository transactionRepository, IRepository<int, Sale> saleRepository, ICompositeKeyRepository<int, SaleDetail> saleDetailRepository, IRepository<int, Feedback> feedbackRepository, IRepository<int,Book> bookRepository)
-        {
+        private readonly IRepository<int, Sale> _saleRepository;
+        private readonly ICompositeKeyRepository<int, SaleDetail> _saleDetailRepository;
+        private readonly IRepository<int,UserCredential> _userCredentialRepository;
 
+        public CartServices(IRepository<int, User> userRepository,IRepository<int,UserCredential> userCredentialRepository, ICompositeKeyRepository<int, Cart> CartRepository, IRepository<int, SalesStock> saleStockRepository, ITransactionRepository transactionRepository, IRepository<int, Sale> saleRepository, ICompositeKeyRepository<int, SaleDetail> saleDetailRepository)
+        {
             _userRepository = userRepository;
             _CartRepository = CartRepository;
             _saleStockRepository = saleStockRepository;
             _transactionRepository = transactionRepository;
             _saleRepository = saleRepository;
             _saleDetailRepository = saleDetailRepository;
-            _feedbackRepository = feedbackRepository;
-            _bookRepository = bookRepository;
+            _userCredentialRepository = userCredentialRepository;
+        }
+
+        public async Task<bool> CheckUserStatus(int userId)
+        {
+            UserCredential userCredential = await _userCredentialRepository.GetByKey(userId);
+
+            if (userCredential.Status == "Disabled")
+            {
+                return true;
+            }
+
+            return false;
+
+        }
+
+        public async Task<Cart> RemoveItemFromCart(int userId, int BookId)
+        {
+            if (await CheckUserStatus(userId))
+            {
+                throw new FineNotPaidException();
+            }
+            Cart cartItem = await _CartRepository.DeleteByKey(userId, BookId);
+            return cartItem;
         }
 
         public async Task<Cart> AddItemToCart(int userId, int bookId, int quantity)
         {
+            if (await CheckUserStatus(userId))
+            {
+                throw new FineNotPaidException();
+            }
+
             User user = await _userRepository.GetByKey(userId);
 
-            if(user == null)
+            if (user == null)
             {
                 throw new ElementNotFoundException("User");
             }
@@ -46,14 +70,14 @@ namespace MiniProjectApp.BussinessLogics
 
             if (saleItem.QuantityInStock < quantity)
             {
-                throw new OutOfStockException(quantity-saleItem.QuantityInStock);
+                throw new OutOfStockException(quantity - saleItem.QuantityInStock);
 
             }
             Cart cartItem;
 
             cartItem = await _CartRepository.GetByKey(userId, bookId);
 
-            if(cartItem!=null)
+            if (cartItem != null)
             {
                 cartItem.Quantity = quantity;
                 cartItem.Price = saleItem.PricePerBook * quantity;
@@ -73,6 +97,11 @@ namespace MiniProjectApp.BussinessLogics
 
         public async Task<int> CheckoutCart(int userId)
         {
+            if (await CheckUserStatus(userId))
+            {
+                throw new FineNotPaidException();
+            }
+
             try
             {
 
@@ -91,8 +120,6 @@ namespace MiniProjectApp.BussinessLogics
                 Sale sale = new Sale();
                 sale.UserId = user.Id;
                 sale.DateOfSale = DateTime.UtcNow;
-                
-
                 await _saleRepository.Add(sale);
 
                 foreach (var item in cartItems)
@@ -117,12 +144,23 @@ namespace MiniProjectApp.BussinessLogics
                     await _saleDetailRepository.Add(saleDetail);
 
                     // Update stock
-                  
+
                     book.QuantityInStock -= item.Quantity;
                     await _saleStockRepository.Update(book);
                     await _CartRepository.DeleteByKey(item.UserId, item.BookId);
                 }
-                sale.Amount = total;
+
+                sale.Total = total;
+                
+                if(user.Role=="Premium User")
+                {
+                    sale.Discount = 0.4*total; 
+                    sale.FinalAmount = total - (0.4*total);
+                }
+                else
+                {
+                    sale.FinalAmount = total;
+                }
                 await _saleRepository.Update(sale);
                 await _transactionRepository.CommitTransactionAsync();
                 return sale.SaleId;
@@ -144,7 +182,7 @@ namespace MiniProjectApp.BussinessLogics
 
             var cartItems = user.CartItems.ToList();
 
-            if(cartItems.Count > 0)
+            if (cartItems.Count > 0)
             {
                 ViewCartDTO result = MapCartItemsToViewCartDTO(cartItems);
 
@@ -186,10 +224,10 @@ namespace MiniProjectApp.BussinessLogics
 
         public ViewCartDTO MapCartItemsToViewCartDTO(List<Cart> cartItems)
         {
-            double amount =0;
+            double amount = 0;
             List<CartItemDTO> cartItemDTOs = new List<CartItemDTO>();
             ViewCartDTO result = new ViewCartDTO();
-            foreach(Cart cartItem in cartItems)
+            foreach (Cart cartItem in cartItems)
             {
                 CartItemDTO dto = new CartItemDTO();
 
@@ -207,114 +245,6 @@ namespace MiniProjectApp.BussinessLogics
 
             return result;
 
-
-        }
-
-
-        public async Task<List<SalesStock>> GetCurrentSaleBooks()
-        {
-
-            var saleItems = await _saleStockRepository.GetAll();
-
-            if(saleItems.Any())
-            {
-                return saleItems.ToList();
-            }
-
-            throw new EmptyListException("Sales Books");
-        }
-
-        public async Task<Cart> RemoveItemFromCart(int userId, int BookId)
-        {
-            Cart cartItem = await _CartRepository.DeleteByKey(userId, BookId);
-
-            return cartItem;
-
-            
-        }
-
-        public async Task<Feedback> GiveFeedback(GiveFeedback dto)
-        {
-            User user = await _userRepository.GetByKey(dto.UserId);
-            Book book = await _bookRepository.GetByKey(dto.BookId);
-
-            Feedback feedback = new Feedback
-            {
-                UserId = dto.UserId,
-                BookId = dto.BookId,
-                Message = dto.Message,
-                Rating = dto.Rating,
-            };
-
-            await _feedbackRepository.Add(feedback);
-
-            return feedback;
-
-            
-        }
-
-        public async Task<ViewFeedbackDTO> GetFeedbackItems(int BookId)
-        {
-            var feedbacks = await _feedbackRepository.GetAll();
-
-            var bookFeedback = feedbacks.Where(f=> f.BookId == BookId);
-
-            if(bookFeedback.Count()==0)
-            {
-                throw new NoFeedbackException(BookId);
-            }
-
-            ViewFeedbackDTO viewFeedbackDTO = new ViewFeedbackDTO();
-            List<FeedbackDTO> feedbackDTOs = new List<FeedbackDTO>(); 
-            int cnt = 0;
-            double totalRating = 0;
-            foreach(var feedback in bookFeedback)
-            {
-                FeedbackDTO dto = new FeedbackDTO();
-
-                dto.UserId = feedback.UserId;
-                dto.Message = feedback.Message;
-                dto.Rating = feedback.Rating;
-                totalRating+= feedback.Rating;
-                cnt++;
-                feedbackDTOs.Add(dto);
-
-            }
-
-
-            viewFeedbackDTO.AverageRating = totalRating/cnt;
-            viewFeedbackDTO.feedbacks = feedbackDTOs;
-
-            return viewFeedbackDTO;
-           
-        }
-
-
-
-        public async Task<List<Sale>> ViewOrders(int UserId)
-        {
-            User user = await _userRepository.GetByKey(UserId);
-           var sales = await _saleRepository.GetAll();
-
-            var userSales = sales.Where(sales=> sales.UserId == UserId);
-
-            if(userSales.Count()==0)
-            {
-                throw new EmptyListException("Sales");
-            }
-
-            return userSales.ToList();
-
-        }
-
-        public async Task<List<SaleDetail>> ViewOrderDetail(int saleId)
-        {
-
-            var sale = await _saleRepository.GetByKey(saleId);
-
-            var saleDetails = sale.SaleDetailList;
-
-            return saleDetails.ToList();
 
         }
 

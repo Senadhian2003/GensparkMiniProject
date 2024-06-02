@@ -19,6 +19,7 @@ select * from Rents
 select * from RentDetails
 
 select * from fines
+select * from FineDetails
 
 
 
@@ -26,7 +27,7 @@ update Fines set Status = 'Fine to be paid' ;
 
 
 
-delete from RentCart
+delete from SuperRentCart where rentId in (16,18);
 
 
 

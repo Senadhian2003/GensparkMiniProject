@@ -42,7 +42,7 @@ namespace MiniProjectApp.Repositories
                 return userCredentials;
             }
 
-            throw new ElementNotFoundException("UserCredential");
+            return null;
         }
 
         public async Task<IEnumerable<UserCredential>> GetAll()

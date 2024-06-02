@@ -34,6 +34,8 @@ namespace MiniProjectApp.Context
 
         public DbSet<Fine> Fines { get; set; }
 
+        public DbSet<FineDetail> FineDetails { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -88,8 +90,12 @@ namespace MiniProjectApp.Context
 
             modelBuilder.Entity<PurchaseDetail>()
                .HasKey(pd => new { pd.PurchaseId, pd.BookId });
+
             modelBuilder.Entity<RentDetail>()
               .HasKey(rd => new { rd.RentId, rd.BookId });
+
+            modelBuilder.Entity<FineDetail>()
+             .HasKey(fd => new { fd.RentId, fd.BookId });
 
             // Configure the relationship
             modelBuilder.Entity<Cart>()

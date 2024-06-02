@@ -9,6 +9,8 @@ using MiniProjectApp.Context;
 using MiniProjectApp.Models;
 using MiniProjectApp.Repositories;
 using MiniProjectApp.Repositories.Interface;
+using MiniProjectApp.Services;
+using MiniProjectApp.Services.Interfaces;
 using System.Text;
 
 namespace MiniProjectApp
@@ -24,6 +26,7 @@ namespace MiniProjectApp
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddLogging(l => l.AddLog4Net());
             builder.Services.AddSwaggerGen();
             builder.Services.AddDbContext<LibraryManagementContext>(
              options => options.UseSqlServer(builder.Configuration.GetConnectionString("defaultConnection"))
@@ -75,7 +78,7 @@ namespace MiniProjectApp
 
 
 
-
+            #region
             builder.Services.AddScoped<IRepository<int, User>, UserRepository>();
             builder.Services.AddScoped<ICompositeKeyRepository<int,Cart>, CartRepository>();
             builder.Services.AddScoped<IRepository<int, UserCredential>, UserCredentialRepository>();
@@ -95,9 +98,18 @@ namespace MiniProjectApp
             builder.Services.AddScoped<IRepository<int, Rent>, RentRepository>();
             builder.Services.AddScoped<ICompositeKeyRepository<int, RentDetail>, RentDetailRepository>();
             builder.Services.AddScoped<IRepository<int, Fine>, FineRepository>();
+            builder.Services.AddScoped<ICompositeKeyRepository<int, FineDetail>, FineDetailRepository>();
             builder.Services.AddScoped<ICompositeKeyRepository<int, RentCart>, RentCartRepository>();
             builder.Services.AddScoped<ICompositeKeyRepository<int, SuperRentCart>, SuperRentCartRepository>();
+            #endregion
 
+            builder.Services.AddScoped<IBookServices, BookServices>();
+            builder.Services.AddScoped<ICartServices, CartServices>();
+            builder.Services.AddScoped <IPurchaseServices, PurchaseServices>();
+            builder.Services.AddScoped <IFineServices, FineServices>();
+            builder.Services.AddScoped <IRentServices, RentServices>();
+            builder.Services.AddScoped <ISaleServices, SaleServices>();
+            builder.Services.AddScoped <IUserValidationService, UserValidationService>();
 
 
 

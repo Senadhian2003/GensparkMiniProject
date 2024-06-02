@@ -2,6 +2,7 @@
 using MiniProjectApp.Exceptions;
 using MiniProjectApp.Models;
 using MiniProjectApp.Models.DTO;
+using MiniProjectApp.Repositories;
 using MiniProjectApp.Repositories.Interface;
 using System.Security.Cryptography;
 using System.Text;
@@ -13,13 +14,14 @@ namespace MiniProjectApp.BussinessLogics
         private readonly IRepository<int, User> _userRepo;
         private readonly IRepository<int, UserCredential> _userCredentialRepo;
         private readonly ITokenService _tokenService;
+       
 
         public AuthBL(IRepository<int, User> userRepo, IRepository<int, UserCredential> userCredentialRepo, ITokenService tokenService)
         {   
             _userRepo = userRepo;
             _userCredentialRepo = userCredentialRepo;
             _tokenService = tokenService;
-
+            
         }
 
 
@@ -130,6 +132,21 @@ namespace MiniProjectApp.BussinessLogics
         }
 
 
+        public async Task<PremiumUserDTO> UpgradeToPremium(int userId)
+        {
+            User user = await _userRepo.GetByKey(userId);
+
+            user.Role = "Premium User";
+
+            await _userRepo.Update(user);
+
+            PremiumUserDTO dto = new PremiumUserDTO();
+            dto.UserId = userId;
+            dto.Role = user.Role;
+            return dto;
+
+        }
+       
 
 
     }

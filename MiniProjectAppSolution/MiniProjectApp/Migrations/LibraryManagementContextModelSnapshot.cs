@@ -197,6 +197,12 @@ namespace MiniProjectApp.Migrations
                     b.Property<DateTime?>("FinePaidDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<double>("FinePending")
+                        .HasColumnType("float");
+
+                    b.Property<int>("NumbeOfBooksPaidFine")
+                        .HasColumnType("int");
+
                     b.Property<int>("NumberOfBooksFined")
                         .HasColumnType("int");
 
@@ -210,6 +216,33 @@ namespace MiniProjectApp.Migrations
                     b.HasKey("RentId");
 
                     b.ToTable("Fines");
+                });
+
+            modelBuilder.Entity("MiniProjectApp.Models.FineDetail", b =>
+                {
+                    b.Property<int>("RentId")
+                        .HasColumnType("int")
+                        .HasColumnOrder(0);
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("int")
+                        .HasColumnOrder(1);
+
+                    b.Property<double>("FineAmount")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime?>("FinePaidDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("RentId", "BookId");
+
+                    b.HasIndex("BookId");
+
+                    b.ToTable("FineDetails");
                 });
 
             modelBuilder.Entity("MiniProjectApp.Models.Purchase", b =>
@@ -308,6 +341,12 @@ namespace MiniProjectApp.Migrations
                     b.Property<int>("BookId")
                         .HasColumnType("int")
                         .HasColumnOrder(1);
+
+                    b.Property<DateTime>("DueDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("IsFined")
+                        .HasColumnType("int");
 
                     b.Property<int>("RentId")
                         .HasColumnType("int");
@@ -414,11 +453,20 @@ namespace MiniProjectApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SaleId"), 1L, 1);
 
-                    b.Property<double>("Amount")
-                        .HasColumnType("float");
-
                     b.Property<DateTime>("DateOfSale")
                         .HasColumnType("datetime2");
+
+                    b.Property<double>("Discount")
+                        .HasColumnType("float");
+
+                    b.Property<double>("FinalAmount")
+                        .HasColumnType("float");
+
+                    b.Property<int>("NoOfBooks")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Total")
+                        .HasColumnType("float");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -523,6 +571,12 @@ namespace MiniProjectApp.Migrations
                         .HasColumnType("int")
                         .HasColumnOrder(1);
 
+                    b.Property<DateTime>("DueDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("IsFined")
+                        .HasColumnType("int");
+
                     b.Property<int>("RentId")
                         .HasColumnType("int");
 
@@ -625,6 +679,25 @@ namespace MiniProjectApp.Migrations
                         .HasForeignKey("MiniProjectApp.Models.Fine", "RentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Rent");
+                });
+
+            modelBuilder.Entity("MiniProjectApp.Models.FineDetail", b =>
+                {
+                    b.HasOne("MiniProjectApp.Models.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MiniProjectApp.Models.Rent", "Rent")
+                        .WithMany()
+                        .HasForeignKey("RentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
 
                     b.Navigation("Rent");
                 });

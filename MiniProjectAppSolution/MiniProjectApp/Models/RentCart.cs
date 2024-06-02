@@ -21,5 +21,10 @@ namespace MiniProjectApp.Models
 
         public int RentId { get; set; }
 
+        public DateTime DueDate { get; set; }
+
+        public int IsFined { get; set; }
+
+
     }
 }
