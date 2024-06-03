@@ -610,6 +610,29 @@ namespace MiniProjectApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Spidey",
+                            Phone = "8378499039",
+                            Role = "Admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Peter Parker",
+                            Phone = "8293377843",
+                            Role = "User"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Ben Parker",
+                            Phone = "3847299304",
+                            Role = "Premium User"
+                        });
                 });
 
             modelBuilder.Entity("MiniProjectApp.Models.UserCredential", b =>
@@ -632,6 +655,29 @@ namespace MiniProjectApp.Migrations
                     b.HasKey("UserId");
 
                     b.ToTable("UserCredentials");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1,
+                            HashKey = new byte[] { 120, 121, 122 },
+                            Password = new byte[] { 115, 116, 114, 105, 110, 103 },
+                            Status = "Active"
+                        },
+                        new
+                        {
+                            UserId = 2,
+                            HashKey = new byte[] { 120, 121, 122 },
+                            Password = new byte[] { 115, 116, 114, 105, 110, 103 },
+                            Status = "Active"
+                        },
+                        new
+                        {
+                            UserId = 3,
+                            HashKey = new byte[] { 120, 121, 122 },
+                            Password = new byte[] { 115, 116, 114, 105, 110, 103 },
+                            Status = "Active"
+                        });
                 });
 
             modelBuilder.Entity("MiniProjectApp.Models.Cart", b =>

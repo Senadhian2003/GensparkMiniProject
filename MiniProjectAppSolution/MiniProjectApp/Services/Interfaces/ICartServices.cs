@@ -10,7 +10,7 @@ namespace MiniProjectApp.Services.Interfaces
 
         public Task<Cart> RemoveItemFromCart(int userId, int BookId);
 
-        public Task<int> CheckoutCart(int userId);
+        public Task<Sale> CheckoutCart(int userId);
 
         public Task<ViewCartDTO> GetCartItems(int userId);
 

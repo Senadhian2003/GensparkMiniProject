@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MiniProjectApp.Models;
+using System.Text;
 
 namespace MiniProjectApp.Context
 {
@@ -72,6 +73,18 @@ namespace MiniProjectApp.Context
                 new RentStock() { BookId = 6, RentPerBook = 7, QuantityInStock = 10 },
                 new RentStock() { BookId = 7, RentPerBook = 6, QuantityInStock = 12 }
             );
+
+            modelBuilder.Entity<User>().HasData(
+             new User() { Id=1, Name="Spidey", Phone="8378499039", Role="Admin"},
+             new User() { Id=2, Name="Peter Parker", Phone= "8293377843", Role = "User"},
+              new User() { Id = 3, Name = "Ben Parker", Phone = "3847299304", Role = "Premium User" }
+           );
+
+            modelBuilder.Entity<UserCredential>().HasData(
+            new UserCredential() { UserId=1, Password= Encoding.UTF8.GetBytes("string"), HashKey= Encoding.UTF8.GetBytes("xyz"), Status="Active" },
+            new UserCredential() { UserId = 2, Password = Encoding.UTF8.GetBytes("string"), HashKey = Encoding.UTF8.GetBytes("xyz"), Status = "Active" },
+            new UserCredential() { UserId = 3, Password = Encoding.UTF8.GetBytes("string"), HashKey = Encoding.UTF8.GetBytes("xyz"), Status = "Active" }
+          );
 
 
 

@@ -83,14 +83,14 @@ namespace MiniProjectApp.Controllers
 
 
         [HttpPost("CheckoutCart")]
-        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Sale), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<int>> ChecckoutCart(CheckoutCartDTO dto)
         {
             try
             {
-                int saleId = await _cartServices.CheckoutCart(dto.UserId);
-                return Ok(saleId);
+                var sale = await _cartServices.CheckoutCart(dto.UserId);
+                return Ok(sale);
             }
             catch (Exception ex)
             {

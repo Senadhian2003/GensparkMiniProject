@@ -8,7 +8,7 @@ Select * from SalesStocks;
 Select * from Cart;
 select * from RentCart;
 select * from superRentCart;
-select * from Sales;
+select * from Sales;	
 Select * from SaleDetails;
 select * from Feedbacks
 select * from Purchases
@@ -27,7 +27,7 @@ update Fines set Status = 'Fine to be paid' ;
 
 
 
-delete from SuperRentCart where rentId in (16,18);
+delete from UserCredentials ;
 
 
 

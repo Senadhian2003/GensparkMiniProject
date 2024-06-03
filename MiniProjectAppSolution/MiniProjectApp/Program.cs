@@ -11,10 +11,12 @@ using MiniProjectApp.Repositories;
 using MiniProjectApp.Repositories.Interface;
 using MiniProjectApp.Services;
 using MiniProjectApp.Services.Interfaces;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 namespace MiniProjectApp
 {
+    [ExcludeFromCodeCoverage]
     public class Program
     {
         public static void Main(string[] args)
@@ -78,6 +80,7 @@ namespace MiniProjectApp
 
 
 
+
             #region
             builder.Services.AddScoped<IRepository<int, User>, UserRepository>();
             builder.Services.AddScoped<ICompositeKeyRepository<int,Cart>, CartRepository>();
@@ -122,7 +125,9 @@ namespace MiniProjectApp
                 app.UseSwaggerUI();
             }
 
+            app.UseAuthentication();
             app.UseAuthorization();
+          
 
 
             app.MapControllers();

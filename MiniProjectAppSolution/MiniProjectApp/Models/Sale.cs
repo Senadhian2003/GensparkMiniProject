@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace MiniProjectApp.Models
 {
@@ -9,6 +10,7 @@ namespace MiniProjectApp.Models
         public int SaleId { get; set; }
         public int UserId { get; set; }
         [ForeignKey(nameof(UserId))]
+        [JsonIgnore]
         public User User { get; set; }
 
         public DateTime DateOfSale { get; set; }

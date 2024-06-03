@@ -29,44 +29,49 @@ namespace MiniProjectApp.Services
             _userCredentialRepository = userCredentialRepository;
         }
 
-        public async Task<bool> CheckUserStatus(int userId)
-        {
-            UserCredential userCredential = await _userCredentialRepository.GetByKey(userId);
+        //public async Task<bool> CheckUserStatus(int userId)
+        //{
+        //    UserCredential userCredential = await _userCredentialRepository.GetByKey(userId);
 
-            if (userCredential.Status == "Disabled")
-            {
-                return true;
-            }
+        //    if (userCredential.Status == "Disabled")
+        //    {
+        //        return true;
+        //    }
 
-            return false;
+        //    return false;
 
-        }
+        //}
 
         public async Task<Cart> RemoveItemFromCart(int userId, int BookId)
         {
-            if (await CheckUserStatus(userId))
-            {
-                throw new FineNotPaidException();
-            }
+            //if (await CheckUserStatus(userId))
+            //{
+            //    throw new FineNotPaidException();
+            //}
             Cart cartItem = await _CartRepository.DeleteByKey(userId, BookId);
             return cartItem;
         }
 
         public async Task<Cart> AddItemToCart(int userId, int bookId, int quantity)
         {
-            if (await CheckUserStatus(userId))
-            {
-                throw new FineNotPaidException();
-            }
+            //if (await CheckUserStatus(userId))
+            //{
+            //    throw new FineNotPaidException();
+            //}
 
             User user = await _userRepository.GetByKey(userId);
 
-            if (user == null)
-            {
-                throw new ElementNotFoundException("User");
-            }
+            //if (user == null)
+            //{
+            //    throw new ElementNotFoundException("User");
+            //}
 
             SalesStock saleItem = await _saleStockRepository.GetByKey(bookId);
+
+            if (saleItem == null)
+            {
+                throw new ElementNotFoundException("Book");
+            }
 
             if (saleItem.QuantityInStock < quantity)
             {
@@ -95,12 +100,12 @@ namespace MiniProjectApp.Services
             return cartItem;
         }
 
-        public async Task<int> CheckoutCart(int userId)
+        public async Task<Sale> CheckoutCart(int userId)
         {
-            if (await CheckUserStatus(userId))
-            {
-                throw new FineNotPaidException();
-            }
+            //if (await CheckUserStatus(userId))
+            //{
+            //    throw new FineNotPaidException();
+            //}
 
             try
             {
@@ -128,7 +133,7 @@ namespace MiniProjectApp.Services
 
                     if (book == null || book.QuantityInStock < item.Quantity)
                     {
-                        throw new InvalidOperationException($"Book with ID {item.BookId} is out of stock.");
+                        throw new OutOfStockException($"Book with ID {item.BookId} is out of stock.");
                     }
 
 
@@ -161,9 +166,9 @@ namespace MiniProjectApp.Services
                 {
                     sale.FinalAmount = total;
                 }
-                await _saleRepository.Update(sale);
+                //await _saleRepository.Update(sale);
                 await _transactionRepository.CommitTransactionAsync();
-                return sale.SaleId;
+                return sale;
             }
             catch (Exception ex)
             {
@@ -173,7 +178,7 @@ namespace MiniProjectApp.Services
 
 
 
-            throw new NotImplementedException();
+            
         }
 
         public async Task<ViewCartDTO> GetCartItems(int userId)

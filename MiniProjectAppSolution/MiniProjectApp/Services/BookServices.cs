@@ -60,7 +60,7 @@ namespace MiniProjectApp.Services
         public async Task<ViewFeedbackDTO> GetFeedbackItems(int BookId)
         {
             var feedbacks = await _feedbackRepository.GetAll();
-
+            Book book = await _bookRepository.GetByKey(BookId);
             var bookFeedback = feedbacks.Where(f => f.BookId == BookId);
 
             if (bookFeedback.Count() == 0)

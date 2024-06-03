@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MiniProjectApp.Exceptions;
 using MiniProjectApp.Models;
@@ -21,6 +22,7 @@ namespace MiniProjectApp.Controllers
         
         }
 
+        [Authorize(Roles ="Premium User")]
         [HttpGet("ViewBooksForSale")]
         [ProducesResponseType(typeof(List<SalesStock>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
