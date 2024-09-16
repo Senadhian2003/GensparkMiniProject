@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace MiniProjectApp.Models
 {
@@ -14,11 +15,16 @@ namespace MiniProjectApp.Models
 
         public int BookId { get; set; }
         [ForeignKey(nameof(BookId))]
+        [JsonIgnore]
         public Book Book { get; set; }
+        
+        public string FeedbackHeading { get; set; }
 
         public string Message { get; set; }
 
         public double Rating { get; set; }
+
+        public DateTime FeedbackDate { get; set; }
 
 
     }

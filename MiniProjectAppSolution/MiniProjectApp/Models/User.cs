@@ -13,6 +13,8 @@ namespace MiniProjectApp.Models
 
         public string Role { get; set; }
 
+        public string Status { get; set; }
+
 
         public ICollection<RentCart>? RentCartItems { get; set; }
         public ICollection<SuperRentCart>? SuperRentCartItems { get; set; }

@@ -3,7 +3,11 @@
     public class CartItemDTO
     {
         public int BookId { get; set; }
-        public Book Book { get; set; }
+
+        public byte[]? Image { get; set; }
+        public string BookName { get; set; }
+
+        public string AuthorName { get; set; }
 
         public int Quantity { get; set; }
 

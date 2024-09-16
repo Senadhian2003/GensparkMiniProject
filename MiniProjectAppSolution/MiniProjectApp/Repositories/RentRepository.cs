@@ -47,7 +47,7 @@ namespace MiniProjectApp.Repositories
 
         public async Task<IEnumerable<Rent>> GetAll()
         {
-            var rents = await _context.Rents.Include(r=>r.RentDetailsList).ToListAsync();
+            var rents = await _context.Rents.Include(r=>r.User).Include(r => r.RentDetailsList).ThenInclude(rd => rd.Book).ToListAsync();
 
             if (rents.Any())
             {

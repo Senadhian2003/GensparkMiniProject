@@ -47,7 +47,7 @@ namespace MiniProjectApp.Repositories
 
         public async Task<IEnumerable<Feedback>> GetAll()
         {
-            var feedbacks = await _context.Feedbacks.ToListAsync();
+            var feedbacks = await _context.Feedbacks.Include(f=>f.User).ToListAsync();
 
             if (feedbacks.Any())
             {

@@ -3,32 +3,72 @@
   "WorkspaceRootPath": "C:\\MyPersonalFiles\\GensparkTraining\\MiniProject\\MiniProjectAppSolution\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{670BBFB9-895A-47FC-B791-209E0655C395}|LibraryManagemenTest\\LibraryManagemenTest.csproj|c:\\mypersonalfiles\\gensparktraining\\miniproject\\miniprojectappsolution\\librarymanagementest\\cartservicestest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{670BBFB9-895A-47FC-B791-209E0655C395}|LibraryManagemenTest\\LibraryManagemenTest.csproj|solutionrelative:librarymanagementest\\cartservicestest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F0CAF96E-5894-47AA-8809-ACB06AAE12D6}|MiniProjectApp\\MiniProjectApp.csproj|c:\\mypersonalfiles\\gensparktraining\\miniproject\\miniprojectappsolution\\miniprojectapp\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{F0CAF96E-5894-47AA-8809-ACB06AAE12D6}|MiniProjectApp\\MiniProjectApp.csproj|solutionrelative:miniprojectapp\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F0CAF96E-5894-47AA-8809-ACB06AAE12D6}|MiniProjectApp\\MiniProjectApp.csproj|c:\\mypersonalfiles\\gensparktraining\\miniproject\\miniprojectappsolution\\miniprojectapp\\services\\cartservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F0CAF96E-5894-47AA-8809-ACB06AAE12D6}|MiniProjectApp\\MiniProjectApp.csproj|solutionrelative:miniprojectapp\\services\\cartservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F0CAF96E-5894-47AA-8809-ACB06AAE12D6}|MiniProjectApp\\MiniProjectApp.csproj|c:\\mypersonalfiles\\gensparktraining\\miniproject\\miniprojectappsolution\\miniprojectapp\\controllers\\bookcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F0CAF96E-5894-47AA-8809-ACB06AAE12D6}|MiniProjectApp\\MiniProjectApp.csproj|solutionrelative:miniprojectapp\\controllers\\bookcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F0CAF96E-5894-47AA-8809-ACB06AAE12D6}|MiniProjectApp\\MiniProjectApp.csproj|c:\\mypersonalfiles\\gensparktraining\\miniproject\\miniprojectappsolution\\miniprojectapp\\services\\bookservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F0CAF96E-5894-47AA-8809-ACB06AAE12D6}|MiniProjectApp\\MiniProjectApp.csproj|solutionrelative:miniprojectapp\\services\\bookservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F0CAF96E-5894-47AA-8809-ACB06AAE12D6}|MiniProjectApp\\MiniProjectApp.csproj|c:\\mypersonalfiles\\gensparktraining\\miniproject\\miniprojectappsolution\\miniprojectapp\\miniprojectapp.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{F0CAF96E-5894-47AA-8809-ACB06AAE12D6}|MiniProjectApp\\MiniProjectApp.csproj|solutionrelative:miniprojectapp\\miniprojectapp.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F0CAF96E-5894-47AA-8809-ACB06AAE12D6}|MiniProjectApp\\MiniProjectApp.csproj|c:\\mypersonalfiles\\gensparktraining\\miniproject\\miniprojectappsolution\\miniprojectapp\\controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F0CAF96E-5894-47AA-8809-ACB06AAE12D6}|MiniProjectApp\\MiniProjectApp.csproj|solutionrelative:miniprojectapp\\controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F0CAF96E-5894-47AA-8809-ACB06AAE12D6}|MiniProjectApp\\MiniProjectApp.csproj|c:\\mypersonalfiles\\gensparktraining\\miniproject\\miniprojectappsolution\\miniprojectapp\\services\\interfaces\\icartservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F0CAF96E-5894-47AA-8809-ACB06AAE12D6}|MiniProjectApp\\MiniProjectApp.csproj|solutionrelative:miniprojectapp\\services\\interfaces\\icartservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F0CAF96E-5894-47AA-8809-ACB06AAE12D6}|MiniProjectApp\\MiniProjectApp.csproj|c:\\mypersonalfiles\\gensparktraining\\miniproject\\miniprojectappsolution\\miniprojectapp\\services\\cartservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F0CAF96E-5894-47AA-8809-ACB06AAE12D6}|MiniProjectApp\\MiniProjectApp.csproj|solutionrelative:miniprojectapp\\services\\cartservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F0CAF96E-5894-47AA-8809-ACB06AAE12D6}|MiniProjectApp\\MiniProjectApp.csproj|c:\\mypersonalfiles\\gensparktraining\\miniproject\\miniprojectappsolution\\miniprojectapp\\models\\sale.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F0CAF96E-5894-47AA-8809-ACB06AAE12D6}|MiniProjectApp\\MiniProjectApp.csproj|solutionrelative:miniprojectapp\\models\\sale.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F0CAF96E-5894-47AA-8809-ACB06AAE12D6}|MiniProjectApp\\MiniProjectApp.csproj|c:\\mypersonalfiles\\gensparktraining\\miniproject\\miniprojectappsolution\\miniprojectapp\\services\\fineservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F0CAF96E-5894-47AA-8809-ACB06AAE12D6}|MiniProjectApp\\MiniProjectApp.csproj|solutionrelative:miniprojectapp\\services\\fineservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{670BBFB9-895A-47FC-B791-209E0655C395}|LibraryManagemenTest\\LibraryManagemenTest.csproj|c:\\mypersonalfiles\\gensparktraining\\miniproject\\miniprojectappsolution\\librarymanagementest\\bookservicestest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{670BBFB9-895A-47FC-B791-209E0655C395}|LibraryManagemenTest\\LibraryManagemenTest.csproj|solutionrelative:librarymanagementest\\bookservicestest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F0CAF96E-5894-47AA-8809-ACB06AAE12D6}|MiniProjectApp\\MiniProjectApp.csproj|c:\\mypersonalfiles\\gensparktraining\\miniproject\\miniprojectappsolution\\miniprojectapp\\models\\dto\\addnewbookdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F0CAF96E-5894-47AA-8809-ACB06AAE12D6}|MiniProjectApp\\MiniProjectApp.csproj|solutionrelative:miniprojectapp\\models\\dto\\addnewbookdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{670BBFB9-895A-47FC-B791-209E0655C395}|LibraryManagemenTest\\LibraryManagemenTest.csproj|c:\\mypersonalfiles\\gensparktraining\\miniproject\\miniprojectappsolution\\librarymanagementest\\basesetup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{670BBFB9-895A-47FC-B791-209E0655C395}|LibraryManagemenTest\\LibraryManagemenTest.csproj|solutionrelative:librarymanagementest\\basesetup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F0CAF96E-5894-47AA-8809-ACB06AAE12D6}|MiniProjectApp\\MiniProjectApp.csproj|c:\\mypersonalfiles\\gensparktraining\\miniproject\\miniprojectappsolution\\miniprojectapp\\services\\authbl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F0CAF96E-5894-47AA-8809-ACB06AAE12D6}|MiniProjectApp\\MiniProjectApp.csproj|solutionrelative:miniprojectapp\\services\\authbl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F0CAF96E-5894-47AA-8809-ACB06AAE12D6}|MiniProjectApp\\MiniProjectApp.csproj|c:\\mypersonalfiles\\gensparktraining\\miniproject\\miniprojectappsolution\\miniprojectapp\\exceptions\\emptylistexception.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F0CAF96E-5894-47AA-8809-ACB06AAE12D6}|MiniProjectApp\\MiniProjectApp.csproj|solutionrelative:miniprojectapp\\exceptions\\emptylistexception.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F0CAF96E-5894-47AA-8809-ACB06AAE12D6}|MiniProjectApp\\MiniProjectApp.csproj|c:\\mypersonalfiles\\gensparktraining\\miniproject\\miniprojectappsolution\\miniprojectapp\\models\\rentdetail.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F0CAF96E-5894-47AA-8809-ACB06AAE12D6}|MiniProjectApp\\MiniProjectApp.csproj|solutionrelative:miniprojectapp\\models\\rentdetail.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F0CAF96E-5894-47AA-8809-ACB06AAE12D6}|MiniProjectApp\\MiniProjectApp.csproj|c:\\mypersonalfiles\\gensparktraining\\miniproject\\miniprojectappsolution\\miniprojectapp\\models\\book.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F0CAF96E-5894-47AA-8809-ACB06AAE12D6}|MiniProjectApp\\MiniProjectApp.csproj|solutionrelative:miniprojectapp\\models\\book.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F0CAF96E-5894-47AA-8809-ACB06AAE12D6}|MiniProjectApp\\MiniProjectApp.csproj|c:\\mypersonalfiles\\gensparktraining\\miniproject\\miniprojectappsolution\\miniprojectapp\\models\\dto\\cartitemdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F0CAF96E-5894-47AA-8809-ACB06AAE12D6}|MiniProjectApp\\MiniProjectApp.csproj|solutionrelative:miniprojectapp\\models\\dto\\cartitemdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F0CAF96E-5894-47AA-8809-ACB06AAE12D6}|MiniProjectApp\\MiniProjectApp.csproj|c:\\mypersonalfiles\\gensparktraining\\miniproject\\miniprojectappsolution\\miniprojectapp\\services\\rentservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F0CAF96E-5894-47AA-8809-ACB06AAE12D6}|MiniProjectApp\\MiniProjectApp.csproj|solutionrelative:miniprojectapp\\services\\rentservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F0CAF96E-5894-47AA-8809-ACB06AAE12D6}|MiniProjectApp\\MiniProjectApp.csproj|c:\\mypersonalfiles\\gensparktraining\\miniproject\\miniprojectappsolution\\miniprojectapp\\services\\uservalidationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F0CAF96E-5894-47AA-8809-ACB06AAE12D6}|MiniProjectApp\\MiniProjectApp.csproj|solutionrelative:miniprojectapp\\services\\uservalidationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F0CAF96E-5894-47AA-8809-ACB06AAE12D6}|MiniProjectApp\\MiniProjectApp.csproj|c:\\mypersonalfiles\\gensparktraining\\miniproject\\miniprojectappsolution\\miniprojectapp\\controllers\\finecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F0CAF96E-5894-47AA-8809-ACB06AAE12D6}|MiniProjectApp\\MiniProjectApp.csproj|solutionrelative:miniprojectapp\\controllers\\finecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F0CAF96E-5894-47AA-8809-ACB06AAE12D6}|MiniProjectApp\\MiniProjectApp.csproj|c:\\mypersonalfiles\\gensparktraining\\miniproject\\miniprojectappsolution\\miniprojectapp\\models\\dto\\payfineforonebookdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F0CAF96E-5894-47AA-8809-ACB06AAE12D6}|MiniProjectApp\\MiniProjectApp.csproj|solutionrelative:miniprojectapp\\models\\dto\\payfineforonebookdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,101 +78,219 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "BaseSetup.cs",
-              "DocumentMoniker": "C:\\MyPersonalFiles\\GensparkTraining\\MiniProject\\MiniProjectAppSolution\\LibraryManagemenTest\\BaseSetup.cs",
-              "RelativeDocumentMoniker": "LibraryManagemenTest\\BaseSetup.cs",
-              "ToolTip": "C:\\MyPersonalFiles\\GensparkTraining\\MiniProject\\MiniProjectAppSolution\\LibraryManagemenTest\\BaseSetup.cs",
-              "RelativeToolTip": "LibraryManagemenTest\\BaseSetup.cs",
-              "ViewState": "AQIAACQAAAAAAAAAAAAcwCcAAAAmAAAA",
+              "DocumentIndex": 2,
+              "Title": "BookServices.cs",
+              "DocumentMoniker": "C:\\MyPersonalFiles\\GensparkTraining\\MiniProject\\MiniProjectAppSolution\\MiniProjectApp\\Services\\BookServices.cs",
+              "RelativeDocumentMoniker": "MiniProjectApp\\Services\\BookServices.cs",
+              "ToolTip": "C:\\MyPersonalFiles\\GensparkTraining\\MiniProject\\MiniProjectAppSolution\\MiniProjectApp\\Services\\BookServices.cs",
+              "RelativeToolTip": "MiniProjectApp\\Services\\BookServices.cs",
+              "ViewState": "AQIAAAsAAAAAAAAAAAAAwNIAAAA4AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-03T16:27:57.751Z",
-              "IsPinned": true,
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "CartServicesTest.cs",
-              "DocumentMoniker": "C:\\MyPersonalFiles\\GensparkTraining\\MiniProject\\MiniProjectAppSolution\\LibraryManagemenTest\\CartServicesTest.cs",
-              "RelativeDocumentMoniker": "LibraryManagemenTest\\CartServicesTest.cs",
-              "ToolTip": "C:\\MyPersonalFiles\\GensparkTraining\\MiniProject\\MiniProjectAppSolution\\LibraryManagemenTest\\CartServicesTest.cs",
-              "RelativeToolTip": "LibraryManagemenTest\\CartServicesTest.cs",
-              "ViewState": "AQIAAGYAAAAAAAAAAAAcwHIAAABCAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-03T18:52:12.089Z",
+              "WhenOpened": "2024-06-28T18:18:15.977Z",
               "IsPinned": true,
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "CartServices.cs",
-              "DocumentMoniker": "C:\\MyPersonalFiles\\GensparkTraining\\MiniProject\\MiniProjectAppSolution\\MiniProjectApp\\Services\\CartServices.cs",
-              "RelativeDocumentMoniker": "MiniProjectApp\\Services\\CartServices.cs",
-              "ToolTip": "C:\\MyPersonalFiles\\GensparkTraining\\MiniProject\\MiniProjectAppSolution\\MiniProjectApp\\Services\\CartServices.cs",
-              "RelativeToolTip": "MiniProjectApp\\Services\\CartServices.cs",
-              "ViewState": "AQIAAMoAAAAAAAAAAAAYwIcAAAA1AAAA",
+              "Title": "BookController.cs",
+              "DocumentMoniker": "C:\\MyPersonalFiles\\GensparkTraining\\MiniProject\\MiniProjectAppSolution\\MiniProjectApp\\Controllers\\BookController.cs",
+              "RelativeDocumentMoniker": "MiniProjectApp\\Controllers\\BookController.cs",
+              "ToolTip": "C:\\MyPersonalFiles\\GensparkTraining\\MiniProject\\MiniProjectAppSolution\\MiniProjectApp\\Controllers\\BookController.cs",
+              "RelativeToolTip": "MiniProjectApp\\Controllers\\BookController.cs",
+              "ViewState": "AQIAABIAAAAAAAAAAAAMwBUAAABXAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-03T18:04:19.048Z",
+              "WhenOpened": "2024-06-29T07:54:19.045Z",
               "IsPinned": true,
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "CartController.cs",
-              "DocumentMoniker": "C:\\MyPersonalFiles\\GensparkTraining\\MiniProject\\MiniProjectAppSolution\\MiniProjectApp\\Controllers\\CartController.cs",
-              "RelativeDocumentMoniker": "MiniProjectApp\\Controllers\\CartController.cs",
-              "ToolTip": "C:\\MyPersonalFiles\\GensparkTraining\\MiniProject\\MiniProjectAppSolution\\MiniProjectApp\\Controllers\\CartController.cs",
-              "RelativeToolTip": "MiniProjectApp\\Controllers\\CartController.cs",
-              "ViewState": "AQIAAE8AAAAAAAAAAAAkwFUAAAAmAAAA",
+              "DocumentIndex": 11,
+              "Title": "Book.cs",
+              "DocumentMoniker": "C:\\MyPersonalFiles\\GensparkTraining\\MiniProject\\MiniProjectAppSolution\\MiniProjectApp\\Models\\Book.cs",
+              "RelativeDocumentMoniker": "MiniProjectApp\\Models\\Book.cs",
+              "ToolTip": "C:\\MyPersonalFiles\\GensparkTraining\\MiniProject\\MiniProjectAppSolution\\MiniProjectApp\\Models\\Book.cs",
+              "RelativeToolTip": "MiniProjectApp\\Models\\Book.cs",
+              "ViewState": "AQIAABoAAAAAAAAAAAA7wCYAAAAFAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-03T19:28:47.948Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-28T17:18:28.373Z",
+              "IsPinned": true
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "ICartServices.cs",
-              "DocumentMoniker": "C:\\MyPersonalFiles\\GensparkTraining\\MiniProject\\MiniProjectAppSolution\\MiniProjectApp\\Services\\Interfaces\\ICartServices.cs",
-              "RelativeDocumentMoniker": "MiniProjectApp\\Services\\Interfaces\\ICartServices.cs",
-              "ToolTip": "C:\\MyPersonalFiles\\GensparkTraining\\MiniProject\\MiniProjectAppSolution\\MiniProjectApp\\Services\\Interfaces\\ICartServices.cs",
-              "RelativeToolTip": "MiniProjectApp\\Services\\Interfaces\\ICartServices.cs",
-              "ViewState": "AQIAAAUAAAAAAAAAAAArwAwAAAAmAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-03T19:26:39.718Z",
+              "Title": "MiniProjectApp.csproj",
+              "DocumentMoniker": "C:\\MyPersonalFiles\\GensparkTraining\\MiniProject\\MiniProjectAppSolution\\MiniProjectApp\\MiniProjectApp.csproj",
+              "RelativeDocumentMoniker": "MiniProjectApp\\MiniProjectApp.csproj",
+              "ToolTip": "C:\\MyPersonalFiles\\GensparkTraining\\MiniProject\\MiniProjectAppSolution\\MiniProjectApp\\MiniProjectApp.csproj",
+              "RelativeToolTip": "MiniProjectApp\\MiniProjectApp.csproj",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-07-25T18:12:38.37Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "Sale.cs",
-              "DocumentMoniker": "C:\\MyPersonalFiles\\GensparkTraining\\MiniProject\\MiniProjectAppSolution\\MiniProjectApp\\Models\\Sale.cs",
-              "RelativeDocumentMoniker": "MiniProjectApp\\Models\\Sale.cs",
-              "ToolTip": "C:\\MyPersonalFiles\\GensparkTraining\\MiniProject\\MiniProjectAppSolution\\MiniProjectApp\\Models\\Sale.cs",
-              "RelativeToolTip": "MiniProjectApp\\Models\\Sale.cs",
-              "ViewState": "AQIAAAYAAAAAAAAAAAAxwAwAAAATAAAA",
+              "Title": "CartController.cs",
+              "DocumentMoniker": "C:\\MyPersonalFiles\\GensparkTraining\\MiniProject\\MiniProjectAppSolution\\MiniProjectApp\\Controllers\\CartController.cs",
+              "RelativeDocumentMoniker": "MiniProjectApp\\Controllers\\CartController.cs",
+              "ToolTip": "C:\\MyPersonalFiles\\GensparkTraining\\MiniProject\\MiniProjectAppSolution\\MiniProjectApp\\Controllers\\CartController.cs",
+              "RelativeToolTip": "MiniProjectApp\\Controllers\\CartController.cs",
+              "ViewState": "AQIAABkAAAAAAAAAAAAQwGQAAAA5AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-03T19:26:01.116Z",
+              "WhenOpened": "2024-07-10T17:39:16.907Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "BookServicesTest.cs",
-              "DocumentMoniker": "C:\\MyPersonalFiles\\GensparkTraining\\MiniProject\\MiniProjectAppSolution\\LibraryManagemenTest\\BookServicesTest.cs",
-              "RelativeDocumentMoniker": "LibraryManagemenTest\\BookServicesTest.cs",
-              "ToolTip": "C:\\MyPersonalFiles\\GensparkTraining\\MiniProject\\MiniProjectAppSolution\\LibraryManagemenTest\\BookServicesTest.cs",
-              "RelativeToolTip": "LibraryManagemenTest\\BookServicesTest.cs",
-              "ViewState": "AQIAAB0AAAAAAAAAAAAgwCYAAABTAAAA",
+              "Title": "CartServices.cs",
+              "DocumentMoniker": "C:\\MyPersonalFiles\\GensparkTraining\\MiniProject\\MiniProjectAppSolution\\MiniProjectApp\\Services\\CartServices.cs",
+              "RelativeDocumentMoniker": "MiniProjectApp\\Services\\CartServices.cs",
+              "ToolTip": "C:\\MyPersonalFiles\\GensparkTraining\\MiniProject\\MiniProjectAppSolution\\MiniProjectApp\\Services\\CartServices.cs",
+              "RelativeToolTip": "MiniProjectApp\\Services\\CartServices.cs",
+              "ViewState": "AQIAAB0AAAAAAAAAAAAAwA8AAAAsAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-03T19:05:57.252Z",
+              "WhenOpened": "2024-07-10T11:43:39.056Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\MyPersonalFiles\\GensparkTraining\\MiniProject\\MiniProjectAppSolution\\MiniProjectApp\\appsettings.json",
+              "RelativeDocumentMoniker": "MiniProjectApp\\appsettings.json",
+              "ToolTip": "C:\\MyPersonalFiles\\GensparkTraining\\MiniProject\\MiniProjectAppSolution\\MiniProjectApp\\appsettings.json",
+              "RelativeToolTip": "MiniProjectApp\\appsettings.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAEAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-07-11T09:46:04.34Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "RentDetail.cs",
+              "DocumentMoniker": "C:\\MyPersonalFiles\\GensparkTraining\\MiniProject\\MiniProjectAppSolution\\MiniProjectApp\\Models\\RentDetail.cs",
+              "RelativeDocumentMoniker": "MiniProjectApp\\Models\\RentDetail.cs",
+              "ToolTip": "C:\\MyPersonalFiles\\GensparkTraining\\MiniProject\\MiniProjectAppSolution\\MiniProjectApp\\Models\\RentDetail.cs",
+              "RelativeToolTip": "MiniProjectApp\\Models\\RentDetail.cs",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAABIAAAApAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-15T18:53:41.797Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "FineServices.cs",
+              "DocumentMoniker": "C:\\MyPersonalFiles\\GensparkTraining\\MiniProject\\MiniProjectAppSolution\\MiniProjectApp\\Services\\FineServices.cs",
+              "RelativeDocumentMoniker": "MiniProjectApp\\Services\\FineServices.cs",
+              "ToolTip": "C:\\MyPersonalFiles\\GensparkTraining\\MiniProject\\MiniProjectAppSolution\\MiniProjectApp\\Services\\FineServices.cs",
+              "RelativeToolTip": "MiniProjectApp\\Services\\FineServices.cs",
+              "ViewState": "AQIAAEYAAAAAAAAAAAAUwE4AAABPAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-15T19:55:02.353Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "EmptyListException.cs",
+              "DocumentMoniker": "C:\\MyPersonalFiles\\GensparkTraining\\MiniProject\\MiniProjectAppSolution\\MiniProjectApp\\Exceptions\\EmptyListException.cs",
+              "RelativeDocumentMoniker": "MiniProjectApp\\Exceptions\\EmptyListException.cs",
+              "ToolTip": "C:\\MyPersonalFiles\\GensparkTraining\\MiniProject\\MiniProjectAppSolution\\MiniProjectApp\\Exceptions\\EmptyListException.cs",
+              "RelativeToolTip": "MiniProjectApp\\Exceptions\\EmptyListException.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-11T07:17:03.611Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "AddNewBookDTO.cs",
+              "DocumentMoniker": "C:\\MyPersonalFiles\\GensparkTraining\\MiniProject\\MiniProjectAppSolution\\MiniProjectApp\\Models\\DTO\\AddNewBookDTO.cs",
+              "RelativeDocumentMoniker": "MiniProjectApp\\Models\\DTO\\AddNewBookDTO.cs",
+              "ToolTip": "C:\\MyPersonalFiles\\GensparkTraining\\MiniProject\\MiniProjectAppSolution\\MiniProjectApp\\Models\\DTO\\AddNewBookDTO.cs",
+              "RelativeToolTip": "MiniProjectApp\\Models\\DTO\\AddNewBookDTO.cs",
+              "ViewState": "AQIAAAoAAAAAAAAAAAAQwBQAAAA6AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-09T18:03:25.026Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "PayFineForOneBookDTO.cs",
+              "DocumentMoniker": "C:\\MyPersonalFiles\\GensparkTraining\\MiniProject\\MiniProjectAppSolution\\MiniProjectApp\\Models\\DTO\\PayFineForOneBookDTO.cs",
+              "RelativeDocumentMoniker": "MiniProjectApp\\Models\\DTO\\PayFineForOneBookDTO.cs",
+              "ToolTip": "C:\\MyPersonalFiles\\GensparkTraining\\MiniProject\\MiniProjectAppSolution\\MiniProjectApp\\Models\\DTO\\PayFineForOneBookDTO.cs",
+              "RelativeToolTip": "MiniProjectApp\\Models\\DTO\\PayFineForOneBookDTO.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-15T19:53:50.14Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "CartItemDTO.cs",
+              "DocumentMoniker": "C:\\MyPersonalFiles\\GensparkTraining\\MiniProject\\MiniProjectAppSolution\\MiniProjectApp\\Models\\DTO\\CartItemDTO.cs",
+              "RelativeDocumentMoniker": "MiniProjectApp\\Models\\DTO\\CartItemDTO.cs",
+              "ToolTip": "C:\\MyPersonalFiles\\GensparkTraining\\MiniProject\\MiniProjectAppSolution\\MiniProjectApp\\Models\\DTO\\CartItemDTO.cs",
+              "RelativeToolTip": "MiniProjectApp\\Models\\DTO\\CartItemDTO.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAqAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-16T10:01:38.894Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "UserValidationService.cs",
+              "DocumentMoniker": "C:\\MyPersonalFiles\\GensparkTraining\\MiniProject\\MiniProjectAppSolution\\MiniProjectApp\\Services\\UserValidationService.cs",
+              "RelativeDocumentMoniker": "MiniProjectApp\\Services\\UserValidationService.cs",
+              "ToolTip": "C:\\MyPersonalFiles\\GensparkTraining\\MiniProject\\MiniProjectAppSolution\\MiniProjectApp\\Services\\UserValidationService.cs",
+              "RelativeToolTip": "MiniProjectApp\\Services\\UserValidationService.cs",
+              "ViewState": "AQIAAOcAAAAAAAAAAAAUwPQAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-16T08:17:04.137Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "RentServices.cs",
+              "DocumentMoniker": "C:\\MyPersonalFiles\\GensparkTraining\\MiniProject\\MiniProjectAppSolution\\MiniProjectApp\\Services\\RentServices.cs",
+              "RelativeDocumentMoniker": "MiniProjectApp\\Services\\RentServices.cs",
+              "ToolTip": "C:\\MyPersonalFiles\\GensparkTraining\\MiniProject\\MiniProjectAppSolution\\MiniProjectApp\\Services\\RentServices.cs",
+              "RelativeToolTip": "MiniProjectApp\\Services\\RentServices.cs",
+              "ViewState": "AQIAAMsAAAAAAAAAAAAUwM8AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-16T09:06:31.519Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "AuthBL.cs",
+              "DocumentMoniker": "C:\\MyPersonalFiles\\GensparkTraining\\MiniProject\\MiniProjectAppSolution\\MiniProjectApp\\Services\\AuthBL.cs",
+              "RelativeDocumentMoniker": "MiniProjectApp\\Services\\AuthBL.cs",
+              "ToolTip": "C:\\MyPersonalFiles\\GensparkTraining\\MiniProject\\MiniProjectAppSolution\\MiniProjectApp\\Services\\AuthBL.cs",
+              "RelativeToolTip": "MiniProjectApp\\Services\\AuthBL.cs",
+              "ViewState": "AQIAAHYAAAAAAAAAAADwv4YAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-10T04:04:57.528Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "FineController.cs",
+              "DocumentMoniker": "C:\\MyPersonalFiles\\GensparkTraining\\MiniProject\\MiniProjectAppSolution\\MiniProjectApp\\Controllers\\FineController.cs",
+              "RelativeDocumentMoniker": "MiniProjectApp\\Controllers\\FineController.cs",
+              "ToolTip": "C:\\MyPersonalFiles\\GensparkTraining\\MiniProject\\MiniProjectAppSolution\\MiniProjectApp\\Controllers\\FineController.cs",
+              "RelativeToolTip": "MiniProjectApp\\Controllers\\FineController.cs",
+              "ViewState": "AQIAAGIAAAAAAAAAAAAgwGgAAAAnAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-15T19:55:39.643Z"
             }
           ]
         }

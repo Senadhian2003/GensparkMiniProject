@@ -46,6 +46,21 @@ namespace MiniProjectApp.Services
             throw new EmptyListException("Fine");
         }
 
+        public async Task<List<Fine>> ViewAllFines()
+        {
+
+            var Fines = await _fineRepository.GetAll();
+
+           
+
+            if (Fines.Any())
+            {
+                return Fines.ToList();
+            }
+
+            throw new EmptyListException("Fine");
+        }
+
         public async Task<List<Fine>> ViewUnPaidFines(int UserId)
         {
 
@@ -61,10 +76,10 @@ namespace MiniProjectApp.Services
             throw new EmptyListException("Fine");
         }
 
-        public async Task<FineDetail> PayFineForOneBook(int RentId, int BookId)
+        public async Task<FineDetail> PayFineForOneBook(int FineId, int BookId)
         {
-
-            RentDetail rentDetail = await _rentDetailRepository.GetByKey(RentId, BookId);
+            Fine fine = await _fineRepository.GetByKey(FineId);
+            RentDetail rentDetail = await _rentDetailRepository.GetByKey(fine.RentId, BookId);
 
             if (rentDetail.status != "Returned")
             {
@@ -72,16 +87,17 @@ namespace MiniProjectApp.Services
             }
 
 
-            FineDetail fineDetail = await _fineDetailRepository.GetByKey(RentId, BookId);
+            FineDetail fineDetail = await _fineDetailRepository.GetByKey(fine.FineId, BookId);
 
             fineDetail.FinePaidDate = DateTime.Now;
-            fineDetail.Status = "Fine Paid";
+            fineDetail.Status = "Fine paid";
 
-            Fine fine = await _fineRepository.GetByKey(RentId);
+            
 
             fine.FinePending -= fineDetail.FineAmount;
+            fine.NumbeOfBooksToPayFine -= 1;
 
-            if (fine.NumbeOfBooksPaidFine == 0)
+            if (fine.NumbeOfBooksToPayFine == 0)
             {
                 fine.Status = "Fine paid";
             }
@@ -92,10 +108,10 @@ namespace MiniProjectApp.Services
 
         }
 
-        public async Task<Fine> PayFine(int RentId, int UserId)
+        public async Task<Fine> PayFine(int FineId, int UserId)
         {
 
-            Fine fine = await _fineRepository.GetByKey(RentId);
+            Fine fine = await _fineRepository.GetByKey(FineId);
             if (fine.Status == "Fine paid")
             {
                 throw new FineAlreadyPaidException();
@@ -103,14 +119,14 @@ namespace MiniProjectApp.Services
 
             var fineDetails = await _fineDetailRepository.GetAll();
 
-            var userFineDetails = fineDetails.Where(fd => fd.RentId == RentId);
+            var userFineDetails = fineDetails.Where(fd => fd.FineId == FineId);
 
             int cnt = 0;
             double amountPaid = 0;
             foreach (var fineDetail in userFineDetails)
             {
 
-                RentDetail rentDetail = await _rentDetailRepository.GetByKey(fineDetail.RentId, fineDetail.BookId);
+                RentDetail rentDetail = await _rentDetailRepository.GetByKey(fine.RentId, fineDetail.BookId);
 
                 if (rentDetail.status != "Returned")
                 {
@@ -119,14 +135,14 @@ namespace MiniProjectApp.Services
 
 
                 fineDetail.FinePaidDate = DateTime.Now;
-                fineDetail.Status = "Fine Paid";
+                fineDetail.Status = "Fine paid";
                 await _fineDetailRepository.Update(fineDetail);
                 cnt++;
                 amountPaid+=5;
 
             }
 
-            fine.NumbeOfBooksPaidFine += cnt;
+            fine.NumbeOfBooksToPayFine -= cnt;
             fine.FinePending -= amountPaid;
             fine.Status = "Fine paid";
 

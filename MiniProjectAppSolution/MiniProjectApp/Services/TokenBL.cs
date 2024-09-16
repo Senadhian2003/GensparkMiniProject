@@ -22,7 +22,7 @@ namespace MiniProjectApp.BussinessLogics
         {
             string token = string.Empty;
             var claims = new List<Claim>(){
-                new Claim(ClaimTypes.Name, user.Id.ToString()),
+                new Claim("Id", user.Id.ToString()),
                 new Claim(ClaimTypes.Role, user.Role.ToString())
             };
             var credentials = new SigningCredentials(_key, SecurityAlgorithms.HmacSha256);

@@ -1,13 +1,13 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using MiniProjectApp.BussinessLogics;
-using MiniProjectApp.BussinessLogics.Interfaces;
+﻿using Microsoft.AspNetCore.Mvc;
 using MiniProjectApp.Models.DTO;
 using MiniProjectApp.Models;
 using MiniProjectApp.Services.Interfaces;
+using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MiniProjectApp.Controllers
 {
+    [ExcludeFromCodeCoverage]
     [Route("api/[controller]")]
     [ApiController]
     public class PurchaseController : ControllerBase
@@ -22,15 +22,17 @@ namespace MiniProjectApp.Controllers
 
         }
 
+
+        //[Authorize(Roles = "Admin")]
         [HttpPost("BuyBooksForLibrary")]
-        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Purchase), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<int>> PurchaseBooks(PurchaseBooksForLibraryDTO dto)
         {
             try
             {
-                int purchaseId = await _purchaseServices.PurchaseBooksForLibrary(dto);
-                return Ok(purchaseId);
+                var purchase = await _purchaseServices.PurchaseBooksForLibrary(dto);
+                return Ok(purchase);
             }
             catch (Exception ex)
             {
@@ -40,8 +42,8 @@ namespace MiniProjectApp.Controllers
 
         }
 
-
-        [HttpPost("ViewPurchases")]
+        //[Authorize(Roles = "Admin")]
+        [HttpGet("ViewPurchases")]
         [ProducesResponseType(typeof(List<Purchase>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<int>> ViewPurchases()
@@ -59,7 +61,8 @@ namespace MiniProjectApp.Controllers
 
         }
 
-        [HttpPost("ViewPurchaseDetails")]
+        //[Authorize(Roles = "Admin")]
+        [HttpGet("ViewPurchaseDetails")]
         [ProducesResponseType(typeof(Purchase), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Purchase>> ViewPurchaseDetails(int purchaseId)

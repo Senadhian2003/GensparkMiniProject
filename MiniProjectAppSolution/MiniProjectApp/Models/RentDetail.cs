@@ -18,9 +18,9 @@ namespace MiniProjectApp.Models
         public Book Book { get; set; }
         public double Price { get; set; }
 
-        public DateTime ReturnDate { get; set; }
+        public DateTime? ReturnDate { get; set; }
 
-        public string status { get; set; }
+        public string? status { get; set; }
 
 
 

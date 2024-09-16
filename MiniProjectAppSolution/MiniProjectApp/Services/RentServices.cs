@@ -31,9 +31,9 @@ namespace MiniProjectApp.Services
 
         public async Task<bool> CheckUserStatus(int userId)
         {
-            UserCredential userCredential = await _userCredentialRepository.GetByKey(userId);
+            User user = await _userRepository.GetByKey(userId);
 
-            if (userCredential.Status == "Disabled")
+            if (user.Status == "Disabled")
             {
                 return true;
             }
@@ -77,10 +77,12 @@ namespace MiniProjectApp.Services
 
                     rent.UserId = dto.UserId;
                     rent.DateOfRent = DateTime.Now;
-                    rent.DueDate = DateTime.Now.AddMinutes(2);
+                  
                     rent.Progress = "Return pending";
+                    rent.BooksRented = dto.BookIds.Count;
                     rent.BooksToBeReturned = dto.BookIds.Count;
                     rent.CartType = "Normal Cart";
+                    rent.DueDate = DateTime.Now.AddMinutes(7);
                     await _rentRepository.Add(rent);
                     double total = 0;
                     var bookIds = dto.BookIds;
@@ -93,11 +95,11 @@ namespace MiniProjectApp.Services
 
                         if (bookStock == null)
                         {
-                            throw new BookNotAvailabeForThisOperation("Sale", bookId);
+                            throw new BookNotAvailabeForThisOperation("Rent", bookId);
                         }
                         if (bookStock.QuantityInStock == 0)
                         {
-                            throw new OutOfStockException();
+                            throw new OutOfStockException(bookId, bookStock.QuantityInStock);
                         }
 
                         bookStock.QuantityInStock -= 1;
@@ -119,7 +121,8 @@ namespace MiniProjectApp.Services
                         rentcart.UserId = dto.UserId;
                         rentcart.BookId = bookId;
                         rentcart.RentId = rent.RentId;
-                        rentcart.DueDate = DateTime.Now.AddMinutes(2);
+                        rentcart.RentDate = DateTime.Now;
+                        rentcart.DueDate = DateTime.Now.AddMinutes(7);
 
                         await _rentCartRepository.Add(rentcart);
 
@@ -155,10 +158,12 @@ namespace MiniProjectApp.Services
 
                     rent.UserId = dto.UserId;
                     rent.DateOfRent = DateTime.Now;
-                    rent.DueDate = DateTime.Now.AddMinutes(2);
+                  
                     rent.Progress = "Return pending";
+                    rent.BooksRented = dto.BookIds.Count;
                     rent.BooksToBeReturned = dto.BookIds.Count;
                     rent.CartType = "Super Cart";
+                    rent.DueDate = DateTime.Now.AddMinutes(7);
                     await _rentRepository.Add(rent);
                     double total = 0;
                     var bookIds = dto.BookIds;
@@ -172,7 +177,7 @@ namespace MiniProjectApp.Services
                         }
                         if (bookStock.QuantityInStock == 0)
                         {
-                            throw new OutOfStockException();
+                            throw new OutOfStockException(bookId,bookStock.QuantityInStock);
                         }
 
                         bookStock.QuantityInStock -= 1;
@@ -194,7 +199,8 @@ namespace MiniProjectApp.Services
                         superRentcart.UserId = dto.UserId;
                         superRentcart.BookId = bookId;
                         superRentcart.RentId = rent.RentId;
-                        superRentcart.DueDate = DateTime.Now.AddMinutes(2);
+                        superRentcart.RentDate = DateTime.Now;
+                        superRentcart.DueDate = DateTime.Now.AddMinutes(7);
 
                         await _superRentCartRepository.Add(superRentcart);
 
@@ -231,7 +237,7 @@ namespace MiniProjectApp.Services
 
 
 
-        public async Task<ReturnRentedBooksCountDTO> ReturnRentedBooks(RentBooksDTO dto)
+        public async Task<ReturnRentedBooksCountDTO> ReturnRentedBooks(ReturnRentedBooksDTO dto)
         {
             try
             {
@@ -245,58 +251,7 @@ namespace MiniProjectApp.Services
                 //var userRents = rents.Where(r => r.UserId == dto.UserId && (r.Progress == "Return pending" || r.Progress == "Fine to be paid")).OrderBy(r => r.DateOfRent);
                 int returnedBooksCount = 0;
 
-                //foreach (int bookId in bookIds)
-                //{
-                //    bool bookFlag = false;
-                //    foreach (var userRent in userRents)
-                //    {
-
-                //        var rentDetails = userRent.RentDetailsList;
-                //        int cnt = 0;
-                //        bool flag = false;
-                //        foreach (var rentDetail in rentDetails)
-                //        {
-                //            if (rentDetail.BookId == bookId && (rentDetail.status == "Return pending" || rentDetail.status == "Fine to be paid"))
-                //            {
-                //                rentDetail.status = "Returned";
-                //                cnt++;
-                //                returnedBooksCount++;
-                //                flag = true;
-                //                await _rentDetailRepository.Update(rentDetail);
-                //                var rentBookStock = await _rentStockRepository.GetByKey(bookId);
-                //                rentBookStock.QuantityInStock += 1;
-                //                await _rentStockRepository.Update(rentBookStock);
-                //                bookFlag = true;
-                //                break;
-                //            }
-
-
-                //        }
-
-                //        if (flag)
-                //        {
-                //            userRent.BooksToBeReturned -= cnt;
-
-                //            if (userRent.BooksToBeReturned == 0 && userRent.Progress != "Fine to be paid")
-                //            {
-                //                userRent.Progress = "Returned";
-                //            }
-
-                //            await _rentRepository.Update(userRent);
-                //            break;
-                //        }
-
-
-
-                //    }
-
-                //    if (!bookFlag)
-                //    {
-                //        throw new InvalidUserIdOrBookIdException(bookId);
-                //    }
-
-
-                //}
+                
 
                 foreach (int bookId in bookIds)
                 {
@@ -333,7 +288,7 @@ namespace MiniProjectApp.Services
                     RentDetail rentDetail = await _rentDetailRepository.GetByKey(rentId, bookId);
                     rentDetail.status = "Returned";
                     rentDetail.ReturnDate = DateTime.Now;
-                    //await _rentDetailRepository.Update(rentDetail); 
+                    await _rentDetailRepository.Update(rentDetail);
                     var rentBookStock = await _rentStockRepository.GetByKey(bookId);
                     rentBookStock.QuantityInStock += 1;
                     await _rentStockRepository.Update(rentBookStock);
@@ -368,7 +323,7 @@ namespace MiniProjectApp.Services
 
         public async Task<UserStatusDTO> VerifyUserPaidFine(int UserId)
         {
-            UserCredential userCredential = await _userCredentialRepository.GetByKey(UserId);
+            User user = await _userRepository.GetByKey(UserId);
 
             var rents = await _rentRepository.GetAll();
             var fineRents = rents.Where(r => r.UserId == UserId && r.Progress == "Fine to be paid");
@@ -376,8 +331,8 @@ namespace MiniProjectApp.Services
 
             if (fineRents.Any())
             {
-                userCredential.Status = "Disabled";
-                await _userCredentialRepository.Update(userCredential);
+                user.Status = "Disabled";
+                await _userRepository.Update(user);
                 UserStatusDTO userStatusDTO = new UserStatusDTO();
                 userStatusDTO.UserId = UserId;
                 userStatusDTO.Status = "Disabled";
@@ -386,8 +341,8 @@ namespace MiniProjectApp.Services
             }
             else
             {
-                userCredential.Status = "Active";
-                await _userCredentialRepository.Update(userCredential);
+                user.Status = "Active";
+                await _userRepository.Update(user);
                 UserStatusDTO userStatusDTO = new UserStatusDTO();
                 userStatusDTO.UserId = UserId;
                 userStatusDTO.Status = "Active";

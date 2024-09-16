@@ -115,7 +115,9 @@ namespace MiniProjectApp.BussinessLogics
             user.Name = registerDTO.Name;
             user.Role = registerDTO.Role;
             user.Phone = registerDTO.Phone;
-           
+            user.Status = "Active";
+
+
             return user;
         }
 
@@ -124,7 +126,7 @@ namespace MiniProjectApp.BussinessLogics
         {
             UserCredential userCredential = new UserCredential();
            
-            userCredential.Status = "Active";
+          
             HMACSHA512 hMACSHA = new HMACSHA512();
             userCredential.HashKey = hMACSHA.Key;
             userCredential.Password = hMACSHA.ComputeHash(Encoding.UTF8.GetBytes(registerDTO.Password));

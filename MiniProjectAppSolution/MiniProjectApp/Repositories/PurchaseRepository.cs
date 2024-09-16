@@ -46,7 +46,7 @@ namespace MiniProjectApp.Repositories
 
         public async Task<IEnumerable<Purchase>> GetAll()
         {
-            var purchases = await _context.Purchases.ToListAsync();
+            var purchases = await _context.Purchases.Include(p => p.PurchaseDetailsList).ThenInclude(pd => pd.Book).ToListAsync();
 
             if (purchases.Any())
             {

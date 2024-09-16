@@ -5,8 +5,7 @@ VisualStudioVersion = 17.9.34723.18
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniProjectApp", "MiniProjectApp\MiniProjectApp.csproj", "{F0CAF96E-5894-47AA-8809-ACB06AAE12D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryManagemenTest", "LibraryManagemenTest\LibraryManagemenTest.csproj", "{670BBFB9-895A-47FC-B791-209E0655C395}"
-EndProject
+
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

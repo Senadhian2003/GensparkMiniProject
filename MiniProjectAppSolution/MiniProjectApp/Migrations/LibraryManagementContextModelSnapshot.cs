@@ -22,6 +22,103 @@ namespace MiniProjectApp.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("MiniProjectApp.Models.Author", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AuthorName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Authors");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Address = "123 Mockingbird Lane",
+                            AuthorName = "Harper Lee",
+                            Phone = "123-456-7890"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Address = "456 Big Brother St",
+                            AuthorName = "George Orwell",
+                            Phone = "234-567-8901"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Address = "789 Gatsby Ave",
+                            AuthorName = "F. Scott Fitzgerald",
+                            Phone = "345-678-9012"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Address = "101 Moby Dock Rd",
+                            AuthorName = "Herman Melville",
+                            Phone = "456-789-0123"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Address = "202 Pride Blvd",
+                            AuthorName = "Jane Austen",
+                            Phone = "567-890-1234"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Address = "303 Catcher St",
+                            AuthorName = "J.D. Salinger",
+                            Phone = "678-901-2345"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Address = "404 Hobbiton Ln",
+                            AuthorName = "J.R.R. Tolkien",
+                            Phone = "789-012-3456"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Address = "505 Brave New World Blvd",
+                            AuthorName = "Aldous Huxley",
+                            Phone = "890-123-4567"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Address = "606 War and Peace Dr",
+                            AuthorName = "Leo Tolstoy",
+                            Phone = "901-234-5678"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Address = "707 Alchemist Ave",
+                            AuthorName = "Paulo Coelho",
+                            Phone = "012-345-6789"
+                        });
+                });
+
             modelBuilder.Entity("MiniProjectApp.Models.Book", b =>
                 {
                     b.Property<int>("Id")
@@ -30,9 +127,11 @@ namespace MiniProjectApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Author")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("AuthorId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("AvgRating")
+                        .HasColumnType("float");
 
                     b.Property<string>("Category")
                         .IsRequired()
@@ -42,11 +141,24 @@ namespace MiniProjectApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<byte[]>("Image")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<int>("PublisherId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RatingCount")
+                        .HasColumnType("int");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("PublisherId");
 
                     b.ToTable("Books");
 
@@ -54,81 +166,111 @@ namespace MiniProjectApp.Migrations
                         new
                         {
                             Id = 1,
-                            Author = "Harper Lee",
+                            AuthorId = 1,
+                            AvgRating = 0.0,
                             Category = "Fiction",
                             Description = "A novel about the serious issues of rape and racial inequality.",
+                            PublisherId = 1,
+                            RatingCount = 0,
                             Title = "To Kill a Mockingbird"
                         },
                         new
                         {
                             Id = 2,
-                            Author = "George Orwell",
+                            AuthorId = 2,
+                            AvgRating = 0.0,
                             Category = "Dystopian",
                             Description = "A story set in a totalitarian society ruled by Big Brother.",
+                            PublisherId = 2,
+                            RatingCount = 0,
                             Title = "1984"
                         },
                         new
                         {
                             Id = 3,
-                            Author = "F. Scott Fitzgerald",
+                            AuthorId = 3,
+                            AvgRating = 0.0,
                             Category = "Classic",
                             Description = "A novel about the American dream and the roaring twenties.",
+                            PublisherId = 3,
+                            RatingCount = 0,
                             Title = "The Great Gatsby"
                         },
                         new
                         {
                             Id = 4,
-                            Author = "Herman Melville",
+                            AuthorId = 4,
+                            AvgRating = 0.0,
                             Category = "Adventure",
                             Description = "A sea captain's journey to hunt the white whale, Moby Dick.",
+                            PublisherId = 4,
+                            RatingCount = 0,
                             Title = "Moby Dick"
                         },
                         new
                         {
                             Id = 5,
-                            Author = "Jane Austen",
+                            AuthorId = 5,
+                            AvgRating = 0.0,
                             Category = "Romance",
                             Description = "A romantic novel that critiques the British landed gentry at the end of the 18th century.",
+                            PublisherId = 5,
+                            RatingCount = 0,
                             Title = "Pride and Prejudice"
                         },
                         new
                         {
                             Id = 6,
-                            Author = "J.D. Salinger",
+                            AuthorId = 6,
+                            AvgRating = 0.0,
                             Category = "Fiction",
                             Description = "A novel about teenage rebellion and angst.",
+                            PublisherId = 6,
+                            RatingCount = 0,
                             Title = "The Catcher in the Rye"
                         },
                         new
                         {
                             Id = 7,
-                            Author = "J.R.R. Tolkien",
+                            AuthorId = 7,
+                            AvgRating = 0.0,
                             Category = "Fantasy",
                             Description = "A fantasy novel about the adventures of Bilbo Baggins.",
+                            PublisherId = 7,
+                            RatingCount = 0,
                             Title = "The Hobbit"
                         },
                         new
                         {
                             Id = 8,
-                            Author = "Aldous Huxley",
+                            AuthorId = 8,
+                            AvgRating = 0.0,
                             Category = "Science Fiction",
                             Description = "A dystopian novel set in a futuristic society.",
+                            PublisherId = 8,
+                            RatingCount = 0,
                             Title = "Brave New World"
                         },
                         new
                         {
                             Id = 9,
-                            Author = "Leo Tolstoy",
+                            AuthorId = 9,
+                            AvgRating = 0.0,
                             Category = "Historical Fiction",
                             Description = "A novel that intertwines the lives of five families during the Napoleonic Wars.",
+                            PublisherId = 9,
+                            RatingCount = 0,
                             Title = "War and Peace"
                         },
                         new
                         {
                             Id = 10,
-                            Author = "Paulo Coelho",
+                            AuthorId = 10,
+                            AvgRating = 0.0,
                             Category = "Philosophical Fiction",
                             Description = "A novel about a young shepherd's journey to find treasure.",
+                            PublisherId = 10,
+                            RatingCount = 0,
                             Title = "The Alchemist"
                         });
                 });
@@ -167,6 +309,13 @@ namespace MiniProjectApp.Migrations
                     b.Property<int>("BookId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("FeedbackDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FeedbackHeading")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Message")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -188,22 +337,28 @@ namespace MiniProjectApp.Migrations
 
             modelBuilder.Entity("MiniProjectApp.Models.Fine", b =>
                 {
-                    b.Property<int>("RentId")
+                    b.Property<int>("FineId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FineId"), 1L, 1);
 
                     b.Property<double>("FineAmount")
                         .HasColumnType("float");
 
-                    b.Property<DateTime?>("FinePaidDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<double>("FinePending")
                         .HasColumnType("float");
 
-                    b.Property<int>("NumbeOfBooksPaidFine")
+                    b.Property<int>("NumbeOfBooksToPayFine")
                         .HasColumnType("int");
 
                     b.Property<int>("NumberOfBooksFined")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("RentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("RentId")
                         .HasColumnType("int");
 
                     b.Property<string>("Status")
@@ -213,14 +368,16 @@ namespace MiniProjectApp.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.HasKey("RentId");
+                    b.HasKey("FineId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Fines");
                 });
 
             modelBuilder.Entity("MiniProjectApp.Models.FineDetail", b =>
                 {
-                    b.Property<int>("RentId")
+                    b.Property<int>("FineId")
                         .HasColumnType("int")
                         .HasColumnOrder(0);
 
@@ -238,11 +395,122 @@ namespace MiniProjectApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("RentId", "BookId");
+                    b.HasKey("FineId", "BookId");
 
                     b.HasIndex("BookId");
 
                     b.ToTable("FineDetails");
+                });
+
+            modelBuilder.Entity("MiniProjectApp.Models.Publisher", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PublisherName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Publishers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            City = "New York",
+                            Country = "USA",
+                            PublisherName = "Penguin Random House",
+                            State = "NY"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            City = "New York",
+                            Country = "USA",
+                            PublisherName = "HarperCollins",
+                            State = "NY"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            City = "New York",
+                            Country = "USA",
+                            PublisherName = "Simon & Schuster",
+                            State = "NY"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            City = "Paris",
+                            Country = "France",
+                            PublisherName = "Hachette Livre",
+                            State = "Île-de-France"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            City = "London",
+                            Country = "UK",
+                            PublisherName = "Macmillan Publishers",
+                            State = "Greater London"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            City = "New York",
+                            Country = "USA",
+                            PublisherName = "Scholastic",
+                            State = "NY"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            City = "London",
+                            Country = "UK",
+                            PublisherName = "Pearson",
+                            State = "Greater London"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            City = "Berlin",
+                            Country = "Germany",
+                            PublisherName = "Springer Nature",
+                            State = "Berlin"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            City = "Boston",
+                            Country = "USA",
+                            PublisherName = "Cengage",
+                            State = "MA"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            City = "Hoboken",
+                            Country = "USA",
+                            PublisherName = "Wiley",
+                            State = "NJ"
+                        });
                 });
 
             modelBuilder.Entity("MiniProjectApp.Models.Purchase", b =>
@@ -302,6 +570,9 @@ namespace MiniProjectApp.Migrations
                     b.Property<double>("Amount")
                         .HasColumnType("float");
 
+                    b.Property<int>("BooksRented")
+                        .HasColumnType("int");
+
                     b.Property<int>("BooksToBeReturned")
                         .HasColumnType("int");
 
@@ -315,9 +586,6 @@ namespace MiniProjectApp.Migrations
                     b.Property<DateTime>("DueDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<double>("FineAmount")
-                        .HasColumnType("float");
-
                     b.Property<string>("Progress")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -330,6 +598,32 @@ namespace MiniProjectApp.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Rents");
+
+                    b.HasData(
+                        new
+                        {
+                            RentId = 1,
+                            Amount = 15.0,
+                            BooksRented = 2,
+                            BooksToBeReturned = 1,
+                            CartType = "Rent Cart",
+                            DateOfRent = new DateTime(2024, 7, 16, 0, 29, 33, 697, DateTimeKind.Local).AddTicks(3165),
+                            DueDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Progress = "Return pending",
+                            UserId = 2
+                        },
+                        new
+                        {
+                            RentId = 2,
+                            Amount = 0.0,
+                            BooksRented = 2,
+                            BooksToBeReturned = 1,
+                            CartType = "Super Cart",
+                            DateOfRent = new DateTime(2024, 7, 16, 0, 29, 33, 697, DateTimeKind.Local).AddTicks(3187),
+                            DueDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Progress = "Return pending",
+                            UserId = 3
+                        });
                 });
 
             modelBuilder.Entity("MiniProjectApp.Models.RentCart", b =>
@@ -348,6 +642,9 @@ namespace MiniProjectApp.Migrations
                     b.Property<int>("IsFined")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("RentDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("RentId")
                         .HasColumnType("int");
 
@@ -356,6 +653,17 @@ namespace MiniProjectApp.Migrations
                     b.HasIndex("BookId");
 
                     b.ToTable("RentCart");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 2,
+                            BookId = 2,
+                            DueDate = new DateTime(2024, 7, 16, 0, 31, 33, 697, DateTimeKind.Local).AddTicks(3216),
+                            IsFined = 0,
+                            RentDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            RentId = 1
+                        });
                 });
 
             modelBuilder.Entity("MiniProjectApp.Models.RentDetail", b =>
@@ -371,11 +679,10 @@ namespace MiniProjectApp.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
-                    b.Property<DateTime>("ReturnDate")
+                    b.Property<DateTime?>("ReturnDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("status")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("RentId", "BookId");
@@ -383,6 +690,38 @@ namespace MiniProjectApp.Migrations
                     b.HasIndex("BookId");
 
                     b.ToTable("RentDetails");
+
+                    b.HasData(
+                        new
+                        {
+                            RentId = 1,
+                            BookId = 1,
+                            Price = 5.0,
+                            ReturnDate = new DateTime(2024, 7, 16, 0, 30, 33, 697, DateTimeKind.Local).AddTicks(3201),
+                            status = "Returned"
+                        },
+                        new
+                        {
+                            RentId = 1,
+                            BookId = 2,
+                            Price = 10.0,
+                            status = "Return pending"
+                        },
+                        new
+                        {
+                            RentId = 2,
+                            BookId = 3,
+                            Price = 0.0,
+                            ReturnDate = new DateTime(2024, 7, 16, 0, 30, 33, 697, DateTimeKind.Local).AddTicks(3205),
+                            status = "Returned"
+                        },
+                        new
+                        {
+                            RentId = 2,
+                            BookId = 4,
+                            Price = 0.0,
+                            status = "Return pending"
+                        });
                 });
 
             modelBuilder.Entity("MiniProjectApp.Models.RentStock", b =>
@@ -577,6 +916,9 @@ namespace MiniProjectApp.Migrations
                     b.Property<int>("IsFined")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("RentDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("RentId")
                         .HasColumnType("int");
 
@@ -585,6 +927,17 @@ namespace MiniProjectApp.Migrations
                     b.HasIndex("BookId");
 
                     b.ToTable("SuperRentCart");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 3,
+                            BookId = 4,
+                            DueDate = new DateTime(2024, 7, 16, 0, 31, 33, 697, DateTimeKind.Local).AddTicks(3225),
+                            IsFined = 0,
+                            RentDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            RentId = 2
+                        });
                 });
 
             modelBuilder.Entity("MiniProjectApp.Models.User", b =>
@@ -607,6 +960,10 @@ namespace MiniProjectApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Users");
@@ -617,21 +974,24 @@ namespace MiniProjectApp.Migrations
                             Id = 1,
                             Name = "Spidey",
                             Phone = "8378499039",
-                            Role = "Admin"
+                            Role = "Admin",
+                            Status = "Active"
                         },
                         new
                         {
                             Id = 2,
                             Name = "Peter Parker",
                             Phone = "8293377843",
-                            Role = "User"
+                            Role = "User",
+                            Status = "Active"
                         },
                         new
                         {
                             Id = 3,
                             Name = "Ben Parker",
                             Phone = "3847299304",
-                            Role = "Premium User"
+                            Role = "Premium User",
+                            Status = "Active"
                         });
                 });
 
@@ -648,10 +1008,6 @@ namespace MiniProjectApp.Migrations
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("UserId");
 
                     b.ToTable("UserCredentials");
@@ -661,23 +1017,39 @@ namespace MiniProjectApp.Migrations
                         {
                             UserId = 1,
                             HashKey = new byte[] { 120, 121, 122 },
-                            Password = new byte[] { 115, 116, 114, 105, 110, 103 },
-                            Status = "Active"
+                            Password = new byte[] { 115, 116, 114, 105, 110, 103 }
                         },
                         new
                         {
                             UserId = 2,
                             HashKey = new byte[] { 120, 121, 122 },
-                            Password = new byte[] { 115, 116, 114, 105, 110, 103 },
-                            Status = "Active"
+                            Password = new byte[] { 115, 116, 114, 105, 110, 103 }
                         },
                         new
                         {
                             UserId = 3,
                             HashKey = new byte[] { 120, 121, 122 },
-                            Password = new byte[] { 115, 116, 114, 105, 110, 103 },
-                            Status = "Active"
+                            Password = new byte[] { 115, 116, 114, 105, 110, 103 }
                         });
+                });
+
+            modelBuilder.Entity("MiniProjectApp.Models.Book", b =>
+                {
+                    b.HasOne("MiniProjectApp.Models.Author", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MiniProjectApp.Models.Publisher", "Publisher")
+                        .WithMany()
+                        .HasForeignKey("PublisherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+
+                    b.Navigation("Publisher");
                 });
 
             modelBuilder.Entity("MiniProjectApp.Models.Cart", b =>
@@ -720,13 +1092,13 @@ namespace MiniProjectApp.Migrations
 
             modelBuilder.Entity("MiniProjectApp.Models.Fine", b =>
                 {
-                    b.HasOne("MiniProjectApp.Models.Rent", "Rent")
-                        .WithOne("Fine")
-                        .HasForeignKey("MiniProjectApp.Models.Fine", "RentId")
+                    b.HasOne("MiniProjectApp.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Rent");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MiniProjectApp.Models.FineDetail", b =>
@@ -737,15 +1109,15 @@ namespace MiniProjectApp.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MiniProjectApp.Models.Rent", "Rent")
-                        .WithMany()
-                        .HasForeignKey("RentId")
+                    b.HasOne("MiniProjectApp.Models.Fine", "Fine")
+                        .WithMany("FineDetailsList")
+                        .HasForeignKey("FineId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Book");
 
-                    b.Navigation("Rent");
+                    b.Navigation("Fine");
                 });
 
             modelBuilder.Entity("MiniProjectApp.Models.PurchaseDetail", b =>
@@ -898,6 +1270,11 @@ namespace MiniProjectApp.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("MiniProjectApp.Models.Fine", b =>
+                {
+                    b.Navigation("FineDetailsList");
+                });
+
             modelBuilder.Entity("MiniProjectApp.Models.Purchase", b =>
                 {
                     b.Navigation("PurchaseDetailsList");
@@ -905,9 +1282,6 @@ namespace MiniProjectApp.Migrations
 
             modelBuilder.Entity("MiniProjectApp.Models.Rent", b =>
                 {
-                    b.Navigation("Fine")
-                        .IsRequired();
-
                     b.Navigation("RentDetailsList");
                 });
 

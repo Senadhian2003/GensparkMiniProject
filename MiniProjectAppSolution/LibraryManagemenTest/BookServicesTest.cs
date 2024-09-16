@@ -22,10 +22,21 @@ namespace LibraryManagemenTest
         }
 
         [Test]
+        public async Task ViewBooksForRent()
+        {
+            var salesItems = await _bookServices.GetCurrentRentBooks();
+
+            Assert.That(salesItems.Count, Is.EqualTo(7));
+            Assert.Pass();
+        }
+
+
+        [Test]
         public async Task GiveFeedback()
         {
-            GiveFeedback dto = new GiveFeedback() { UserId=2, BookId=1, Message="Best Story", Rating=4.5 };
-            Feedback feedback = await _bookServices.GiveFeedback(dto);
+            GiveFeedback dto = new GiveFeedback() {  BookId=1, Message="Best Story", Rating=4.5 };
+            int UserId = 2;
+            Feedback feedback = await _bookServices.GiveFeedback(dto, UserId );
             Assert.IsNotNull(feedback);
 
         }
@@ -33,9 +44,10 @@ namespace LibraryManagemenTest
         [Test]
         public async Task GiveFeedbackUserIdFail()
         {
-            GiveFeedback dto = new GiveFeedback() { UserId = 7, BookId = 1, Message = "Best Story", Rating = 4.5 };
+            GiveFeedback dto = new GiveFeedback() { BookId = 1, Message = "Best Story", Rating = 4.5 };
             //Feedback feedback = await _bookServices.GiveFeedback(dto);
-            var exception = Assert.ThrowsAsync<ElementNotFoundException>(async () => await _bookServices.GiveFeedback(dto));
+            int UserId = 7;
+            var exception = Assert.ThrowsAsync<ElementNotFoundException>(async () => await _bookServices.GiveFeedback(dto,UserId));
             Assert.That(exception.Message, Is.EqualTo("The User does not exist."));
 
         }
@@ -43,9 +55,10 @@ namespace LibraryManagemenTest
         [Test]
         public async Task GiveFeedbackBookIdFail()
         {
-            GiveFeedback dto = new GiveFeedback() { UserId = 2, BookId = 70, Message = "Best Story", Rating = 4.5 };
+            GiveFeedback dto = new GiveFeedback() { BookId = 70, Message = "Best Story", Rating = 4.5 };
             //Feedback feedback = await _bookServices.GiveFeedback(dto);
-            var exception = Assert.ThrowsAsync<ElementNotFoundException>(async () => await _bookServices.GiveFeedback(dto));
+            int UserId = 2;
+            var exception = Assert.ThrowsAsync<ElementNotFoundException>(async () => await _bookServices.GiveFeedback(dto,UserId));
             Assert.That(exception.Message, Is.EqualTo("The Book does not exist."));
 
         }
@@ -53,12 +66,14 @@ namespace LibraryManagemenTest
         [Test]  
         public async Task GetFeedback()
         {
-            GiveFeedback dto = new GiveFeedback() { UserId = 2, BookId = 1, Message = "Best Story", Rating = 4.5 };
-            Feedback feedback = await _bookServices.GiveFeedback(dto);
+            GiveFeedback dto = new GiveFeedback() {  BookId = 1, Message = "Best Story", Rating = 4.5 };
+            int UserId = 2;
+            Feedback feedback = await _bookServices.GiveFeedback(dto, UserId);
           
 
-            GiveFeedback dto2 = new GiveFeedback() { UserId = 2, BookId = 1, Message = "Average", Rating = 3.5 };
-            await _bookServices.GiveFeedback(dto2);
+            GiveFeedback dto2 = new GiveFeedback() { BookId = 1, Message = "Average", Rating = 3.5 };
+             
+            await _bookServices.GiveFeedback(dto2, UserId);
            
 
 
@@ -72,12 +87,14 @@ namespace LibraryManagemenTest
         [Test]
         public async Task GetFeedbackFail()
         {
-            GiveFeedback dto = new GiveFeedback() { UserId = 2, BookId = 1, Message = "Best Story", Rating = 4.5 };
-            Feedback feedback = await _bookServices.GiveFeedback(dto);
+            GiveFeedback dto = new GiveFeedback() { BookId = 1, Message = "Best Story", Rating = 4.5 };
+            int UserId = 2;
+            Feedback feedback = await _bookServices.GiveFeedback(dto, UserId);
 
 
-            GiveFeedback dto2 = new GiveFeedback() { UserId = 2, BookId = 1, Message = "Average", Rating = 3.5 };
-            await _bookServices.GiveFeedback(dto2);
+            GiveFeedback dto2 = new GiveFeedback() { BookId = 1, Message = "Average", Rating = 3.5 };
+         
+            await _bookServices.GiveFeedback(dto2, UserId);
 
 
 
@@ -91,12 +108,13 @@ namespace LibraryManagemenTest
         [Test]
         public async Task GetFeedbackEmptyListFail()
         {
-            GiveFeedback dto = new GiveFeedback() { UserId = 2, BookId = 1, Message = "Best Story", Rating = 4.5 };
-            Feedback feedback = await _bookServices.GiveFeedback(dto);
+            GiveFeedback dto = new GiveFeedback() { BookId = 1, Message = "Best Story", Rating = 4.5 };
+            int UserId = 2;
+            Feedback feedback = await _bookServices.GiveFeedback(dto, UserId);
 
 
-            GiveFeedback dto2 = new GiveFeedback() { UserId = 2, BookId = 1, Message = "Average", Rating = 3.5 };
-            await _bookServices.GiveFeedback(dto2);
+            GiveFeedback dto2 = new GiveFeedback() { BookId = 1, Message = "Average", Rating = 3.5 };
+            await _bookServices.GiveFeedback(dto2, UserId);
 
 
 

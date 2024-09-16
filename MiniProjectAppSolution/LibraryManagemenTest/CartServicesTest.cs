@@ -1,5 +1,6 @@
 ﻿using MiniProjectApp.Exceptions;
 using MiniProjectApp.Models;
+using MiniProjectApp.Models.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,7 +45,7 @@ namespace LibraryManagemenTest
         {
 
             var exception = Assert.ThrowsAsync<OutOfStockException>(async () => await _cartServices.AddItemToCart(1, 1, 30));
-            Assert.That(exception.Message, Is.EqualTo("There required item is less in stock than required quantity by 20 item"));
+            Assert.That(exception.Message, Is.EqualTo("The required Book with id 1 has only 10 items in stock. Please reduce the quantity to continue purchase"));
         }
 
         [Test]
@@ -96,6 +97,19 @@ namespace LibraryManagemenTest
         }
 
         [Test]
+        public async Task CheckoutCartPremiumUser()
+        {
+            await _cartServices.AddItemToCart(3, 1, 5);
+            await _cartServices.AddItemToCart(3, 2, 5);
+            var result = await _cartServices.CheckoutCart(3);
+
+            Assert.That(result.FinalAmount, Is.EqualTo(240));
+            Assert.Pass();
+
+        }
+
+
+        [Test]
         public async Task CheckoutCartEmptyCartFail()
         {
            
@@ -109,11 +123,91 @@ namespace LibraryManagemenTest
         [Test]
         public async Task CheckoutCartOutOfStockFail()
         {
-            await _cartServices.AddItemToCart(2, 1, 20);
+            await _cartServices.AddItemToCart(2, 1, 10);
+            await _cartServices.AddItemToCart(3, 1, 5);
+            await _cartServices.CheckoutCart(3);
 
 
             var exception = Assert.ThrowsAsync<OutOfStockException>(async () => await _cartServices.CheckoutCart(2));
+            Assert.That(exception.Message, Is.EqualTo("The required Book with id 1 has only 5 items in stock. Please reduce the quantity to continue purchase"));
+
+        }
+
+
+        [Test]
+        public async Task GetCartItems()
+        {
+            await _cartServices.AddItemToCart(2, 1, 5);
+            await _cartServices.AddItemToCart(2, 2, 5);
+
+            var result = await _cartServices.GetCartItems(2);
+            
+            Assert.That(result.Items.Count, Is.EqualTo(2));
+
+        }
+
+        [Test]
+        public async Task GetCartItemsFail()
+        {
+
+            var exception = Assert.ThrowsAsync<EmptyListException>(async () => await _cartServices.GetCartItems(2));
             Assert.That(exception.Message, Is.EqualTo("The Cart List is empty"));
+
+        }
+
+        [Test]
+        public async Task GetRentCartItems()
+        {
+            RentBooksDTO dto = new RentBooksDTO();
+            dto.UserId = 3;
+            dto.CartType = "Normal Cart";
+            List<int> bookIds = new List<int> { 1, 2 };
+            dto.BookIds = bookIds;
+
+           var book = await _rentServices.AddBooksToRent(dto);
+
+            var result = await _cartServices.GetRentCartItems(3);
+            
+            Assert.That(result.Count, Is.EqualTo(2));
+
+        }
+
+
+
+        [Test]
+        public async Task GetRentCartItemsFail()
+        {
+
+            var exception = Assert.ThrowsAsync<EmptyListException>(async () => await _cartServices.GetRentCartItems(3));
+            Assert.That(exception.Message, Is.EqualTo("The Rent Cart List is empty"));
+
+        }
+
+
+        [Test]
+        public async Task GetSuperRentCartItems()
+        {
+            RentBooksDTO dto = new RentBooksDTO();
+            dto.UserId = 3;
+            dto.CartType = "Super Cart";
+            List<int> bookIds = new List<int> { 1, 2 };
+            dto.BookIds = bookIds;
+
+            var book = await _rentServices.AddBooksToRent(dto);
+
+            var result = await _cartServices.GetSuperRentCartItems(3);
+
+            Assert.That(result.Count, Is.EqualTo(3));
+
+        }
+
+
+        [Test]
+        public async Task GetSuperRentCartItemsFail()
+        {
+
+            var exception = Assert.ThrowsAsync<EmptyListException>(async () => await _cartServices.GetSuperRentCartItems(2));
+            Assert.That(exception.Message, Is.EqualTo("The Super Rent Cart List is empty"));
 
         }
 

@@ -34,7 +34,7 @@ namespace MiniProjectApp.Repositories
 
         public async Task<Book> GetByKey(int key)
         {
-            var book = await _context.Books.FirstOrDefaultAsync(u => u.Id == key);
+            var book = await _context.Books.Include(b=>b.Author).Include(b=>b.Publisher).FirstOrDefaultAsync(u => u.Id == key);
 
             if (book != null)
             {
@@ -46,7 +46,7 @@ namespace MiniProjectApp.Repositories
 
         public async Task<IEnumerable<Book>> GetAll()
         {
-            var users = await _context.Books.ToListAsync();
+            var users = await _context.Books.Include(b => b.Author).Include(b => b.Publisher).ToListAsync();
 
             if (users.Any())
             {

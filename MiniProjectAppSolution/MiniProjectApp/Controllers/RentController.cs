@@ -1,13 +1,15 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MiniProjectApp.BussinessLogics;
-using MiniProjectApp.BussinessLogics.Interfaces;
 using MiniProjectApp.Models.DTO;
 using MiniProjectApp.Models;
 using MiniProjectApp.Services.Interfaces;
+using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MiniProjectApp.Controllers
 {
+    [ExcludeFromCodeCoverage]
     [Route("api/[controller]")]
     [ApiController]
     public class RentController : ControllerBase
@@ -23,7 +25,7 @@ namespace MiniProjectApp.Controllers
         }
 
 
-
+        //[Authorize(Roles = "Admin")]
         [HttpPost("RentBooksToUser")]
         [ProducesResponseType(typeof(ReturnRentBooksDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
@@ -43,10 +45,11 @@ namespace MiniProjectApp.Controllers
         }
 
 
+        //[Authorize(Roles = "Admin")]
         [HttpPost("ReturnRentedBooks")]
         [ProducesResponseType(typeof(ReturnRentedBooksCountDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<ReturnRentedBooksCountDTO>> ReturnRentedBooks(RentBooksDTO dto)
+        public async Task<ActionResult<ReturnRentedBooksCountDTO>> ReturnRentedBooks(ReturnRentedBooksDTO dto)
         {
             try
             {

@@ -35,7 +35,7 @@ namespace MiniProjectApp.Services
 
         public async Task<UserStatusDTO> VerifyUserPaidFine(int UserId)
         {
-            UserCredential userCredential = await _userCredentialRepository.GetByKey(UserId);
+            User user = await _userRepository.GetByKey(UserId);
 
             //var rents = await _rentRepository.GetAll();
             //var fineRents = rents.Where(r => r.UserId == UserId && r.Progress == "Fine to be paid");
@@ -47,8 +47,8 @@ namespace MiniProjectApp.Services
 
             if (userFines.Any())
             {
-                userCredential.Status = "Disabled";
-                await _userCredentialRepository.Update(userCredential);
+                user.Status = "Disabled";
+                await _userRepository.Update(user);
                 UserStatusDTO userStatusDTO = new UserStatusDTO();
                 userStatusDTO.UserId = UserId;
                 userStatusDTO.Status = "Disabled";
@@ -57,8 +57,8 @@ namespace MiniProjectApp.Services
             }
             else
             {
-                userCredential.Status = "Active";
-                await _userCredentialRepository.Update(userCredential);
+                user.Status = "Active";
+                await _userRepository.Update(user);
                 UserStatusDTO userStatusDTO = new UserStatusDTO();
                 userStatusDTO.UserId = UserId;
                 userStatusDTO.Status = "Active";
@@ -68,7 +68,7 @@ namespace MiniProjectApp.Services
         }
 
 
-        public async Task VerifyDue(int userId)
+        public async Task<VerifyDueReturnDTO> VerifyDue(int userId)
         {
 
             //var rents = await _rentRepository.GetAll();
@@ -128,7 +128,8 @@ namespace MiniProjectApp.Services
 
             var rentCart = user.RentCartItems.Where(rc=>DateTime.Now>rc.DueDate && rc.IsFined==0).GroupBy(rc => rc.RentId).ToList();
             var superCart = user.SuperRentCartItems.Where(rc => DateTime.Now > rc.DueDate && rc.IsFined == 0).GroupBy(rc => rc.RentId).ToList();
-
+            int rentCartBooksFined = 0;
+            int superRentCartBooksFined = 0;
             foreach (var group in rentCart)
             {
                 int rentId = group.Key;
@@ -138,8 +139,9 @@ namespace MiniProjectApp.Services
                 Rent rent = await _rentRepository.GetByKey(rentId);   
                 fine.RentId = rent.RentId;
                 fine.UserId = rent.UserId;
-                
+                fine.RentDate = rent.DateOfRent;
                 fine.Status = "Fine to be paid";
+                await _fineRepository.Add(fine);
                 int cnt = 0;
                 foreach (var item in group)
                 {
@@ -148,27 +150,31 @@ namespace MiniProjectApp.Services
 
                     FineDetail fineDetail = new FineDetail();
 
-                    fineDetail.RentId = item.RentId;
+                    fineDetail.FineId = fine.FineId;
                     fineDetail.BookId = item.BookId;
                     fineDetail.Status = "Fine to be paid";
                     fineDetail.FineAmount = CalculateFineForOneBook(); 
                     cnt++;
+                    rentCartBooksFined++;
                     await _fineDetailRepository.Add(fineDetail);
 
                     RentCart rentCartItem = await _rentCartRepository.GetByKey(userId, item.BookId);
                     rentCartItem.IsFined = 1;
                     await _rentCartRepository.Update(rentCartItem);
 
-                    // You can perform other operations with the item here
+                    
                 }
 
                 fine.NumberOfBooksFined = cnt;
+                fine.NumbeOfBooksToPayFine = cnt;
                 fine.FineAmount = cnt * CalculateFineForOneBook();
                 fine.FinePending = cnt * CalculateFineForOneBook();
-                await _fineRepository.Add(fine);
+                await _fineRepository.Update(fine);
 
 
             }
+
+
 
 
             foreach (var group in superCart)
@@ -180,8 +186,9 @@ namespace MiniProjectApp.Services
                 Rent rent = await _rentRepository.GetByKey(rentId);
                 fine.RentId = rent.RentId;
                 fine.UserId = rent.UserId;
-
+                fine.RentDate = rent.DateOfRent;
                 fine.Status = "Fine to be paid";
+                await _fineRepository.Add(fine);
                 int cnt = 0;
                 foreach (var item in group)
                 {
@@ -190,11 +197,12 @@ namespace MiniProjectApp.Services
 
                     FineDetail fineDetail = new FineDetail();
 
-                    fineDetail.RentId = item.RentId;
+                    fineDetail.FineId = fine.FineId;
                     fineDetail.BookId = item.BookId;
                     fineDetail.FineAmount = CalculateFineForOneBook();
                     fineDetail.Status = "Fine to be paid";
                     cnt++;
+                    superRentCartBooksFined++;
                     await _fineDetailRepository.Add(fineDetail);
 
                     SuperRentCart superRentItem = await _superRentCartRepository.GetByKey(userId, item.BookId);
@@ -206,18 +214,37 @@ namespace MiniProjectApp.Services
                 }
 
                 fine.NumberOfBooksFined = cnt;
+                fine.NumbeOfBooksToPayFine = cnt;
                 fine.FineAmount = cnt * CalculateFineForOneBook();
                 fine.FinePending = cnt * CalculateFineForOneBook();
-                await _fineRepository.Add(fine);
+                await _fineRepository.Update(fine);
 
 
             }
 
+            VerifyDueReturnDTO result = new VerifyDueReturnDTO();
+            result.RentCartBooksFined = rentCartBooksFined;
+            result.SuperRentCartBooksFined = superRentCartBooksFined;
 
+            return result;
 
 
 
         }
+
+
+
+        public async Task<List<User>> GetAllUsers()
+        {
+
+            var users = await _userRepository.GetAll();
+
+            var customers = users.Where(u => u.Role != "Admin");
+
+            return customers.ToList();
+        }
+
+
 
         public float CalculateFineForOneBook()
         {

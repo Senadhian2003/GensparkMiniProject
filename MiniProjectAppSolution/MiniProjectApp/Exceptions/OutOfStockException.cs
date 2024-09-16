@@ -4,15 +4,14 @@
     {
         string message;
 
-        public OutOfStockException()
+    
+
+        public OutOfStockException(int bookId, int quantity)
         {
-            message = $"There required item is out of stock";
+            message = $"The required Book with id {bookId} has only {quantity} items in stock. Please reduce the quantity to continue purchase";
         }
 
-        public OutOfStockException(int data)
-        {
-            message = $"There required item is less in stock than required quantity by {data} item";
-        }
+   
 
         public override string Message => message;
 

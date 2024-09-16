@@ -75,7 +75,7 @@ namespace MiniProjectApp.Services
 
             if (saleItem.QuantityInStock < quantity)
             {
-                throw new OutOfStockException(quantity - saleItem.QuantityInStock);
+                throw new OutOfStockException(bookId , saleItem.QuantityInStock);
 
             }
             Cart cartItem;
@@ -85,7 +85,7 @@ namespace MiniProjectApp.Services
             if (cartItem != null)
             {
                 cartItem.Quantity = quantity;
-                cartItem.Price = saleItem.PricePerBook * quantity;
+                cartItem.Price = saleItem.PricePerBook;
                 await _CartRepository.Update(cartItem);
                 return cartItem;
             }
@@ -95,7 +95,7 @@ namespace MiniProjectApp.Services
             cartItem.UserId = userId;
             cartItem.BookId = bookId;
             cartItem.Quantity = quantity;
-            cartItem.Price = saleItem.PricePerBook * quantity;
+            cartItem.Price = saleItem.PricePerBook;
             await _CartRepository.Add(cartItem);
             return cartItem;
         }
@@ -115,7 +115,7 @@ namespace MiniProjectApp.Services
                 User user = await _userRepository.GetByKey(userId);
                 double total = 0;
                 var cartItems = user.CartItems.ToList();
-
+                int numberOfBooks = 0;
                 if (cartItems.Count == 0)
                 {
                     throw new EmptyListException("Cart");
@@ -124,20 +124,25 @@ namespace MiniProjectApp.Services
 
                 Sale sale = new Sale();
                 sale.UserId = user.Id;
-                sale.DateOfSale = DateTime.UtcNow;
+                sale.DateOfSale = DateTime.Now;
                 await _saleRepository.Add(sale);
 
                 foreach (var item in cartItems)
                 {
                     var book = await _saleStockRepository.GetByKey(item.BookId);
 
-                    if (book == null || book.QuantityInStock < item.Quantity)
+                    //if(book == null)
+                    //{
+                    //    throw new ElementNotFoundException("Book");
+                    //}
+
+                    if ( book.QuantityInStock < item.Quantity)
                     {
-                        throw new OutOfStockException($"Book with ID {item.BookId} is out of stock.");
+                        throw new OutOfStockException( item.BookId, book.QuantityInStock );
                     }
 
 
-                    total += item.Price;
+                    total += (item.Price * item.Quantity);
 
                     SaleDetail saleDetail = new SaleDetail
                     {
@@ -147,7 +152,7 @@ namespace MiniProjectApp.Services
                         Price = item.Price
                     };
                     await _saleDetailRepository.Add(saleDetail);
-
+                    numberOfBooks++;
                     // Update stock
 
                     book.QuantityInStock -= item.Quantity;
@@ -156,7 +161,7 @@ namespace MiniProjectApp.Services
                 }
 
                 sale.Total = total;
-                
+                sale.NoOfBooks = numberOfBooks;
                 if(user.Role=="Premium User")
                 {
                     sale.Discount = 0.4*total; 
@@ -185,11 +190,14 @@ namespace MiniProjectApp.Services
         {
             User user = await _userRepository.GetByKey(userId);
 
-            var cartItems = user.CartItems.ToList();
+            //var cartItems = user.CartItems.ToList();
+            var cartItems = await _CartRepository.GetAll();
 
-            if (cartItems.Count > 0)
+            var userCartItems = cartItems.Where(ci=>ci.UserId == userId).ToList();  
+
+            if (userCartItems.Count > 0)
             {
-                ViewCartDTO result = MapCartItemsToViewCartDTO(cartItems);
+                ViewCartDTO result = MapCartItemsToViewCartDTO(user.Role, userCartItems);
 
                 return result;
             }
@@ -201,7 +209,7 @@ namespace MiniProjectApp.Services
         {
             User user = await _userRepository.GetByKey(userId);
 
-            var rentCartItems = user.RentCartItems.ToList();
+            List<RentCart> rentCartItems = user.RentCartItems.ToList();
 
             if (rentCartItems.Count > 0)
             {
@@ -215,8 +223,12 @@ namespace MiniProjectApp.Services
         public async Task<List<SuperRentCart>> GetSuperRentCartItems(int userId)
         {
             User user = await _userRepository.GetByKey(userId);
+            if (user.Role != "Premium User")
+            {
+                throw new NotPremiumUserException();
+            }
 
-            var superRentCartItems = user.SuperRentCartItems.ToList();
+            List<SuperRentCart> superRentCartItems = user.SuperRentCartItems.ToList();
 
             if (superRentCartItems.Count > 0)
             {
@@ -227,7 +239,7 @@ namespace MiniProjectApp.Services
             throw new EmptyListException("Super Rent Cart");
         }
 
-        public ViewCartDTO MapCartItemsToViewCartDTO(List<Cart> cartItems)
+        public ViewCartDTO MapCartItemsToViewCartDTO(string role, List<Cart> cartItems)
         {
             double amount = 0;
             List<CartItemDTO> cartItemDTOs = new List<CartItemDTO>();
@@ -239,13 +251,23 @@ namespace MiniProjectApp.Services
                 dto.BookId = cartItem.BookId;
                 dto.Quantity = cartItem.Quantity;
                 dto.Price = cartItem.Price;
-                dto.Book = cartItem.Book;
+                dto.BookName = cartItem.Book.Title;
+                dto.Image = cartItem.Book.Image;
+                dto.AuthorName = cartItem.Book.Author.AuthorName;
                 cartItemDTOs.Add(dto);
-                amount += dto.Price;
+                amount += (dto.Price * dto.Quantity);
 
             }
-
-            result.Total = amount;
+            if (role == "User")
+            {
+                result.Total = amount;
+            }
+            else
+            {
+                result.Total =amount - (amount *0.4);
+                result.discount = amount * 0.4;
+            }
+           
             result.Items = cartItemDTOs;
 
             return result;

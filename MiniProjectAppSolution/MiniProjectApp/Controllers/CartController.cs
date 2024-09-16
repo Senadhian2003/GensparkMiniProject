@@ -3,9 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using MiniProjectApp.Models.DTO;
 using MiniProjectApp.Models;
 using MiniProjectApp.Services.Interfaces;
+using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MiniProjectApp.Controllers
 {
+    [ExcludeFromCodeCoverage]
     [Route("api/[controller]")]
     [ApiController]
     public class CartController : ControllerBase
@@ -19,14 +22,16 @@ namespace MiniProjectApp.Controllers
             _cartServices = cartServices;
         }
 
-
+        //[Authorize(Roles = "User,Premium User")]
         [HttpGet("ViewCartItems")]
         [ProducesResponseType(typeof(ViewCartDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<ViewCartDTO>> ViewCartItems(int userId)
+        public async Task<ActionResult<ViewCartDTO>> ViewCartItems()
         {
             try
             {
+                var userstring = User.Claims?.FirstOrDefault(x => x.Type == "Id")?.Value;
+                var userId = Convert.ToInt32(userstring);
                 var cartItems = await _cartServices.GetCartItems(userId);
                 return Ok(cartItems);
 
@@ -39,7 +44,7 @@ namespace MiniProjectApp.Controllers
 
         }
 
-
+        //[Authorize(Roles = "User,Premium User,Admin")]
         [HttpGet("ViewRentCartItems")]
         [ProducesResponseType(typeof(List<RentCart>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
@@ -47,6 +52,7 @@ namespace MiniProjectApp.Controllers
         {
             try
             {
+
                 var rentCartItems = await _cartServices.GetRentCartItems(userId);
                 return Ok(rentCartItems);
 
@@ -59,6 +65,8 @@ namespace MiniProjectApp.Controllers
 
         }
 
+
+        //[Authorize(Roles = "User,Premium User,Admin")]
         [HttpGet("ViewSuperRentCartItems")]
         [ProducesResponseType(typeof(List<SuperRentCart>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
@@ -81,15 +89,17 @@ namespace MiniProjectApp.Controllers
 
 
 
-
+        //[Authorize(Roles = "User,Premium User")]
         [HttpPost("CheckoutCart")]
         [ProducesResponseType(typeof(Sale), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<int>> ChecckoutCart(CheckoutCartDTO dto)
+        public async Task<ActionResult<int>> ChecckoutCart()
         {
             try
             {
-                var sale = await _cartServices.CheckoutCart(dto.UserId);
+                var userstring = User.Claims?.FirstOrDefault(x => x.Type == "Id")?.Value;
+                var userId = Convert.ToInt32(userstring);
+                var sale = await _cartServices.CheckoutCart(userId);
                 return Ok(sale);
             }
             catch (Exception ex)
@@ -101,7 +111,7 @@ namespace MiniProjectApp.Controllers
         }
 
 
-
+        [Authorize(Roles = "User,Premium User")]
         [HttpPost("AddItemToCart")]
         [ProducesResponseType(typeof(ReturnCartDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
@@ -109,7 +119,10 @@ namespace MiniProjectApp.Controllers
         {
             try
             {
-                Cart cartItem = await _cartServices.AddItemToCart(addToCartDTO.UserId, addToCartDTO.BookId, addToCartDTO.Quantity);
+                var userstring = User.Claims?.FirstOrDefault(x => x.Type == "Id")?.Value;
+                var userId = Convert.ToInt32(userstring);
+
+                Cart cartItem = await _cartServices.AddItemToCart(userId, addToCartDTO.BookId, addToCartDTO.Quantity);
                 ReturnCartDTO result = new ReturnCartDTO();
 
                 result.UserId = cartItem.UserId;
@@ -125,14 +138,17 @@ namespace MiniProjectApp.Controllers
 
         }
 
-        [HttpPost("DeleteItemFromCart")]
+        //[Authorize(Roles = "User,Premium User")]
+        [HttpDelete("DeleteItemFromCart")]
         [ProducesResponseType(typeof(ReturnCartDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ReturnCartDTO>> DeleteItemFromCart(DeleteItemFromCartDTO deleteItemFromCartDTO)
         {
             try
             {
-                Cart cartItem = await _cartServices.RemoveItemFromCart(deleteItemFromCartDTO.UserId, deleteItemFromCartDTO.BookId);
+                var userstring = User.Claims?.FirstOrDefault(x => x.Type == "Id")?.Value;
+                var userId = Convert.ToInt32(userstring);
+                Cart cartItem = await _cartServices.RemoveItemFromCart(userId, deleteItemFromCartDTO.BookId);
                 return Ok(cartItem);
 
             }

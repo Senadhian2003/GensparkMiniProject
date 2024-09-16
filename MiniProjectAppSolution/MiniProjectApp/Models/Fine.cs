@@ -8,17 +8,18 @@ namespace MiniProjectApp.Models
     public class Fine
     {
         [Key]
-        [ForeignKey(nameof(Rent))]
+        public int FineId { get; set; }
+
         public int RentId { get; set; }
 
-        [JsonIgnore]
-        public Rent Rent { get; set; }
 
+        [ForeignKey(nameof(User))]
         public int UserId { get; set; }
+        public User User { get; set; }
 
         public int NumberOfBooksFined { get; set; }
 
-        public int NumbeOfBooksPaidFine { get; set; }
+        public int NumbeOfBooksToPayFine { get; set; }
 
         public double FineAmount { get; set; }
 
@@ -26,10 +27,10 @@ namespace MiniProjectApp.Models
 
         public string Status { get; set; }
 
-        public DateTime? FinePaidDate { get; set; }
+        public DateTime? RentDate { get; set; }
 
-        
 
+        public List<FineDetail>? FineDetailsList { get; set; }
 
     }
 }

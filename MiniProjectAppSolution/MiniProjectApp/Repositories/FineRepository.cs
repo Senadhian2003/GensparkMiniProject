@@ -35,7 +35,7 @@ namespace MiniProjectApp.Repositories
 
         public async Task<Fine> GetByKey(int key)
         {
-            var fine = await _context.Fines.FirstOrDefaultAsync(f => f.RentId == key);
+            var fine = await _context.Fines.FirstOrDefaultAsync(f => f.FineId == key);
 
             if (fine != null)
             {
@@ -47,7 +47,7 @@ namespace MiniProjectApp.Repositories
 
         public async Task<IEnumerable<Fine>> GetAll()
         {
-            var fines = await _context.Fines.ToListAsync();
+            var fines = await _context.Fines.Include(f=>f.User).Include(f=>f.FineDetailsList).ThenInclude(fd=>fd.Book).ToListAsync();
 
             if (fines.Any())
             {
@@ -60,7 +60,7 @@ namespace MiniProjectApp.Repositories
 
         public async Task<Fine> Update(Fine item)
         {
-            var fine = await GetByKey(item.RentId);
+            var fine = await GetByKey(item.FineId);
             if (fine != null)
             {
                 _context.Update(item);

@@ -35,7 +35,10 @@ namespace MiniProjectApp.Repositories
 
         public async Task<SalesStock> GetByKey(int key)
         {
-            var saleItem = await _context.SalesStocks.FirstOrDefaultAsync(cs => cs.BookId == key);
+            var saleItem = await _context.SalesStocks.Include(cs => cs.Book)
+             .ThenInclude(b => b.Author)
+         .Include(cs => cs.Book)
+             .ThenInclude(b => b.Publisher).FirstOrDefaultAsync(cs => cs.BookId == key);
 
             if (saleItem != null)
             {
@@ -47,7 +50,12 @@ namespace MiniProjectApp.Repositories
 
         public async Task<IEnumerable<SalesStock>> GetAll()
         {
-            var saleItems = await _context.SalesStocks.Include(cs=>cs.Book).ToListAsync();
+            var saleItems = await _context.SalesStocks
+         .Include(cs => cs.Book)
+             .ThenInclude(b => b.Author)
+         .Include(cs => cs.Book)
+             .ThenInclude(b => b.Publisher)
+         .ToListAsync();
 
             if (saleItems.Any())
             {

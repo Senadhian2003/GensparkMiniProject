@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace MiniProjectApp.Models
 {
@@ -11,14 +12,16 @@ namespace MiniProjectApp.Models
 
         public int UserId { get; set; }
         [ForeignKey(nameof(UserId))]
-
+        
         public User User { get; set; }
 
         public string CartType { get; set; }
 
         public DateTime DateOfRent { get; set; }
 
-        public DateTime DueDate { get; set;}
+        public DateTime DueDate { get; set; }
+
+        public int BooksRented { get; set; }
 
         public int BooksToBeReturned { get; set; }
 
@@ -27,10 +30,6 @@ namespace MiniProjectApp.Models
         public double Amount { get; set; }
 
         public List<RentDetail>? RentDetailsList { get; set; }
-
-        public double FineAmount { get; set; }
-
-        public Fine Fine { get; set; }
 
     }
 }

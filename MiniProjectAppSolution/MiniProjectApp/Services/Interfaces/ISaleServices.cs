@@ -8,5 +8,10 @@ namespace MiniProjectApp.Services.Interfaces
 
         public Task<List<SaleDetail>> ViewOrderDetail(int saleId);
 
+        public Task<List<Rent>> ViewRents(int UserId);
+
+        public Task<List<RentDetail>> ViewRentDetail(int rentId);
+        public Task<List<Rent>> ViewAllRents();
+
     }
 }

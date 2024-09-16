@@ -4,6 +4,8 @@ select * from sys.tables
 select * from Users
 select * from UserCredentials
 select * from Books;
+select * from Authors;
+select * from Publishers
 Select * from SalesStocks;
 Select * from Cart;
 select * from RentCart;
@@ -23,11 +25,11 @@ select * from FineDetails
 
 
 
-update Fines set Status = 'Fine to be paid' ;
+update Books set RatingCount = 0 where id =1 ;
 
 
 
-delete from UserCredentials ;
+delete from Feedbacks ;
 
 
 

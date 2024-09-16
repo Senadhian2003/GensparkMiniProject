@@ -47,7 +47,7 @@ namespace MiniProjectApp.Repositories
 
         public async Task<IEnumerable<Cart>> GetAll()
         {
-            var superCartItems = await _context.Cart.ToListAsync();
+            var superCartItems = await _context.Cart.Include(c=>c.Book).ThenInclude(b=>b.Author).ToListAsync();
 
             if (superCartItems.Any())
             {

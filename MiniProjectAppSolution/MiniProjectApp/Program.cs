@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MiniProjectApp.BussinessLogics;
-using MiniProjectApp.BussinessLogics.Interfaces;
 using MiniProjectApp.BussinessLogics.Services;
 using MiniProjectApp.Context;
 using MiniProjectApp.Models;
@@ -81,13 +80,10 @@ namespace MiniProjectApp
 
 
 
-            #region
+            #region Repository Dependency Injection
             builder.Services.AddScoped<IRepository<int, User>, UserRepository>();
             builder.Services.AddScoped<ICompositeKeyRepository<int,Cart>, CartRepository>();
             builder.Services.AddScoped<IRepository<int, UserCredential>, UserCredentialRepository>();
-            builder.Services.AddScoped<ITokenService, TokenBL>();
-            builder.Services.AddScoped<IAuthService, AuthBL>();
-            builder.Services.AddScoped<IUserServices, UserServices>();
             builder.Services.AddScoped< IRepository<int, SalesStock>, SaleStockRepository >();
             builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
             builder.Services.AddScoped<IRepository<int,Sale>, SaleRepository>();
@@ -96,7 +92,8 @@ namespace MiniProjectApp
             builder.Services.AddScoped<IRepository<int, Book>, BookRepository>();
             builder.Services.AddScoped<IRepository<int, Purchase>, PurchaseRepository>();
             builder.Services.AddScoped<ICompositeKeyRepository<int, PurchaseDetail>, PurchaseDetailRepository>();
-            builder.Services.AddScoped<IAdminServices, AdminServices>();
+            builder.Services.AddScoped<IRepository<int, Author>, AuthorRepository>();
+            builder.Services.AddScoped<IRepository<int, Publisher>, PublisherRepository>();
             builder.Services.AddScoped<IRepository<int, RentStock>, RentStockRepository>();
             builder.Services.AddScoped<IRepository<int, Rent>, RentRepository>();
             builder.Services.AddScoped<ICompositeKeyRepository<int, RentDetail>, RentDetailRepository>();
@@ -106,6 +103,9 @@ namespace MiniProjectApp
             builder.Services.AddScoped<ICompositeKeyRepository<int, SuperRentCart>, SuperRentCartRepository>();
             #endregion
 
+            #region Services dependency injection
+            builder.Services.AddScoped<ITokenService, TokenBL>();
+            builder.Services.AddScoped<IAuthService, AuthBL>();
             builder.Services.AddScoped<IBookServices, BookServices>();
             builder.Services.AddScoped<ICartServices, CartServices>();
             builder.Services.AddScoped <IPurchaseServices, PurchaseServices>();
@@ -113,6 +113,21 @@ namespace MiniProjectApp
             builder.Services.AddScoped <IRentServices, RentServices>();
             builder.Services.AddScoped <ISaleServices, SaleServices>();
             builder.Services.AddScoped <IUserValidationService, UserValidationService>();
+            #endregion
+
+
+
+
+            #region CORS
+            builder.Services.AddCors(opts =>
+            {
+                opts.AddPolicy("MyCors", options =>
+                {
+                    options.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+                });
+            });
+            #endregion
+
 
 
 
@@ -125,6 +140,7 @@ namespace MiniProjectApp
                 app.UseSwaggerUI();
             }
 
+            app.UseCors("MyCors");
             app.UseAuthentication();
             app.UseAuthorization();
           

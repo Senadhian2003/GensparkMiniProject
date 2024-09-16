@@ -1,14 +1,19 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MiniProjectApp.BussinessLogics.Services;
 using MiniProjectApp.Exceptions;
 using MiniProjectApp.Models;
 using MiniProjectApp.Models.DTO;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MiniProjectApp.Controllers
 {
+    [ExcludeFromCodeCoverage]
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("MyCors")]
     public class AuthenticationController : ControllerBase
     {
 
@@ -26,6 +31,12 @@ namespace MiniProjectApp.Controllers
         {
             try
             {
+
+                if (!ModelState.IsValid)
+                {
+                    var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+                    return BadRequest(new ErrorModel(400, string.Join("; ", errors)));
+                }
 
                 var result = await _authBL.Login(userLoginDTO);
                 return Ok(result);
@@ -51,6 +62,15 @@ namespace MiniProjectApp.Controllers
         {
             try
             {
+
+                if (!ModelState.IsValid)
+                {
+                    var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+                    return BadRequest(new ErrorModel(400, string.Join("; ", errors)));
+                }
+
+
+
                 User result = await _authBL.Register(registerDTO);
                 return Ok(result);
             }
@@ -60,7 +80,8 @@ namespace MiniProjectApp.Controllers
             }
         }
 
-        [HttpPost("UpgradeToPremium")]
+        //[Authorize(Roles = "User,Admin")]
+        [HttpPut("UpgradeToPremium")]
         [ProducesResponseType(typeof(PremiumUserDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status500InternalServerError)]

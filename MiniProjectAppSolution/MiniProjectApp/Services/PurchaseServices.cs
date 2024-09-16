@@ -27,7 +27,7 @@ namespace MiniProjectApp.Services
 
 
 
-        public async Task<int> PurchaseBooksForLibrary(PurchaseBooksForLibraryDTO dto)
+        public async Task<Purchase> PurchaseBooksForLibrary(PurchaseBooksForLibraryDTO dto)
         {
             try
             {
@@ -91,7 +91,7 @@ namespace MiniProjectApp.Services
                     await _purchaseRepository.Update(purchase);
 
                     await _transactionRepository.CommitTransactionAsync();
-                    return purchase.PurchaseId;
+                    return purchase;
 
 
                 }
@@ -150,7 +150,7 @@ namespace MiniProjectApp.Services
                     await _purchaseRepository.Update(purchase);
 
                     await _transactionRepository.CommitTransactionAsync();
-                    return purchase.PurchaseId;
+                    return purchase;
 
 
 
@@ -170,10 +170,10 @@ namespace MiniProjectApp.Services
         {
             var purchases = await _purchaseRepository.GetAll();
 
-            if (purchases.Count() == 0)
-            {
-                throw new EmptyListException("Purchase");
-            }
+            //if (purchases.Count() == 0)
+            //{
+            //    throw new EmptyListException("Purchase");
+            //}
             return purchases.ToList();
         }
 
@@ -181,10 +181,10 @@ namespace MiniProjectApp.Services
         {
             var purchase = await _purchaseRepository.GetByKey(purchaseId);
 
-            if (purchase == null)
-            {
-                throw new ElementNotFoundException("Purchase Detail");
-            }
+            //if (purchase == null)
+            //{
+            //    throw new ElementNotFoundException("Purchase Detail");
+            //}
 
             return purchase;
         }

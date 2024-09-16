@@ -8,10 +8,10 @@ namespace MiniProjectApp.Models
     public class FineDetail
     {
         [Key, Column(Order = 0)]
-        public int RentId { get; set; }
-        [ForeignKey(nameof(RentId))]
+        public int FineId { get; set; }
+        [ForeignKey(nameof(FineId))]
         [JsonIgnore]
-        public Rent Rent { get; set; }
+        public Fine Fine { get; set; }
 
         [Key, Column(Order = 1)]
         public int BookId { get; set; }

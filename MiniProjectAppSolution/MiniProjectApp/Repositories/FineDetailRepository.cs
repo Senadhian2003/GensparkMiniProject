@@ -34,7 +34,7 @@ namespace MiniProjectApp.Repositories
 
         public async Task<FineDetail> GetByKey(int key1, int key2)
         {
-            var fineDetail = await _context.FineDetails.FirstOrDefaultAsync(sc => sc.RentId == key1 && sc.BookId == key2);
+            var fineDetail = await _context.FineDetails.FirstOrDefaultAsync(sc => sc.FineId == key1 && sc.BookId == key2);
 
             if (fineDetail != null)
             {
@@ -59,7 +59,7 @@ namespace MiniProjectApp.Repositories
 
         public async Task<FineDetail> Update(FineDetail item)
         {
-            var fineDetail = await GetByKey(item.RentId, item.BookId);
+            var fineDetail = await GetByKey(item.FineId, item.BookId);
             if (fineDetail != null)
             {
                 _context.Update(item);
